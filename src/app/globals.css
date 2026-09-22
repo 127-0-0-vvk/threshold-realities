@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* ============================================================
+   THRESHOLD REALITIES — "Chart & Signal" design system
+   Base palette reads as nautical/aeronautical chart stock.
+   The signal ramp IS the severity scale. It is never decoration.
+   ============================================================ */
+
+@theme {
+  /* base — the chart */
+  --color-abyssal: #080d12;
+  --color-ink: #111a22;
+  --color-meridian: #22323d;
+  --color-graticule: #3d525f;
+  --color-parchment: #e9e2d4;
+  --color-bone: #f6f2ea;
+
+  /* signal — the escalation ramp */
+  --color-stable: #3f7d5c;
+  --color-elevated: #c7a02c;
+  --color-watch: #dc7a2f;
+  --color-high: #c42e27;
+  --color-critical: #7e1613;
+
+  /* accent */
+  --color-signal: #e4b363;
+  --color-contested: #5b6e8c;
+
+  --ease-threshold: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fonts must be inlined: the next/font variables are declared on <body>,
+   not on :root, so a non-inline @theme entry would resolve to nothing. */
+@theme inline {
+  --font-display: var(--font-instrument-serif), Georgia, serif;
+  --font-sans: var(--font-inter-tight), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* ------------------------------------------------------------
+   Surfaces. Dark is default (instrument); parchment is opt-in
+   per-section via [data-surface="parchment"] (archive).
+   ------------------------------------------------------------ */
+:root {
+  --surface: #080d12;
+  --surface-raised: #111a22;
+  --rule: #22323d;
+  --text: #dfe6ea;
+  --text-dim: #8b9ba6;
+  --text-faint: #566874;
+}
+
+[data-surface="parchment"] {
+  --surface: #e9e2d4;
+  --surface-raised: #f6f2ea;
+  --rule: #c7bca6;
+  --text: #16202a;
+  --text-dim: #4a5a66;
+  --text-faint: #7d8b95;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-abyssal);
+  color: var(--text);
+  font-family: var(--font-inter-tight), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-abyssal);
+}
+
+/* ------------------------------------------------------------
+   Typographic primitives
+   ------------------------------------------------------------ */
+
+.display {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-measure {
+  max-width: 68ch;
+}
+
+/* ------------------------------------------------------------
+   The threshold rule — the signature element.
+   A hairline that carries a severity colour.
+   ------------------------------------------------------------ */
+
+.threshold-rule {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: var(--rule);
+  transition: background 600ms var(--ease-threshold);
+}
+
+.threshold-rule[data-level="stable"] {
+  background: color-mix(in srgb, var(--color-stable) 70%, transparent);
+}
+.threshold-rule[data-level="elevated"] {
+  background: color-mix(in srgb, var(--color-elevated) 70%, transparent);
+}
+.threshold-rule[data-level="watch"] {
+  background: color-mix(in srgb, var(--color-watch) 80%, transparent);
+}
+.threshold-rule[data-level="high"] {
+  background: var(--color-high);
+  box-shadow: 0 0 24px -4px var(--color-high);
+}
+.threshold-rule[data-level="critical"] {
+  background: var(--color-critical);
+  box-shadow: 0 0 28px -2px var(--color-critical);
+}
+
+/* ------------------------------------------------------------
+   Reveal on scroll
+   ------------------------------------------------------------ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms var(--ease-threshold),
+    transform 700ms var(--ease-threshold);
+}
+
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Line-masked reveal for display type */
+.line-mask > span {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+.line-mask > span > span {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 900ms var(--ease-threshold);
+}
+.line-mask[data-shown="true"] > span > span {
+  transform: none;
+}
+
+/* ------------------------------------------------------------
+   Card / panel
+   ------------------------------------------------------------ */
+
+.panel {
+  background: color-mix(in srgb, var(--surface-raised) 60%, transparent);
+  border: 1px solid var(--rule);
+  transition:
+    border-color 200ms var(--ease-threshold),
+    background 200ms var(--ease-threshold);
+}
+
+.panel:hover {
+  border-color: color-mix(in srgb, var(--color-signal) 55%, transparent);
+  background: color-mix(in srgb, var(--surface-raised) 90%, transparent);
+}
+
+/* Corner ticks — chart registration marks */
+.ticked {
+  position: relative;
+}
+.ticked::before,
+.ticked::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-color: color-mix(in srgb, var(--color-signal) 60%, transparent);
+  opacity: 0;
+  transition: opacity 240ms var(--ease-threshold);
+}
+.ticked::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.ticked::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+.ticked:hover::before,
+.ticked:hover::after {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------
+   Links
+   ------------------------------------------------------------ */
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 320ms var(--ease-threshold);
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* ------------------------------------------------------------
+   Marquee (live signal strip)
+   ------------------------------------------------------------ */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 80s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ------------------------------------------------------------
+   Map marker pulse
+   ------------------------------------------------------------ */
+
+@keyframes ping-soft {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+
+.pulse-ring {
+  animation: ping-soft 3.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  transform-origin: center;
+}
+
+/* ------------------------------------------------------------
+   Grain — subtle sensor noise over the whole page
+   ------------------------------------------------------------ */
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------
+   Accessibility
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .line-mask > span > span {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .marquee-track,
+  .pulse-ring {
+    animation: none !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+}
