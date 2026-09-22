@@ -90,10 +90,10 @@ render it show a visible notice; keep those notices until real content lands.
       monitoring platform. Remove `SAMPLE_NOTICE` once live.
 - [ ] Replace `src/lib/research.ts` with real work. Recommended: move to MDX under
       `content/research/*.mdx` so analysts write in markdown in the repo.
-- [ ] **Founder portraits.** Drop `vivek.jpg` and `bhanu.jpg` into `public/team/`
-      and set the `photo` field on each entry in `founders` (`src/lib/content.ts`)
-      to `/team/vivek.jpg` etc. Until then a branded placeholder renders in the
-      final layout. Portrait crop is 4:5.
+- [ ] **Founder portraits.** Drop `bhanu.jpg` and `vivek.jpg` into `public/team/`
+      — they are picked up automatically on the next build, no code change.
+      See `public/team/README.md`. Crop 4:5. Until a file exists, a branded
+      "Portrait pending" placeholder renders in the final layout.
 - [ ] Replace `src/lib/content.ts` team entries with named analysts, photographs
       and biographies.
 - [ ] **Logo source files.** `public/brand/*.png` were derived programmatically

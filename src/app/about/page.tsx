@@ -11,6 +11,7 @@ import {
   SectionHead,
 } from "@/components/ui";
 import { founders, practices, principles } from "@/lib/content";
+import { resolvePortrait } from "@/lib/portraits";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -86,7 +87,7 @@ export default function AboutPage() {
             {founders.map((f, i) => (
               <Reveal key={f.slug} delay={i * 110}>
                 <article className="grid gap-8 sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-start">
-                  <Portrait src={f.photo} name={f.name} />
+                  <Portrait src={resolvePortrait(f.slug)} name={f.name} />
                   <div>
                     <h3 className="display text-3xl">{f.name}</h3>
                     <p className="mono mt-3 text-[0.625rem] leading-relaxed tracking-[0.16em] uppercase text-signal">

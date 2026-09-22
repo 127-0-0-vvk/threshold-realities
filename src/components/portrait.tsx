@@ -27,7 +27,7 @@ export function Portrait({
         />
       ) : (
         <div
-          className="flex h-full w-full items-center justify-center"
+          className="flex h-full w-full flex-col items-center justify-center gap-4"
           style={{
             background:
               "linear-gradient(160deg, var(--surface-raised), var(--surface))",
@@ -39,6 +39,9 @@ export function Portrait({
             aria-hidden
           >
             {name.charAt(0)}
+          </span>
+          <span className="mono text-[0.5625rem] tracking-[0.18em] uppercase text-[var(--text-faint)]">
+            Portrait pending
           </span>
         </div>
       )}

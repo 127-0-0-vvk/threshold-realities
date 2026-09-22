@@ -216,25 +216,26 @@ export const principles = [
 ] as const;
 
 /**
- * Founders. `photo` is a path under /public — drop the portraits in
- * public/team/ and fill it in. While it is null a branded placeholder renders.
+ * Founders, in display order.
+ *
+ * Portraits are resolved from disk by slug — drop a file at
+ * `public/team/<slug>.jpg` (or .jpeg/.png/.webp) and it appears on the next
+ * build. No code change needed. See `src/lib/portraits.ts`.
  */
 export const founders = [
-  {
-    slug: "vivek",
-    name: "Vivek",
-    role: "Co-founder & Head of Business Strategy",
-    photo: null as string | null,
-    bio: "Leads commercial strategy and client engagement — how the firm's analysis reaches the people making operating and investment decisions, and how it is scoped so that it changes them.",
-    focus: "Commercial strategy, client engagement, platform direction",
-  },
   {
     slug: "bhanu",
     name: "Bhanu",
     role: "Co-founder & Head of Research",
-    photo: null as string | null,
     bio: "Leads the research function and owns the analytic method — sourcing standards, confidence bands, escalatory triggers, and the discipline of scoring our own forecasts after the fact.",
     focus: "Analytic method, research standards, regional coverage",
+  },
+  {
+    slug: "vivek",
+    name: "Vivek",
+    role: "Co-founder & Head of Business Strategy",
+    bio: "Leads commercial strategy and client engagement — how the firm's analysis reaches the people making operating and investment decisions, and how it is scoped so that it changes them.",
+    focus: "Commercial strategy, client engagement, platform direction",
   },
 ] as const;
 
