@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ChartMap } from "@/components/chart-map";
+import { Portrait } from "@/components/portrait";
 import { Reveal } from "@/components/reveal";
+import { ThresholdRule } from "@/components/threshold-rule";
 import {
   ButtonLink,
   Container,
@@ -8,7 +10,7 @@ import {
   Section,
   SectionHead,
 } from "@/components/ui";
-import { practices, principles } from "@/lib/content";
+import { founders, practices, principles } from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -68,6 +70,42 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section className="border-t border-[var(--rule)]">
+        <Container>
+          <SectionHead
+            eyebrow="Founders"
+            title="Two people, one method, no house view to defend."
+            lede="We started the firm because the work we wanted to buy did not exist in a form we could act on."
+          />
+
+          <div className="mt-16 grid gap-14 lg:grid-cols-2 lg:gap-20">
+            {founders.map((f, i) => (
+              <Reveal key={f.slug} delay={i * 110}>
+                <article className="grid gap-8 sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-start">
+                  <Portrait src={f.photo} name={f.name} />
+                  <div>
+                    <h3 className="display text-3xl">{f.name}</h3>
+                    <p className="mono mt-3 text-[0.625rem] leading-relaxed tracking-[0.16em] uppercase text-signal">
+                      {f.role}
+                    </p>
+                    <div className="mt-5">
+                      <ThresholdRule />
+                    </div>
+                    <p className="mt-5 text-[var(--text-dim)]">{f.bio}</p>
+                    <dl className="mt-6">
+                      <dt className="eyebrow">Focus</dt>
+                      <dd className="mt-1.5 text-sm text-[var(--text-dim)]">
+                        {f.focus}
+                      </dd>
+                    </dl>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </Container>
       </Section>

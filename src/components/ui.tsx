@@ -130,6 +130,41 @@ export function ButtonLink({
   );
 }
 
+export function StatusBadge({
+  children,
+  tone = "elevated",
+}: {
+  children: React.ReactNode;
+  tone?: Level;
+}) {
+  const hex = levelMeta[tone].hex;
+  return (
+    <span
+      className="mono inline-flex items-center gap-2.5 border px-3.5 py-2 text-[0.625rem] tracking-[0.18em] uppercase"
+      style={{
+        borderColor: `${hex}66`,
+        color: hex,
+        background: `${hex}12`,
+      }}
+    >
+      <span
+        className="relative flex h-1.5 w-1.5"
+        aria-hidden
+      >
+        <span
+          className="pulse-ring absolute inline-flex h-full w-full rounded-full"
+          style={{ background: hex }}
+        />
+        <span
+          className="relative inline-flex h-1.5 w-1.5 rounded-full"
+          style={{ background: hex }}
+        />
+      </span>
+      {children}
+    </span>
+  );
+}
+
 export function Notice({ children }: { children: React.ReactNode }) {
   return (
     <p className="mono flex items-start gap-2.5 border border-[var(--rule)] bg-ink/40 px-4 py-3 text-[0.6875rem] leading-relaxed tracking-[0.06em] text-[var(--text-faint)]">
@@ -145,15 +180,20 @@ export function PageHeader({
   eyebrow,
   title,
   lede,
+  badge,
 }: {
   eyebrow: string;
   title: string;
   lede?: string;
+  badge?: React.ReactNode;
 }) {
   return (
     <header className="border-b border-[var(--rule)] pt-32 pb-16 sm:pt-40 sm:pb-20">
       <Container>
-        <span className="eyebrow">{eyebrow}</span>
+        <div className="flex flex-wrap items-center gap-5">
+          <span className="eyebrow">{eyebrow}</span>
+          {badge}
+        </div>
         <h1 className="display mt-5 max-w-5xl text-5xl sm:text-6xl lg:text-7xl">
           {title}
         </h1>

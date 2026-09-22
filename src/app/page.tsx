@@ -10,6 +10,7 @@ import {
   Section,
   SectionHead,
   SeverityTag,
+  StatusBadge,
 } from "@/components/ui";
 import { platformModules, practices, stats } from "@/lib/content";
 import { research } from "@/lib/research";
@@ -49,9 +50,7 @@ function Hero() {
       />
 
       <Container className="relative">
-        <span className="eyebrow">
-          Geopolitical risk intelligence &middot; Est. 2026
-        </span>
+        <span className="eyebrow">Geopolitical risk intelligence</span>
 
         <h1 className="display mt-7 text-[clamp(2.75rem,9vw,8.5rem)]">
           <LineMask lines={["Uncertain times,", "certain intelligence."]} />
@@ -261,15 +260,18 @@ function Platform() {
       <Container>
         <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
           <div>
+            <div className="mb-7">
+              <StatusBadge tone="watch">Coming soon</StatusBadge>
+            </div>
             <SectionHead
               eyebrow="The platform"
-              title="Our analysts run on it. So can your team."
-              lede="We built our own monitoring platform because the four products most firms stitch together each solve a quarter of the problem. Everything an analyst verifies lands here, scoped to the assets you actually own."
+              title="We are building the system our analysts will run on."
+              lede="Most control rooms stitch together four separate products and still miss the thing that mattered, because nothing was ranking by exposure. Ours will. It is in development — here is what it will do."
             />
             <div className="mt-10 flex flex-wrap gap-3">
-              <ButtonLink href="/platform">Explore the platform</ButtonLink>
+              <ButtonLink href="/platform">See the full spec</ButtonLink>
               <ButtonLink href="/contact" variant="ghost">
-                Request access
+                Join the early-access list
               </ButtonLink>
             </div>
           </div>

@@ -90,8 +90,16 @@ render it show a visible notice; keep those notices until real content lands.
       monitoring platform. Remove `SAMPLE_NOTICE` once live.
 - [ ] Replace `src/lib/research.ts` with real work. Recommended: move to MDX under
       `content/research/*.mdx` so analysts write in markdown in the repo.
+- [ ] **Founder portraits.** Drop `vivek.jpg` and `bhanu.jpg` into `public/team/`
+      and set the `photo` field on each entry in `founders` (`src/lib/content.ts`)
+      to `/team/vivek.jpg` etc. Until then a branded placeholder renders in the
+      final layout. Portrait crop is 4:5.
 - [ ] Replace `src/lib/content.ts` team entries with named analysts, photographs
       and biographies.
+- [ ] **Logo source files.** `public/brand/*.png` were derived programmatically
+      from the supplied JPEGs (white keyed out; a light variant recoloured for
+      dark surfaces). Ask the designer for vector originals — an SVG or a
+      transparent PNG at 2x — and drop them in to replace these.
 - [ ] Wire `src/components/contact-form.tsx` to a real endpoint (Resend, Formspark
       or a Next API route). It currently shows a confirmation and sends nothing,
       and says so on the page.

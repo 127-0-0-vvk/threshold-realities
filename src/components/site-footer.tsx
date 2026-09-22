@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { footerNav, site } from "@/lib/site";
 import { LEVELS, levelMeta } from "@/lib/severity";
@@ -8,8 +9,14 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1400px] px-4 py-16 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <p className="display text-3xl text-[var(--text)]">{site.tagline}</p>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-[var(--text-dim)]">
+            <Image
+              src="/brand/tr-lockup-light.png"
+              alt={`${site.name} — ${site.tagline}`}
+              width={776}
+              height={720}
+              className="h-auto w-56"
+            />
+            <p className="mt-8 max-w-sm text-sm leading-relaxed text-[var(--text-dim)]">
               {site.positioning}
             </p>
             <a

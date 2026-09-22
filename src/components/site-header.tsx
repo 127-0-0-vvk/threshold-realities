@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,13 +32,20 @@ export function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-4 sm:px-8">
-          <Link href="/" className="group flex items-center gap-3" aria-label={site.name}>
-            <Mark />
+          <Link href="/" className="group flex items-center gap-3.5" aria-label={site.name}>
+            <Image
+              src="/brand/tr-monogram-light.png"
+              alt=""
+              width={760}
+              height={519}
+              priority
+              className="h-9 w-auto transition-opacity duration-200 group-hover:opacity-80"
+            />
             <span className="hidden sm:block">
-              <span className="mono block text-[0.6875rem] leading-none tracking-[0.2em] uppercase text-[var(--text)]">
+              <span className="mono block text-[0.6875rem] leading-none tracking-[0.22em] uppercase text-[var(--text)]">
                 Threshold
               </span>
-              <span className="mono block text-[0.6875rem] leading-[1.6] tracking-[0.2em] uppercase text-[var(--text-faint)]">
+              <span className="mono block text-[0.6875rem] leading-[1.7] tracking-[0.22em] uppercase text-[var(--text-faint)]">
                 Realities
               </span>
             </span>
@@ -127,18 +135,5 @@ export function SiteHeader() {
         </nav>
       </div>
     </header>
-  );
-}
-
-/** Logotype: a threshold crossed. Two hairlines, one above and one below. */
-function Mark() {
-  return (
-    <span
-      className="relative block h-8 w-8 border border-[var(--rule)] transition-colors group-hover:border-signal"
-      aria-hidden
-    >
-      <span className="absolute inset-x-1.5 top-[11px] h-px bg-[var(--text-dim)]" />
-      <span className="absolute inset-x-1.5 top-[17px] h-px bg-high transition-all duration-300 group-hover:shadow-[0_0_10px_0_var(--color-high)]" />
-    </span>
   );
 }
