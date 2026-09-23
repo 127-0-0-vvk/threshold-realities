@@ -38,7 +38,7 @@ export function ReportsIndex() {
             aria-pressed={type === t}
             className={`mono border px-3 py-1.5 text-[0.625rem] tracking-[0.14em] uppercase transition-colors ${
               type === t
-                ? "border-signal text-signal"
+                ? "border-[var(--color-watch)] text-[var(--color-watch)]"
                 : "border-[var(--rule)] text-[var(--text-dim)] hover:border-[var(--text-faint)] hover:text-[var(--text)]"
             }`}
           >
@@ -51,10 +51,10 @@ export function ReportsIndex() {
           <select
             value={region}
             onChange={(e) => setRegion(e.target.value)}
-            className="mono border border-[var(--rule)] bg-transparent px-3 py-1.5 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text)] outline-none hover:border-signal"
+            className="mono border border-[var(--rule)] bg-transparent px-3 py-1.5 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text)] outline-none hover:border-[var(--color-watch)]"
           >
             {["All", ...reportRegions].map((r) => (
-              <option key={r} value={r} className="bg-abyssal">
+              <option key={r} value={r} className="bg-[var(--surface-raised)]">
                 {r}
               </option>
             ))}
@@ -67,11 +67,11 @@ export function ReportsIndex() {
           <Link
             key={r.slug}
             href={`/reports/${r.slug}`}
-            className="group grid gap-5 py-10 transition-colors hover:bg-ink/25 lg:grid-cols-[1fr_1.6fr] lg:gap-14"
+            className="group grid gap-5 py-10 transition-colors hover:bg-[var(--surface-raised)] lg:grid-cols-[1fr_1.6fr] lg:gap-14"
           >
             <div>
               <div className="flex flex-wrap items-center gap-4">
-                <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-signal">
+                <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
                   {r.type}
                 </span>
                 <span className="mono text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
@@ -93,7 +93,7 @@ export function ReportsIndex() {
             </div>
 
             <div>
-              <h2 className="display text-3xl leading-tight transition-colors group-hover:text-signal sm:text-4xl">
+              <h2 className="display text-3xl leading-tight transition-colors group-hover:text-[var(--color-watch)] sm:text-4xl">
                 {r.title}
               </h2>
               <p className="prose-measure mt-4 text-[var(--text-dim)]">

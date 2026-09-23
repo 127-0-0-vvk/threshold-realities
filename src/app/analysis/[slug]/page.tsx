@@ -45,7 +45,7 @@ export default async function ArticlePage({
     .slice(0, 3);
 
   return (
-    <article data-surface="parchment" className="bg-parchment">
+    <article>
       <header className="border-b border-[var(--rule)] pt-32 pb-12 sm:pt-40">
         <Container>
           <Link

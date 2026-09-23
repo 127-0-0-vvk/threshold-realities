@@ -23,14 +23,14 @@ export function Section({
 }: {
   children: React.ReactNode;
   className?: string;
-  surface?: "parchment";
+  surface?: "ink";
   id?: string;
 }) {
   return (
     <section
       id={id}
       data-surface={surface}
-      className={`py-20 sm:py-28 ${surface === "parchment" ? "bg-parchment text-[var(--text)]" : ""} ${className}`}
+      className={`py-20 sm:py-28 ${className}`}
     >
       {children}
     </section>
@@ -120,8 +120,8 @@ export function ButtonLink({
     "mono inline-flex items-center gap-2.5 px-6 py-3.5 text-[0.6875rem] tracking-[0.16em] uppercase transition-all duration-200";
   const styles =
     variant === "primary"
-      ? "bg-signal text-abyssal hover:bg-[#ffdd9c]"
-      : "border border-[var(--rule)] text-[var(--text)] hover:border-signal hover:text-signal";
+      ? "bg-[var(--color-watch)] text-[#14181c] hover:bg-[var(--color-high)] hover:text-white"
+      : "border border-[var(--rule)] text-[var(--text)] hover:border-[var(--color-watch)] hover:text-[var(--color-watch)]";
   return (
     <Link href={href} className={`${base} ${styles} ${className}`}>
       {children}
@@ -167,8 +167,8 @@ export function StatusBadge({
 
 export function Notice({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mono flex items-start gap-2.5 border border-[var(--rule)] bg-ink/40 px-4 py-3 text-[0.6875rem] leading-relaxed tracking-[0.06em] text-[var(--text-faint)]">
-      <span className="text-elevated" aria-hidden>
+    <p className="mono flex items-start gap-2.5 border border-[var(--rule)] bg-[var(--surface-raised)] px-4 py-3 text-[0.6875rem] leading-relaxed tracking-[0.06em] text-[var(--text-dim)]">
+      <span style={{ color: "var(--color-watch)" }} aria-hidden>
         &#9888;
       </span>
       {children}

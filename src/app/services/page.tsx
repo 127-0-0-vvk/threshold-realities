@@ -33,7 +33,7 @@ export default function ServicesPage() {
                   id={s.slug}
                   className="grid gap-8 py-14 lg:grid-cols-[auto_1fr_1.1fr] lg:gap-14"
                 >
-                  <span className="mono text-sm text-signal">{s.code}</span>
+                  <span className="mono text-sm text-[var(--color-watch)]">{s.code}</span>
 
                   <div>
                     <h2 className="display text-3xl sm:text-4xl">{s.title}</h2>
@@ -64,7 +64,7 @@ export default function ServicesPage() {
                           key={d}
                           className="flex gap-3 text-sm leading-relaxed text-[var(--text-dim)]"
                         >
-                          <span className="mono mt-0.5 shrink-0 text-signal" aria-hidden>
+                          <span className="mono mt-0.5 shrink-0 text-[var(--color-watch)]" aria-hidden>
                             &#43;
                           </span>
                           {d}
@@ -79,7 +79,7 @@ export default function ServicesPage() {
         </Container>
       </Section>
 
-      <Section surface="parchment" className="border-t border-[var(--rule)]">
+      <Section surface="ink" className="border-t border-[var(--rule)]">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <SectionHead

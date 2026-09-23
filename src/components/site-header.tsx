@@ -26,15 +26,17 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
+      {/* Solid paper on every page, including over the dark hero video. The
+          hard edge against the footage is deliberate. */}
       <div
-        className={`transition-colors duration-300 ${
-          scrolled ? "bg-abyssal/85 backdrop-blur-md" : "bg-transparent"
+        className={`border-b bg-[var(--surface)] transition-colors duration-300 ${
+          scrolled ? "border-[var(--rule)]" : "border-transparent"
         }`}
       >
         <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-4 sm:px-8">
           <Link href="/" className="group flex items-center gap-3.5" aria-label={site.name}>
             <Image
-              src="/brand/tr-monogram-light.png"
+              src="/brand/tr-monogram-ink.png"
               alt=""
               width={760}
               height={519}
@@ -61,7 +63,7 @@ export function SiteHeader() {
                   href={item.href}
                   className={`mono text-[0.6875rem] tracking-[0.16em] uppercase transition-colors ${
                     isActive
-                      ? "text-signal"
+                      ? "text-[var(--color-watch)]"
                       : "text-[var(--text-dim)] hover:text-[var(--text)]"
                   }`}
                 >
@@ -74,7 +76,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-3">
             <Link
               href="/contact"
-              className="mono hidden border border-[var(--rule)] px-4 py-2 text-[0.6875rem] tracking-[0.16em] uppercase text-[var(--text)] transition-colors hover:border-signal hover:text-signal sm:block"
+              className="mono hidden border border-[var(--rule)] px-4 py-2 text-[0.6875rem] tracking-[0.16em] uppercase text-[var(--text)] transition-colors hover:border-[var(--color-watch)] hover:text-[var(--color-watch)] sm:block"
             >
               Request a briefing
             </Link>
@@ -110,7 +112,7 @@ export function SiteHeader() {
 
       {/* Mobile panel */}
       <div
-        className={`overflow-hidden border-b border-[var(--rule)] bg-abyssal/97 backdrop-blur-md transition-[max-height] duration-400 ease-out lg:hidden ${
+        className={`overflow-hidden border-b border-[var(--rule)] bg-[var(--surface)] transition-[max-height] duration-400 ease-out lg:hidden ${
           open ? "max-h-[32rem]" : "max-h-0"
         }`}
       >
@@ -128,7 +130,7 @@ export function SiteHeader() {
           <Link
             href="/contact"
             onClick={closeMenu}
-            className="mono mt-3 mb-3 border border-signal px-4 py-3 text-center text-[0.6875rem] tracking-[0.16em] uppercase text-signal"
+            className="mono mt-3 mb-3 border border-[var(--color-watch)] px-4 py-3 text-center text-[0.6875rem] tracking-[0.16em] uppercase text-[var(--color-watch)]"
           >
             Request a briefing
           </Link>

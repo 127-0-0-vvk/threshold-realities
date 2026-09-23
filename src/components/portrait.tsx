@@ -32,7 +32,7 @@ export function Portrait({
           className="flex h-full w-full flex-col items-center justify-center gap-4"
           style={{
             background:
-              "linear-gradient(160deg, var(--surface-raised), var(--surface))",
+              "linear-gradient(160deg, var(--surface-raised), color-mix(in srgb, var(--color-graticule) 22%, var(--surface)))",
           }}
         >
           <span

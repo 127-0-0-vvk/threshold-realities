@@ -35,7 +35,7 @@ export default function TrackerPage() {
         </Container>
       </Section>
 
-      <Section className="border-t border-[var(--rule)] bg-ink/25">
+      <Section surface="ink" className="border-t border-[var(--rule)]">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <SectionHead

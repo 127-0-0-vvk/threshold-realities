@@ -44,7 +44,7 @@ export function ArticleCard({
 
       <div className={`flex flex-1 flex-col ${featured ? "p-8 lg:p-10" : "p-6"}`}>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-signal">
+          <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
             {article.category}
           </span>
           <span className="mono text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
@@ -53,7 +53,7 @@ export function ArticleCard({
         </div>
 
         <h3
-          className={`display mt-4 leading-tight transition-colors duration-200 group-hover:text-signal ${
+          className={`display mt-4 leading-tight transition-colors duration-200 group-hover:text-[var(--color-watch)] ${
             featured ? "text-3xl sm:text-4xl" : "text-2xl"
           }`}
         >
@@ -97,7 +97,7 @@ function CoverFallback({
       className="flex h-full w-full flex-col justify-between p-5 sm:p-7"
       style={{
         background:
-          "linear-gradient(150deg, var(--surface-raised) 0%, var(--color-abyssal) 70%)",
+          "linear-gradient(150deg, var(--surface-raised) 0%, color-mix(in srgb, var(--color-graticule) 28%, var(--surface)) 100%)",
       }}
     >
       <div
@@ -119,7 +119,7 @@ function CoverFallback({
 
       <div className="relative">
         <span
-          className="h-px w-10 shrink-0 bg-signal"
+          className="h-px w-10 shrink-0 bg-[var(--color-watch)]"
           style={{ display: "block" }}
           aria-hidden
         />

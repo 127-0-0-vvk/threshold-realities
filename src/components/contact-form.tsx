@@ -13,8 +13,8 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="border border-stable/60 p-10">
-        <p className="mono text-[0.6875rem] tracking-[0.16em] uppercase text-stable">
+      <div className="border p-10" style={{ borderColor: "var(--color-stable)" }}>
+        <p className="mono text-[0.6875rem] tracking-[0.16em] uppercase" style={{ color: "var(--color-stable)" }}>
           Received
         </p>
         <h2 className="display mt-5 text-3xl">Thank you.</h2>
@@ -25,7 +25,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setSent(false)}
-          className="mono link-underline mt-8 text-[0.625rem] tracking-[0.16em] uppercase text-signal"
+          className="mono link-underline mt-8 text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]"
         >
           Send another
         </button>
@@ -54,7 +54,7 @@ export function ContactForm() {
           {practices.map((p) => (
             <label
               key={p.code}
-              className="mono cursor-pointer border border-[var(--rule)] px-3 py-2 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text-dim)] transition-colors has-[:checked]:border-signal has-[:checked]:text-signal hover:border-[var(--text-faint)]"
+              className="mono cursor-pointer border border-[var(--rule)] px-3 py-2 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text-dim)] transition-colors has-[:checked]:border-[var(--color-watch)] has-[:checked]:text-[var(--color-watch)] hover:border-[var(--text-faint)]"
             >
               <input type="checkbox" name="interest" value={p.title} className="sr-only" />
               {p.title}
@@ -73,13 +73,13 @@ export function ContactForm() {
           rows={5}
           required
           placeholder="Markets you operate in, what you move, and the decision in front of you."
-          className="mt-3 w-full border border-[var(--rule)] bg-transparent px-4 py-3 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-faint)] focus:border-signal"
+          className="mt-3 w-full border border-[var(--rule)] bg-transparent px-4 py-3 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-faint)] focus:border-[var(--color-watch)]"
         />
       </div>
 
       <button
         type="submit"
-        className="mono inline-flex items-center gap-2.5 bg-signal px-7 py-4 text-[0.6875rem] tracking-[0.16em] uppercase text-abyssal transition-colors hover:bg-[#ffdd9c]"
+        className="mono inline-flex items-center gap-2.5 bg-[var(--color-watch)] px-7 py-4 text-[0.6875rem] tracking-[0.16em] uppercase text-[#14181c] transition-colors hover:bg-[var(--color-high)] hover:text-white"
       >
         Send enquiry
         <span aria-hidden>&rarr;</span>
@@ -108,14 +108,14 @@ function Field({
     <div>
       <label htmlFor={name} className="eyebrow">
         {label}
-        {required ? <span className="text-high"> *</span> : null}
+        {required ? <span className="text-[var(--color-critical)]"> *</span> : null}
       </label>
       <input
         id={name}
         name={name}
         type={type}
         required={required}
-        className="mt-3 w-full border-b border-[var(--rule)] bg-transparent py-2.5 text-[var(--text)] outline-none transition-colors focus:border-signal"
+        className="mt-3 w-full border-b border-[var(--rule)] bg-transparent py-2.5 text-[var(--text)] outline-none transition-colors focus:border-[var(--color-watch)]"
       />
     </div>
   );

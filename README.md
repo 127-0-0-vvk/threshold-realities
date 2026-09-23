@@ -27,20 +27,24 @@ Requires Node ≥ 20.9.
 
 The palette is drawn from nautical and aeronautical chart stock, not from SaaS blue.
 
-**Base (the chart)** — `abyssal #080d12` · `ink #111a22` · `meridian #22323d` ·
-`graticule #3d525f` · `parchment #e9e2d4` · `bone #f6f2ea`
+**Base (paper — the default)** — `paper #f5f5f5` · `card #fdfcfa` ·
+`hairline #e2ded6` · `graticule #c9c4ba`
+
+**Base (ink — opt-in bands)** — `abyssal #080d12` · `ink #111a22` · `meridian #22323d`
 
 **Signal (the escalation ramp)** — `stable #3f7d5c` · `elevated #FFDD9C` ·
 `watch #F9B637` · `high #FB6C00` · `critical #E73F1E`
 
 **Accent** — `signal #F9B637` · `contested #d98a5a`
 
-The ramp is tuned for the near-black base. On parchment its light end would be
-illegible, so `[data-surface="parchment"]` redeclares every level darker
-(`elevated #97650a`, `watch #a8640b`, `high #b84e05`, `critical #b52d10`). Same
-meaning and order, legible on paper. Components read these through
-`var(--color-<level>)` rather than the hex in `severity.ts`, which is why the
-override works — `severity.ts` hexes are for canvas/SVG and documentation only.
+Those are the ink values. On paper the light end would be illegible (`#FFDD9C`
+on `#f5f5f5` is about 1.2:1), so `:root` carries a darkened set —
+`elevated #8f5f08`, `watch #a05f0a`, `high #b84e05`, `critical #c3300f` — and
+`[data-surface="ink"]` restores full strength. Same meaning, same order.
+
+Components read `var(--color-<level>)`, never the hex in `severity.ts`, which is
+why the swap is automatic. The hexes in `severity.ts` are for documentation and
+any future canvas rendering only.
 
 **Note:** the accent `#F9B637` is also the Watch level. Severity is carried by
 dots, rules and labels; the accent by solid fills and underlines. If the overlap
@@ -56,9 +60,17 @@ callout, take it from the base palette or from `contested` — not from the ramp
 
 ### Surfaces
 
-Dark is the default (instrument). Long-form and archival sections opt into
-parchment with `data-surface="parchment"`, which remaps `--text`, `--rule` and
-friends. Use `<Section surface="parchment">`.
+**Paper is the default.** Ink is opt-in per section via `data-surface="ink"`,
+used for the hero (dark footage), the footer, and the feature bands on the home,
+platform, services, about, team, careers and tracker pages. Use
+`<Section surface="ink">`, or the attribute directly on any element.
+
+The boundary remaps `--surface`, `--surface-raised`, `--rule`, the three text
+tones, and the whole severity ramp. It also re-declares `color`, which is
+required: `color` on `<body>` resolves `var(--text)` once and descendants
+inherit that computed value, so redeclaring the variable alone does nothing.
+
+The header is solid paper on every page, including over the dark hero.
 
 ### The threshold rule
 

@@ -95,7 +95,10 @@ export default function PlatformPage() {
       <Section>
         <Container>
           <Reveal>
-            <div className="relative overflow-hidden border border-[var(--rule)] bg-ink/40 px-6 py-20 text-center sm:px-12 sm:py-28">
+            <div
+              data-surface="ink"
+              className="relative overflow-hidden border border-[var(--rule)] px-6 py-20 text-center sm:px-12 sm:py-28"
+            >
               <div
                 className="pointer-events-none absolute inset-0 opacity-[0.35]"
                 style={{
@@ -144,7 +147,7 @@ export default function PlatformPage() {
             {platformModules.map((m, i) => (
               <Reveal key={m.code} delay={i * 60}>
                 <div className="grid gap-6 border-t border-[var(--rule)] py-10 lg:grid-cols-[auto_1fr_1.1fr] lg:gap-14">
-                  <span className="mono text-sm text-signal">{m.code}</span>
+                  <span className="mono text-sm text-[var(--color-watch)]">{m.code}</span>
                   <div>
                     <h3 className="display text-3xl sm:text-4xl">{m.title}</h3>
                     <p className="mt-4 text-[var(--text-dim)]">{m.body}</p>
@@ -155,7 +158,7 @@ export default function PlatformPage() {
                         key={d}
                         className="flex gap-3 text-sm leading-relaxed text-[var(--text-dim)]"
                       >
-                        <span className="mono mt-0.5 shrink-0 text-signal" aria-hidden>
+                        <span className="mono mt-0.5 shrink-0 text-[var(--color-watch)]" aria-hidden>
                           &#43;
                         </span>
                         {d}
@@ -171,7 +174,7 @@ export default function PlatformPage() {
       </Section>
 
       {/* Build status */}
-      <Section surface="parchment" className="border-t border-[var(--rule)]">
+      <Section surface="ink" className="border-t border-[var(--rule)]">
         <Container>
           <SectionHead
             eyebrow="Build status"

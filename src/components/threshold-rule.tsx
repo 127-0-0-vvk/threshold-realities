@@ -45,7 +45,7 @@ export function ThresholdRule({
           {level && active ? (
             <span
               className="mono text-[0.6875rem] tracking-[0.18em] uppercase transition-colors duration-700"
-              style={{ color: levelMeta[level].hex }}
+              style={{ color: `var(--color-${level})` }}
             >
               {levelMeta[level].label}
             </span>
@@ -109,9 +109,9 @@ export function ScrollThreshold() {
         className="h-px transition-[width,background-color] duration-300 ease-out"
         style={{
           width: `${progress * 100}%`,
-          backgroundColor: levelMeta[level].hex,
+          backgroundColor: `var(--color-${level})`,
           boxShadow:
-            progress > 0.65 ? `0 0 16px -2px ${levelMeta[level].hex}` : "none",
+            progress > 0.65 ? `0 0 16px -2px ${`var(--color-${level})`}` : "none",
         }}
       />
     </div>

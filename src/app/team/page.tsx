@@ -37,7 +37,7 @@ export default function TeamPage() {
                   <Portrait src={resolvePortrait(f.slug)} name={f.name} />
                   <div>
                     <h3 className="display text-3xl">{f.name}</h3>
-                    <p className="mono mt-3 text-[0.625rem] leading-relaxed tracking-[0.16em] uppercase text-signal">
+                    <p className="mono mt-3 text-[0.625rem] leading-relaxed tracking-[0.16em] uppercase text-[var(--color-watch)]">
                       {f.role}
                     </p>
                     <p className="mt-5 text-[var(--text-dim)]">{f.bio}</p>
@@ -66,7 +66,7 @@ export default function TeamPage() {
                     className="flex aspect-[4/5] w-full items-end p-4"
                     style={{
                       background:
-                        "linear-gradient(160deg, var(--color-ink), var(--color-abyssal))",
+                        "linear-gradient(160deg, var(--surface-raised), color-mix(in srgb, var(--color-graticule) 22%, var(--surface)))",
                       border: "1px solid var(--rule)",
                     }}
                   >
@@ -96,7 +96,7 @@ export default function TeamPage() {
         </Container>
       </Section>
 
-      <Section surface="parchment" className="border-t border-[var(--rule)]">
+      <Section surface="ink" className="border-t border-[var(--rule)]">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead

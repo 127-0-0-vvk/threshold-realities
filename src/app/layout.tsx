@@ -55,7 +55,7 @@ export default function RootLayout({
       >
         <a
           href="#main"
-          className="mono sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-signal focus:px-4 focus:py-2 focus:text-[0.6875rem] focus:uppercase focus:tracking-[0.16em] focus:text-abyssal"
+          className="mono sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-[var(--color-watch)] focus:px-4 focus:py-2 focus:text-[0.6875rem] focus:uppercase focus:tracking-[0.16em] focus:text-[#14181c]"
         >
           Skip to content
         </a>

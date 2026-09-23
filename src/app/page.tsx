@@ -33,11 +33,16 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pt-28 pb-16">
+    <section
+      data-surface="ink"
+      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pt-28 pb-16"
+    >
       <HeroVideo />
 
       <Container className="relative">
-        <span className="eyebrow">Geopolitical risk intelligence</span>
+        <span className="eyebrow text-[var(--text-dim)]">
+          Geopolitical risk intelligence
+        </span>
 
         <h1 className="display mt-7 text-[clamp(2.75rem,9vw,8.5rem)]">
           <LineMask lines={["Uncertain times,", "certain intelligence."]} />
@@ -108,7 +113,7 @@ function LatestAnalysis() {
 
 function Platform() {
   return (
-    <Section className="border-t border-[var(--rule)] bg-ink/25">
+    <Section surface="ink" className="border-t border-[var(--rule)]">
       <Container>
         <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
           <div>
@@ -176,12 +181,12 @@ function SelectedReports() {
                 className="panel ticked group flex h-full flex-col p-8"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-signal">
+                  <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
                     {r.type}
                   </span>
                   {r.level ? <SeverityTag level={r.level} /> : null}
                 </div>
-                <h3 className="display mt-6 text-2xl leading-tight transition-colors group-hover:text-signal">
+                <h3 className="display mt-6 text-2xl leading-tight transition-colors group-hover:text-[var(--color-watch)]">
                   {r.title}
                 </h3>
                 <p className="mt-4 flex-1 text-sm leading-relaxed text-[var(--text-dim)]">

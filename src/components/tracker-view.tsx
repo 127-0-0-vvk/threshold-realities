@@ -48,23 +48,23 @@ export function TrackerView() {
             type="button"
             onClick={() => setLevel((v) => (v === l ? "All" : l))}
             aria-pressed={level === l}
-            className={`group bg-ink/30 p-5 text-left transition-colors hover:bg-ink/60 ${
-              level === l ? "bg-ink/70" : ""
+            className={`group bg-[var(--surface-raised)] p-5 text-left transition-colors hover:bg-[color-mix(in_srgb,var(--color-watch)_8%,var(--surface-raised))] ${
+              level === l ? "bg-[color-mix(in_srgb,var(--color-watch)_12%,var(--surface-raised))]" : ""
             }`}
           >
             <div
               className="h-0.5 w-full transition-all duration-300"
               style={{
-                background: levelMeta[l].hex,
+                background: `var(--color-${l})`,
                 opacity: level === "All" || level === l ? 1 : 0.25,
               }}
             />
-            <p className="display mt-4 text-4xl" style={{ color: levelMeta[l].hex }}>
+            <p className="display mt-4 text-4xl" style={{ color: `var(--color-${l})` }}>
               {counts[l]}
             </p>
             <p
               className="mono mt-1 text-[0.625rem] tracking-[0.16em] uppercase"
-              style={{ color: levelMeta[l].hex }}
+              style={{ color: `var(--color-${l})` }}
             >
               {levelMeta[l].label}
             </p>
@@ -73,7 +73,7 @@ export function TrackerView() {
       </div>
 
       {/* Map */}
-      <div className="border-b border-[var(--rule)] bg-ink/20 p-4 sm:p-8">
+      <div className="border-b border-[var(--rule)] bg-[var(--surface-raised)] p-4 sm:p-8">
         <ChartMap
           entries={filtered}
           interactive
@@ -104,7 +104,7 @@ export function TrackerView() {
               setRegion("All");
               setLevel("All");
             }}
-            className="mono text-[0.625rem] tracking-[0.16em] uppercase text-signal hover:underline"
+            className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)] hover:underline"
           >
             Reset
           </button>
@@ -124,7 +124,7 @@ export function TrackerView() {
                 type="button"
                 onClick={() => setSelected((v) => (v === t.id ? null : t.id))}
                 aria-expanded={isOpen}
-                className="grid w-full grid-cols-[auto_1fr] items-center gap-x-5 gap-y-2 py-5 text-left transition-colors hover:bg-ink/30 lg:grid-cols-[auto_2fr_1fr_1.2fr_auto] lg:gap-x-8"
+                className="grid w-full grid-cols-[auto_1fr] items-center gap-x-5 gap-y-2 py-5 text-left transition-colors hover:bg-[var(--surface-raised)] lg:grid-cols-[auto_2fr_1fr_1.2fr_auto] lg:gap-x-8"
               >
                 <SeverityDot level={t.level} />
                 <div>
@@ -151,7 +151,7 @@ export function TrackerView() {
               >
                 <div className="overflow-hidden">
                   <div className="grid gap-6 border-l-2 pb-8 pl-6 lg:grid-cols-[2fr_1fr]"
-                    style={{ borderColor: levelMeta[t.level].hex }}
+                    style={{ borderColor: `var(--color-${t.level})` }}
                   >
                     <div>
                       <SeverityTag level={t.level} />
@@ -210,10 +210,10 @@ function Filter({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mono border border-[var(--rule)] bg-transparent px-3 py-1.5 text-[0.6875rem] tracking-[0.12em] uppercase text-[var(--text)] outline-none hover:border-signal"
+        className="mono border border-[var(--rule)] bg-transparent px-3 py-1.5 text-[0.6875rem] tracking-[0.12em] uppercase text-[var(--text)] outline-none hover:border-[var(--color-watch)]"
       >
         {options.map((o) => (
-          <option key={o} value={o} className="bg-abyssal">
+          <option key={o} value={o} className="bg-[var(--surface-raised)]">
             {o}
           </option>
         ))}

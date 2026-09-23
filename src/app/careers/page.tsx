@@ -66,7 +66,7 @@ export default function CareersPage() {
             {roles.map((r, i) => (
               <Reveal key={r.code} delay={i * 60}>
                 <article className="grid gap-5 py-10 lg:grid-cols-[auto_1.4fr_1fr_auto] lg:items-baseline lg:gap-10">
-                  <span className="mono text-sm text-signal">{r.code}</span>
+                  <span className="mono text-sm text-[var(--color-watch)]">{r.code}</span>
                   <div>
                     <h2 className="display text-2xl sm:text-3xl">{r.title}</h2>
                     <p className="mt-3 text-[var(--text-dim)]">{r.body}</p>
@@ -77,7 +77,7 @@ export default function CareersPage() {
                   </div>
                   <a
                     href={`mailto:${site.careers}?subject=${encodeURIComponent(r.title)}`}
-                    className="mono link-underline text-[0.625rem] tracking-[0.16em] uppercase text-signal"
+                    className="mono link-underline text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]"
                   >
                     Apply
                   </a>
@@ -88,7 +88,7 @@ export default function CareersPage() {
         </Container>
       </Section>
 
-      <Section surface="parchment" className="border-t border-[var(--rule)]">
+      <Section surface="ink" className="border-t border-[var(--rule)]">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead

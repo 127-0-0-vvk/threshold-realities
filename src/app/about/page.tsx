@@ -64,7 +64,7 @@ export default function AboutPage() {
             </div>
 
             <div>
-              <div className="border border-[var(--rule)] bg-ink/30 p-4">
+              <div data-surface="ink" className="border border-[var(--rule)] p-4">
                 <ChartMap className="w-full opacity-80" />
                 <p className="eyebrow mt-4">
                   Monitored theatres &middot; illustrative
@@ -90,7 +90,7 @@ export default function AboutPage() {
                   <Portrait src={resolvePortrait(f.slug)} name={f.name} />
                   <div>
                     <h3 className="display text-3xl">{f.name}</h3>
-                    <p className="mono mt-3 text-[0.625rem] leading-relaxed tracking-[0.16em] uppercase text-signal">
+                    <p className="mono mt-3 text-[0.625rem] leading-relaxed tracking-[0.16em] uppercase text-[var(--color-watch)]">
                       {f.role}
                     </p>
                     <div className="mt-5">
@@ -133,7 +133,7 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section surface="parchment" className="border-t border-[var(--rule)]">
+      <Section surface="ink" className="border-t border-[var(--rule)]">
         <Container>
           <SectionHead
             eyebrow="Practice areas"
@@ -168,7 +168,7 @@ export default function AboutPage() {
             {methodSteps.map((step, i) => (
               <Reveal key={step.code} delay={i * 60}>
                 <div className="grid gap-6 border-t border-[var(--rule)] py-9 lg:grid-cols-[auto_1fr_1.1fr] lg:gap-14">
-                  <span className="mono text-sm text-signal">{step.code}</span>
+                  <span className="mono text-sm text-[var(--color-watch)]">{step.code}</span>
                   <div>
                     <h3 className="display text-2xl sm:text-3xl">{step.title}</h3>
                     <p className="mt-3 text-[var(--text-dim)]">{step.body}</p>
@@ -197,7 +197,7 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section surface="parchment" className="border-t border-[var(--rule)]">
+      <Section surface="ink" className="border-t border-[var(--rule)]">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead

@@ -81,7 +81,7 @@ export function HeroVideo() {
       {/* Scrims. Narrow screens have no empty column to put text in, so they get
           a flat knock-down; wide screens get a left-to-right ramp instead, which
           keeps the globe bright on the right where nothing overlaps it. */}
-      <div className="absolute inset-0 bg-abyssal/55 lg:bg-abyssal/10" />
+      <div className="absolute inset-0 bg-[var(--surface)]/55 lg:bg-[var(--surface)]/10" />
       <div
         className="absolute inset-0 hidden lg:block"
         style={{

@@ -7,13 +7,16 @@
    ============================================================ */
 
 @theme {
-  /* base — the chart */
+  /* base — paper */
+  --color-paper: #f5f5f5;
+  --color-card: #fdfcfa;
+  --color-hairline: #e2ded6;
+  --color-graticule: #c9c4ba;
+
+  /* base — ink, for the inverted bands (hero, footer, feature strips) */
   --color-abyssal: #080d12;
   --color-ink: #111a22;
   --color-meridian: #22323d;
-  --color-graticule: #3d525f;
-  --color-parchment: #e9e2d4;
-  --color-bone: #f6f2ea;
 
   /* signal — the escalation ramp */
   --color-stable: #3f7d5c;
@@ -38,40 +41,53 @@
 }
 
 /* ------------------------------------------------------------
-   Surfaces. Dark is default (instrument); parchment is opt-in
-   per-section via [data-surface="parchment"] (archive).
+   Surfaces. Paper is the default; ink is opt-in per-section via
+   [data-surface="ink"] for the hero, the footer and feature bands.
+
+   Note on the ramp: the four brand colours are tuned for a dark
+   background. On paper their light end is illegible (#FFDD9C on
+   #f5f5f5 is about 1.2:1), so each level darkens here and returns
+   to full strength inside ink sections. Same meaning, same order.
+   Components read var(--color-<level>) so the swap is automatic.
    ------------------------------------------------------------ */
 :root {
+  --surface: #f5f5f5;
+  --surface-raised: #fdfcfa;
+  --rule: #e2ded6;
+  --text: #14181c;
+  --text-dim: #545c63;
+  --text-faint: #8a9198;
+
+  /* darkened ramp, for paper */
+  --color-stable: #2f6248;
+  --color-elevated: #8f5f08;
+  --color-watch: #a05f0a;
+  --color-high: #b84e05;
+  --color-critical: #c3300f;
+  --color-signal: #8f5f08;
+}
+
+[data-surface="ink"] {
   --surface: #080d12;
   --surface-raised: #111a22;
   --rule: #22323d;
-  --text: #dfe6ea;
-  --text-dim: #8b9ba6;
-  --text-faint: #566874;
-}
+  --text: #e8ebee;
+  --text-dim: #9aa4ac;
+  --text-faint: #5e6a72;
 
-[data-surface="parchment"] {
-  --surface: #e9e2d4;
-  --surface-raised: #f6f2ea;
-  --rule: #c7bca6;
-  --text: #16202a;
-  --text-dim: #4a5a66;
-  --text-faint: #7d8b95;
+  /* full-strength ramp, for ink */
+  --color-stable: #3f7d5c;
+  --color-elevated: #ffdd9c;
+  --color-watch: #f9b637;
+  --color-high: #fb6c00;
+  --color-critical: #e73f1e;
+  --color-signal: #f9b637;
 
   /* `color` on <body> resolves var(--text) once; descendants inherit that
      computed value, so redeclaring the variable here is not enough. Re-declare
-     `color` at the surface boundary or unstyled headings stay light. */
+     `color` at the surface boundary or unstyled headings keep the wrong tone. */
   color: var(--text);
-
-  /* The ramp is tuned for near-black. On parchment its light end all but
-     disappears, so each level darkens to hold contrast. Same meaning, same
-     order, legible on paper. */
-  --color-stable: #2f6248;
-  --color-elevated: #97650a;
-  --color-watch: #a8640b;
-  --color-high: #b84e05;
-  --color-critical: #b52d10;
-  --color-signal: #97650a;
+  background: var(--surface);
 }
 
 html {
@@ -81,7 +97,7 @@ html {
 }
 
 body {
-  background: var(--color-abyssal);
+  background: var(--surface);
   color: var(--text);
   font-family: var(--font-inter-tight), system-ui, sans-serif;
   font-size: 1.0625rem;
@@ -89,8 +105,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-signal);
-  color: var(--color-abyssal);
+  background: var(--color-watch);
+  color: #14181c;
 }
 
 /* ------------------------------------------------------------
@@ -190,7 +206,7 @@ body {
    ------------------------------------------------------------ */
 
 .panel {
-  background: color-mix(in srgb, var(--surface-raised) 60%, transparent);
+  background: var(--surface-raised);
   border: 1px solid var(--rule);
   transition:
     border-color 200ms var(--ease-threshold),
@@ -300,8 +316,8 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 60;
-  opacity: 0.04;
-  mix-blend-mode: overlay;
+  opacity: 0.025;
+  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -357,7 +373,7 @@ body {
 }
 
 .article-body blockquote {
-  border-left: 2px solid var(--color-high);
+  border-left: 2px solid var(--color-watch);
   padding-left: 1.4em;
   font-family: var(--font-instrument-serif), Georgia, serif;
   font-size: 1.5rem;

@@ -5,7 +5,7 @@ import { LEVELS, levelMeta } from "@/lib/severity";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[var(--rule)] bg-abyssal">
+    <footer data-surface="ink" className="border-t border-[var(--rule)]">
       <div className="mx-auto max-w-[1400px] px-4 py-16 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
@@ -21,7 +21,7 @@ export function SiteFooter() {
             </p>
             <a
               href={`mailto:${site.email}`}
-              className="mono link-underline mt-6 inline-block text-[0.6875rem] tracking-[0.14em] text-signal"
+              className="mono link-underline mt-6 inline-block text-[0.6875rem] tracking-[0.14em] text-[var(--color-watch)]"
             >
               {site.email}
             </a>
@@ -51,11 +51,11 @@ export function SiteFooter() {
           <h3 className="eyebrow">The scale</h3>
           <div className="mt-4 grid gap-px overflow-hidden sm:grid-cols-5">
             {LEVELS.map((l) => (
-              <div key={l} className="bg-ink/50 p-3">
-                <div className="h-0.5 w-full" style={{ background: levelMeta[l].hex }} />
+              <div key={l} className="bg-[var(--surface-raised)] p-3">
+                <div className="h-0.5 w-full" style={{ background: `var(--color-${l})` }} />
                 <p
                   className="mono mt-2.5 text-[0.625rem] tracking-[0.16em] uppercase"
-                  style={{ color: levelMeta[l].hex }}
+                  style={{ color: `var(--color-${l})` }}
                 >
                   {levelMeta[l].label}
                 </p>

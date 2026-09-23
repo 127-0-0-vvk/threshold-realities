@@ -11,7 +11,7 @@ export function SignalStrip() {
   const doubled = [...items, ...items];
 
   return (
-    <div className="marquee overflow-hidden border-y border-[var(--rule)] bg-ink/30 py-3">
+    <div className="marquee overflow-hidden border-y border-[var(--rule)] bg-[var(--surface-raised)] py-3">
       <div className="marquee-track flex w-max items-center gap-10">
         {doubled.map((entry, i) => (
           <Link
@@ -27,7 +27,7 @@ export function SignalStrip() {
             </span>
             <span
               className="mono text-[0.625rem] tracking-[0.14em] uppercase"
-              style={{ color: levelMeta[entry.level].hex }}
+              style={{ color: `var(--color-${entry.level})` }}
             >
               {levelMeta[entry.level].label}
             </span>

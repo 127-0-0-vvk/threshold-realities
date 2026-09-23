@@ -101,7 +101,7 @@ export function ChartMap({
         <Graticule />
 
         {points.map((p, i) => {
-          const c = levelMeta[p.level].hex;
+          const c = `var(--color-${p.level})`;
           const isActive = active === p.id;
           return (
             <g
@@ -150,7 +150,7 @@ export function ChartMap({
             left: `${(activeEntry.x / W) * 100}%`,
             top: `${(activeEntry.y / H) * 100}%`,
             transform: "translate(-50%, calc(-100% - 16px))",
-            borderColor: levelMeta[activeEntry.level].hex,
+            borderColor: `var(--color-${activeEntry.level})`,
           }}
         >
           <div className="flex items-center justify-between gap-2">
@@ -159,7 +159,7 @@ export function ChartMap({
             </span>
             <span
               className="mono text-[0.625rem] tracking-[0.14em] uppercase"
-              style={{ color: levelMeta[activeEntry.level].hex }}
+              style={{ color: `var(--color-${activeEntry.level})` }}
             >
               {levelMeta[activeEntry.level].label}
             </span>
