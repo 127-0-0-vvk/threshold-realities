@@ -8,3 +8,6 @@ node_modules
 content/posts/*.json
 public/uploads/*
 !public/uploads/.gitkeep
+tsconfig.tsbuildinfo
+AGENTS.md
+CLAUDE.md

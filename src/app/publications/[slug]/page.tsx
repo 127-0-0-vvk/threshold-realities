@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (post) return { title: post.title, description: post.tagline };
   const item = getReport(slug);
   if (!item) return { title: "Not found" };
@@ -30,14 +30,14 @@ export default async function PublicationPage({
   const { slug } = await params;
 
   // Console posts use a numeric id; seeded publications use a text slug.
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (post && post.section === "publications") {
     return (
       <PostArticle
         post={post}
         backHref="/publications"
         backLabel="Publications"
-        related={getPostsFor("publications")
+        related={(await getPostsFor("publications"))
           .filter((p) => p.id !== post.id)
           .slice(0, 3)}
       />

@@ -40,7 +40,7 @@ export default async function ResearchAreaPage({
       entry={area}
       siblings={researchAreas}
       basePath="/research-areas"
-      posts={getPostsFor("research-areas", slug)}
+      posts={await getPostsFor("research-areas", slug)}
       siblingsLabel="Research Areas"
     />
   );

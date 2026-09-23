@@ -20,8 +20,8 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function PublicationsPage() {
-  const posts = getPostsFor("publications");
+export default async function PublicationsPage() {
+  const posts = await getPostsFor("publications");
   return (
     <>
       <PageHeader

@@ -195,15 +195,38 @@ deleted from the same screen.
 
 ### Console storage
 
-Posts are JSON files in `content/posts/`; images land in `public/uploads/`.
-This works in local development and on any host with a writable disk.
+Two backends, chosen automatically by `src/lib/posts.ts`:
 
-**It does not work on Vercel**, whose serverless filesystem is read-only. The
-console detects this and says so rather than failing silently. To run it in
-production, swap the four functions in `src/lib/posts.ts` (`getPosts`,
-`savePost`, `deletePost`, plus the upload route) for a database and a blob
-store — Supabase or Vercel Postgres + Blob are both a short change. Nothing
-outside those functions needs to move.
+| Condition | Backend | Notes |
+| --- | --- | --- |
+| `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` set | **Supabase** | Postgres table + Storage bucket. Works on Vercel. |
+| Neither set | **Filesystem** | `content/posts/*.json` and `public/uploads/`. Convenient locally; cannot persist on Vercel. |
+
+The console prints which backend is live and whether it is writable, so a
+misconfiguration shows up before you write a post rather than after.
+
+#### Connecting Supabase
+
+1. Create a project at [supabase.com](https://supabase.com) (or use an existing one).
+2. Open **SQL Editor → New query**, paste `supabase/schema.sql`, run it. This
+   creates the `posts` table and the public `post-images` bucket.
+3. Open **Project Settings → API** and copy the **Project URL** and the
+   **`service_role`** key.
+4. Put both in `.env.local`:
+
+   ```
+   SUPABASE_URL=https://yourproject.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=eyJ...
+   ```
+
+5. Add the same two variables in **Vercel → Project → Settings → Environment
+   Variables**, then redeploy.
+
+The `service_role` key bypasses row-level security. It is only ever read in
+server-side code (`src/lib/supabase.ts`, route handlers, server components) and
+must never be given a `NEXT_PUBLIC_` prefix. RLS on the `posts` table is
+enabled with no public policies precisely so that a leaked anon key grants
+nothing.
 
 ## Hero
 

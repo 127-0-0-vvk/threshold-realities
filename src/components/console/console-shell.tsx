@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { SECTIONS, type Post } from "@/lib/sections";
 
+type Storage = { backend: string; writable: boolean; detail: string };
+
 type Draft = {
   id: string;
   section: string;
@@ -26,10 +28,10 @@ const empty: Draft = {
 
 export function ConsoleShell({
   posts,
-  writable,
+  storage,
 }: {
   posts: Post[];
-  writable: boolean;
+  storage: Storage;
 }) {
   const [draft, setDraft] = useState<Draft>(empty);
   const [status, setStatus] = useState<string | null>(null);
@@ -131,19 +133,21 @@ export function ConsoleShell({
         </form>
       </div>
 
-      {!writable ? (
-        <p
-          className="mono mt-8 border px-4 py-3 text-[0.6875rem] leading-relaxed"
-          style={{
-            borderColor: "var(--color-critical)",
-            color: "var(--color-critical)",
-          }}
-        >
-          This environment has a read-only filesystem, so nothing can be saved
-          here. The console works in local development. See README — Console
-          storage — for connecting a database and blob store in production.
-        </p>
-      ) : null}
+      <p
+        className="mono mt-8 border px-4 py-3 text-[0.6875rem] leading-relaxed"
+        style={{
+          borderColor: storage.writable
+            ? "var(--rule)"
+            : "var(--color-critical)",
+          color: storage.writable
+            ? "var(--text-dim)"
+            : "var(--color-critical)",
+        }}
+      >
+        <span className="uppercase tracking-[0.16em]">{storage.backend}</span>
+        {" — "}
+        {storage.detail}
+      </p>
 
       <div className="mt-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <form onSubmit={submit} className="space-y-7">

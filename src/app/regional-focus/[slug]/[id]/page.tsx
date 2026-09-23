@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const post = getPost(id);
+  const post = await getPost(id);
   if (!post) return { title: "Not found" };
   return { title: post.title, description: post.tagline };
 }
@@ -24,7 +24,7 @@ export default async function Page({
 }) {
   const { slug, id } = await params;
   const area = getRegion(slug);
-  const post = getPost(id);
+  const post = await getPost(id);
   if (!area || !post || post.section !== "regional-focus" || post.page !== slug) {
     notFound();
   }
@@ -34,7 +34,7 @@ export default async function Page({
       post={post}
       backHref={`/regional-focus/${slug}`}
       backLabel={area.title}
-      related={getPostsFor("regional-focus", slug)
+      related={(await getPostsFor("regional-focus", slug))
         .filter((p) => p.id !== post.id)
         .slice(0, 3)}
     />

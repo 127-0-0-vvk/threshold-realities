@@ -1,6 +1,25 @@
 import type { NextConfig } from "next";
 
+/* Post images live in Supabase Storage, so next/image has to be told the
+   project host is trusted. Derived from the env var rather than hardcoded. */
+function supabaseHostname(): string | null {
+  const url =
+    process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+  try {
+    return url ? new URL(url).hostname : null;
+  } catch {
+    return null;
+  }
+}
+
+const host = supabaseHostname();
+
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: host
+      ? [{ protocol: "https", hostname: host, pathname: "/storage/v1/object/public/**" }]
+      : [],
+  },
   async redirects() {
     return [
       // Research became Reports.

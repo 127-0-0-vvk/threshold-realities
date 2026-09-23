@@ -39,7 +39,7 @@ export default async function RegionPage({
       entry={region}
       siblings={regionalFocus}
       basePath="/regional-focus"
-      posts={getPostsFor("regional-focus", slug)}
+      posts={await getPostsFor("regional-focus", slug)}
       siblingsLabel="Regional Focus"
     />
   );

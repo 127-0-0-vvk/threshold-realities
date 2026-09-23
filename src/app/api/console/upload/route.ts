@@ -3,6 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { isSignedIn } from "@/lib/admin-auth";
+import { BUCKET, supabase, supabaseConfigured } from "@/lib/supabase";
 
 const MAX_BYTES = 6 * 1024 * 1024;
 
@@ -39,18 +40,38 @@ export async function POST(request: Request) {
     );
   }
 
-  const dir = path.join(process.cwd(), "public", "uploads");
+  const name = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}.${ext}`;
+  const bytes = Buffer.from(await file.arrayBuffer());
+
+  if (supabaseConfigured()) {
+    const { error } = await supabase()
+      .storage.from(BUCKET)
+      .upload(name, bytes, { contentType: file.type, upsert: false });
+
+    if (error) {
+      return NextResponse.json(
+        {
+          error: `Upload to Supabase failed: ${error.message}. Check that the "${BUCKET}" bucket exists — run supabase/schema.sql.`,
+        },
+        { status: 502 },
+      );
+    }
+
+    const { data } = supabase().storage.from(BUCKET).getPublicUrl(name);
+    return NextResponse.json({ ok: true, url: data.publicUrl });
+  }
+
+  // Local development fallback.
   try {
+    const dir = path.join(process.cwd(), "public", "uploads");
     fs.mkdirSync(dir, { recursive: true });
-    const name = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}.${ext}`;
-    const bytes = Buffer.from(await file.arrayBuffer());
     fs.writeFileSync(path.join(dir, name), bytes);
     return NextResponse.json({ ok: true, url: `/uploads/${name}` });
   } catch {
     return NextResponse.json(
       {
         error:
-          "This environment has a read-only filesystem, so uploads are not possible here. See README — Console storage.",
+          "This environment has a read-only filesystem and Supabase is not configured, so uploads are not possible. See README — Console storage.",
       },
       { status: 503 },
     );

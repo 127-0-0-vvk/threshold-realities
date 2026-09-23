@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { isSignedIn } from "@/lib/admin-auth";
-import { canWrite, deletePost, getPost, nextId, savePost } from "@/lib/posts";
+import {
+  deletePost,
+  getPost,
+  nextId,
+  savePost,
+  storageStatus,
+} from "@/lib/posts";
+import { supabaseHost } from "@/lib/supabase";
 import {
   pathForPost,
   sectionOf,
@@ -13,20 +20,27 @@ async function guard() {
   if (!(await isSignedIn())) {
     return NextResponse.json({ error: "Not signed in." }, { status: 401 });
   }
-  if (!canWrite()) {
-    return NextResponse.json(
-      {
-        error:
-          "This environment has a read-only filesystem, so posts cannot be saved here. See README — Console storage.",
-      },
-      { status: 503 },
-    );
+  const status = await storageStatus();
+  if (!status.writable) {
+    return NextResponse.json({ error: status.detail }, { status: 503 });
   }
   return null;
 }
 
 function clean(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+function isAllowedImage(value: string): boolean {
+  if (value.startsWith("/uploads/") && !value.includes("..")) return true;
+  const host = supabaseHost();
+  if (!host) return false;
+  try {
+    const u = new URL(value);
+    return u.protocol === "https:" && u.hostname === host;
+  } catch {
+    return false;
+  }
 }
 
 export async function POST(request: Request) {
@@ -59,17 +73,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "An article is required." }, { status: 400 });
   }
 
-  const image = clean(data.image, 300);
-  if (image && !image.startsWith("/uploads/")) {
+  // Either a local upload path or a URL inside our own Supabase bucket.
+  const image = clean(data.image, 500);
+  if (image && !isAllowedImage(image)) {
     return NextResponse.json({ error: "Invalid image path." }, { status: 400 });
   }
 
   const existingId = clean(data.id, 20);
-  const existing = existingId ? getPost(existingId) : undefined;
+  const existing = existingId ? await getPost(existingId) : undefined;
   const now = new Date().toISOString();
 
   const post: Post = {
-    id: existing?.id ?? nextId(),
+    id: existing?.id ?? (await nextId()),
     section,
     page: sectionDef.pages.length > 0 ? page : "",
     title,
@@ -80,7 +95,14 @@ export async function POST(request: Request) {
     updatedAt: now,
   };
 
-  savePost(post);
+  try {
+    await savePost(post);
+  } catch (e) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Could not save." },
+      { status: 500 },
+    );
+  }
 
   // Make the new post visible without waiting for a rebuild.
   revalidatePath(sectionDef.basePath);
@@ -97,12 +119,12 @@ export async function DELETE(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id") ?? "";
-  const post = getPost(id);
+  const post = await getPost(id);
   if (!post) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
 
-  deletePost(id);
+  await deletePost(id);
 
   const sectionDef = sectionOf(post.section);
   if (sectionDef) {

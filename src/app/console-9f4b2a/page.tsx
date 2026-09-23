@@ -3,7 +3,7 @@ import { ConsoleLogin } from "@/components/console/console-login";
 import { ConsoleShell } from "@/components/console/console-shell";
 import { Container } from "@/components/ui";
 import { isConfigured, isSignedIn } from "@/lib/admin-auth";
-import { canWrite, getPosts } from "@/lib/posts";
+import { getPosts, storageStatus } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "Console",
@@ -26,7 +26,7 @@ export default async function ConsolePage() {
 
   return (
     <Container className="py-12">
-      <ConsoleShell posts={getPosts()} writable={canWrite()} />
+      <ConsoleShell posts={await getPosts()} storage={await storageStatus()} />
     </Container>
   );
 }
