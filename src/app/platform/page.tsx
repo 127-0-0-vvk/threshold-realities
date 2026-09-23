@@ -222,7 +222,7 @@ export default function PlatformPage() {
                 change the method, and it is not the principal reason to work with us.
               </p>
               <div className="flex flex-wrap gap-3 pt-3">
-                <ButtonLink href="/services">See our services</ButtonLink>
+                <ButtonLink href="/what-we-do">What we do</ButtonLink>
                 <ButtonLink href="/about#method" variant="ghost">
                   Read the method
                 </ButtonLink>

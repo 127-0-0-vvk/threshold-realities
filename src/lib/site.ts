@@ -1,3 +1,5 @@
+import { regionalFocus, researchAreas } from "./taxonomy";
+
 export const site = {
   name: "Threshold Realities",
   shortName: "Threshold",
@@ -13,39 +15,66 @@ export const site = {
   careers: "careers@thresholdrealities.com",
 } as const;
 
-export const nav = [
-  { href: "/about", label: "About" },
-  { href: "/analysis", label: "Analysis" },
-  { href: "/reports", label: "Reports" },
-  { href: "/tracker", label: "Tracker" },
-  { href: "/services", label: "Services" },
-  { href: "/platform", label: "Platform" },
-  { href: "/team", label: "Team" },
-] as const;
+export type NavItem = {
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
+};
+
+export const nav: NavItem[] = [
+  { href: "/about", label: "About Us" },
+  { href: "/advisors", label: "Our Advisors" },
+  { href: "/what-we-do", label: "What We Do" },
+  { href: "/publications", label: "Publications" },
+  {
+    href: "/research-areas",
+    label: "Research Areas",
+    children: researchAreas.map((a) => ({
+      href: `/research-areas/${a.slug}`,
+      label: a.title,
+    })),
+  },
+  {
+    href: "/regional-focus",
+    label: "Regional Focus",
+    children: regionalFocus.map((r) => ({
+      href: `/regional-focus/${r.slug}`,
+      label: r.title,
+    })),
+  },
+];
 
 export const footerNav = [
   {
     heading: "Firm",
     links: [
-      { href: "/about", label: "About" },
-      { href: "/team", label: "Team" },
+      { href: "/about", label: "About Us" },
+      { href: "/advisors", label: "Our Advisors" },
+      { href: "/what-we-do", label: "What We Do" },
       { href: "/careers", label: "Careers" },
       { href: "/contact", label: "Contact" },
     ],
   },
   {
-    heading: "Work",
+    heading: "Published",
     links: [
-      { href: "/services", label: "Services" },
-      { href: "/platform", label: "Platform" },
+      { href: "/publications", label: "Publications" },
+      { href: "/analysis", label: "Analysis" },
       { href: "/tracker", label: "Threshold Tracker" },
+      { href: "/platform", label: "Platform" },
     ],
   },
   {
-    heading: "Published",
-    links: [
-      { href: "/analysis", label: "Analysis" },
-      { href: "/reports", label: "Reports" },
-    ],
+    heading: "Research Areas",
+    links: researchAreas
+      .slice(0, 6)
+      .map((a) => ({ href: `/research-areas/${a.slug}`, label: a.title })),
   },
-] as const;
+  {
+    heading: "Regional Focus",
+    links: regionalFocus.map((r) => ({
+      href: `/regional-focus/${r.slug}`,
+      label: r.title,
+    })),
+  },
+];

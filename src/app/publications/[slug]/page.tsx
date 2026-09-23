@@ -42,7 +42,7 @@ export default async function ResearchArticle({
       <header className="border-b border-[var(--rule)] pt-32 pb-14 sm:pt-40">
         <Container>
           <Link
-            href="/reports"
+            href="/publications"
             className="mono link-underline text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-dim)]"
           >
             &larr; All reports
@@ -129,7 +129,7 @@ export default async function ResearchArticle({
                 <ul className="mt-4 space-y-5">
                   {related.map((r) => (
                     <li key={r.slug}>
-                      <Link href={`/reports/${r.slug}`} className="group block">
+                      <Link href={`/publications/${r.slug}`} className="group block">
                         <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-faint)]">
                           {r.type}
                         </span>

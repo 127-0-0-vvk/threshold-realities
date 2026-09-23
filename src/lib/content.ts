@@ -225,7 +225,7 @@ export const principles = [
 export const founders = [
   {
     slug: "bhanu",
-    name: "Bhanu Vishwas",
+    name: "Bhanu Viswas",
     role: "Co-founder & Head of Research",
     bio: "Leads the research function and owns the analytic method — sourcing standards, confidence bands, escalatory triggers, and the discipline of scoring our own forecasts after the fact.",
     focus: "Analytic method, research standards, regional coverage",

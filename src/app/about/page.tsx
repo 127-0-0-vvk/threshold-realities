@@ -202,11 +202,11 @@ export default function AboutPage() {
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead
               eyebrow="Next"
-              title="The analysts behind the work."
-              lede="Every region we claim has an analyst who reads the language and has spent time on the ground."
+              title="The people behind the work."
+              lede="Our founders, and the advisory board that reviews what we publish."
             />
             <div className="flex flex-wrap gap-3">
-              <ButtonLink href="/team">Meet the bench</ButtonLink>
+              <ButtonLink href="/advisors">Meet our advisors</ButtonLink>
               <ButtonLink href="/analysis" variant="ghost">
                 Read our analysis
               </ButtonLink>

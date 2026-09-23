@@ -84,10 +84,12 @@ rule under the header that ramps from stable to critical as you read down a page
 src/
   app/
     page.tsx              Home
-    about/ services/ platform/ tracker/
+    about/ advisors/ what-we-do/ platform/ tracker/
     analysis/             Daily articles: index + [slug]
-    reports/              Long-form research: index + [slug]
-    team/ contact/ careers/ privacy/ terms/
+    publications/         Policy briefs, white papers, working papers
+    research-areas/       Index + [slug] (11 areas)
+    regional-focus/       Index + [slug] (7 regions)
+    contact/ careers/ privacy/ terms/
     not-found.tsx         "Position unresolved"
     globals.css           Design tokens + primitives
   components/
@@ -101,7 +103,8 @@ src/
     severity.ts           The scale. Single source of truth.
     tracker.ts            Tracker entries
     analysis.ts           Reads content/analysis/*.md
-    reports.ts            Long-form report library
+    reports.ts            Publications library
+    taxonomy.ts           Research areas, regions, publication types
     content.ts            Page copy (practices, services, method, team, platform)
     site.ts               Nav, metadata, contact addresses
 ```
@@ -113,7 +116,12 @@ render it show a visible notice; keep those notices until real content lands.
 
 - [ ] Replace `src/lib/tracker.ts` with analyst-maintained entries, or wire to the
       monitoring platform. Remove `SAMPLE_NOTICE` once live.
-- [ ] Replace `src/lib/reports.ts` with real long-form work. Daily articles are
+- [ ] **Research area and regional focus pages are stubs.** Each renders an
+      honest "in preparation" state. To fill one in, add `summary` and
+      `sections` to its entry in `src/lib/taxonomy.ts` — nothing else changes.
+- [ ] **Advisory board names.** `/advisors` shows four "to be announced" cards
+      pending appointments.
+- [ ] Replace `src/lib/reports.ts` with real publications. Daily articles are
       already file-based — see `content/analysis/README.md`.
 - [x] ~~Founder portraits.~~ In place at `public/team/`. To swap either one,
       overwrite the file — `src/lib/portraits.ts` resolves by slug, no code change.

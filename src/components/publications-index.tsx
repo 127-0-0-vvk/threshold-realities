@@ -10,7 +10,7 @@ import {
   type ReportType,
 } from "@/lib/reports";
 
-export function ReportsIndex() {
+export function PublicationsIndex() {
   const [type, setType] = useState<ReportType | "All">("All");
   const [region, setRegion] = useState<string>("All");
 
@@ -66,7 +66,7 @@ export function ReportsIndex() {
         {filtered.map((r) => (
           <Link
             key={r.slug}
-            href={`/reports/${r.slug}`}
+            href={`/publications/${r.slug}`}
             className="group grid gap-5 py-10 transition-colors hover:bg-[var(--surface-raised)] lg:grid-cols-[1fr_1.6fr] lg:gap-14"
           >
             <div>

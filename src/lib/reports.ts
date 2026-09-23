@@ -1,11 +1,13 @@
 import type { Level } from "./severity";
 
 /**
- * PLACEHOLDER CONTENT — structure for design review, not published analysis.
- * Replace with MDX-backed entries before launch. See README.
+ * Publications — policy briefs, white papers and working papers.
+ *
+ * PLACEHOLDER CONTENT, for design review. These will move to the same
+ * file-based setup as `content/analysis/` once the first real papers land.
  */
 
-export type ReportType = "Brief" | "Assessment" | "Forecast" | "Watchlist";
+export type ReportType = "Policy Brief" | "White Paper" | "Working Paper";
 
 export type ReportItem = {
   slug: string;
@@ -25,7 +27,7 @@ export type ReportItem = {
 export const reports: ReportItem[] = [
   {
     slug: "chokepoint-premium",
-    type: "Assessment",
+    type: "White Paper",
     category: "Trade Policy",
     region: "Middle East",
     title: "The Chokepoint Premium: Pricing Maritime Risk Before the Rate Moves",
@@ -49,7 +51,7 @@ export const reports: ReportItem[] = [
   },
   {
     slug: "export-controls-inventory",
-    type: "Forecast",
+    type: "Working Paper",
     category: "Supply Chain",
     region: "Indo-Pacific",
     title: "Export Controls Are an Inventory Problem Before They Are a Policy Problem",
@@ -73,7 +75,7 @@ export const reports: ReportItem[] = [
   },
   {
     slug: "sanctions-counterparty",
-    type: "Brief",
+    type: "Policy Brief",
     category: "Sanctions",
     region: "Americas",
     title: "When Licensing Ambiguity Costs More Than Sanctions Themselves",
@@ -96,7 +98,7 @@ export const reports: ReportItem[] = [
   },
   {
     slug: "critical-minerals-watchlist",
-    type: "Watchlist",
+    type: "Working Paper",
     category: "Commodities",
     region: "Africa",
     title: "Critical Minerals: Six Jurisdictions to Watch Through 2027",
@@ -119,7 +121,7 @@ export const reports: ReportItem[] = [
   },
   {
     slug: "measuring-political-risk",
-    type: "Assessment",
+    type: "White Paper",
     category: "International Relations",
     region: "Global",
     title: "Measuring Political Risk Without Pretending to Predict Politics",
@@ -141,7 +143,7 @@ export const reports: ReportItem[] = [
   },
   {
     slug: "nearshoring-second-order",
-    type: "Brief",
+    type: "Policy Brief",
     category: "Supply Chain",
     region: "Americas",
     title: "Nearshoring's Second-Order Risks Are Arriving on Schedule",
@@ -165,10 +167,9 @@ export const reports: ReportItem[] = [
 ];
 
 export const reportTypes: ReportType[] = [
-  "Brief",
-  "Assessment",
-  "Forecast",
-  "Watchlist",
+  "Policy Brief",
+  "White Paper",
+  "Working Paper",
 ];
 
 export const reportRegions = [...new Set(reports.map((r) => r.region))].sort();

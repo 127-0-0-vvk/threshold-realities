@@ -168,7 +168,7 @@ function SelectedReports() {
             title="Longer-form research."
             lede="Where a question warrants more than commentary, we publish it as a report — with key judgments stated separately from reporting."
           />
-          <ButtonLink href="/reports" variant="ghost">
+          <ButtonLink href="/publications" variant="ghost">
             All reports
           </ButtonLink>
         </div>
@@ -177,7 +177,7 @@ function SelectedReports() {
           {selected.map((r, i) => (
             <Reveal key={r.slug} delay={i * 90}>
               <Link
-                href={`/reports/${r.slug}`}
+                href={`/publications/${r.slug}`}
                 className="panel ticked group flex h-full flex-col p-8"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -226,8 +226,8 @@ function ClosingCta() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/contact">Request a briefing</ButtonLink>
-              <ButtonLink href="/services" variant="ghost">
-                See our services
+              <ButtonLink href="/what-we-do" variant="ghost">
+                What we do
               </ButtonLink>
             </div>
           </Reveal>
