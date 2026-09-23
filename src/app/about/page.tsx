@@ -9,96 +9,98 @@ import {
   Section,
   SectionHead,
 } from "@/components/ui";
-import { founders, methodSteps, practices, principles } from "@/lib/content";
+import { founders } from "@/lib/content";
 import { resolvePortrait } from "@/lib/portraits";
-import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us",
   description:
-    "An independent research and risk intelligence firm working where the state is contested and formal risk models break down.",
+    "A research-driven intelligence platform advancing India's national interest through rigorous geopolitical analysis, bridging academia and industry.",
 };
+
+const pillars = [
+  {
+    code: "01",
+    title: "Who We Are",
+    body: "We are a research-driven intelligence platform advancing India's national interest through rigorous geopolitical analysis. Founded on the belief that India's strategic narrative needs centralized, expert-led research, we bridge academia and industry to provide real-time intelligence on the strategic and tactical challenges shaping India's future.",
+  },
+  {
+    code: "02",
+    title: "Our Mission",
+    body: "To support India's strategic autonomy and nation-building agenda by conducting rigorous, integrated research across defense, geopolitics, economics, and technology—translating complex global dynamics into actionable intelligence for strategic decision-makers.",
+  },
+  {
+    code: "03",
+    title: "Our Vision",
+    body: "An India that pursues strategic autonomy and nation-building through evidence-based research, unified expert opinion, and informed decision-making across government, business, and civil society.",
+  },
+];
 
 export default function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow="About"
-        title="An independent firm, positioned between advisory and data."
-        lede="Advisory houses produce considered analysis, though often on a timeline that sits behind the decision. Data providers deliver at speed, and leave the interpretation to the client. We set out to occupy the ground between the two."
+        eyebrow="About Us"
+        title="Bridging the gap between academia and industry."
+        lede="Academic research carries the rigour but rarely the timing. Industry carries the urgency but rarely the method. We work in the space between the two — scholarly standards, applied to questions that have a decision attached and a deadline against them."
       />
 
       <Section>
         <Container>
-          <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
-            <div className="prose-measure space-y-6 text-lg leading-relaxed text-[var(--text-dim)]">
-              <p>
-                {site.name} is an independent research and risk intelligence firm.
-                We work with companies and investors operating across contested
-                markets — environments where authority is fragmented or disputed,
-                and where conventional models for pricing political risk tend to
-                hold less well than they do elsewhere.
-              </p>
-              <p>
-                Most of our clients are not short of information. What they more
-                often need is judgement they can act on, arriving early enough for
-                the action to remain available. Analysis delivered after the market
-                has adjusted is a useful record, but it is no longer a decision aid.
-              </p>
-              <p>
-                We have therefore organised the firm around a single question:{" "}
-                <span className="text-[var(--text)]">
-                  at what point does this become a commercial cost, and how much
-                  notice can we reasonably provide?
-                </span>{" "}
-                The analyst bench and the method both exist to answer it more
-                quickly.
-              </p>
-              <p>
-                We are independent by design. We do not sell the products we
-                assess, we hold no positions in the markets we cover, and we publish
-                our method so that clients can examine the reasoning rather than
-                rely on the name attached to it.
-              </p>
-            </div>
-
-            <div data-surface="ink" className="border border-[var(--rule)] p-8 lg:p-10">
-              <h2 className="eyebrow">In short</h2>
-              <dl className="mt-6 divide-y divide-[var(--rule)]">
-                {[
-                  ["Independent", "No products sold, no positions held"],
-                  ["Method", "Published in full, not proprietary"],
-                  ["Coverage", "Eleven research areas, seven regions"],
-                  ["Record", "Forecasts reviewed and kept, including the wrong ones"],
-                ].map(([k, v]) => (
-                  <div key={k} className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
-                    <dt className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
-                      {k}
-                    </dt>
-                    <dd className="text-sm text-[var(--text-dim)]">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+          <div className="prose-measure space-y-6 text-lg leading-relaxed text-[var(--text-dim)]">
+            <p className="text-[var(--text)]">
+              India&rsquo;s strategic conversation is dispersed. Serious work
+              exists, but it sits in separate institutions, is written for
+              separate audiences, and arrives on timelines set by publication
+              cycles rather than by events.
+            </p>
+            <p>
+              We set out to centralise that work and give it a usable form:
+              research conducted to a published method, integrated across
+              defence, geopolitics, economics and technology, and delivered
+              while there is still a decision to be made.
+            </p>
+            <p>
+              We are independent by design. We do not sell the products we
+              assess, we hold no positions in the markets we cover, and we
+              publish our method so readers can examine the reasoning rather
+              than rely on the name attached to it.
+            </p>
           </div>
         </Container>
       </Section>
 
-      <Section className="border-t border-[var(--rule)]">
+      <Section surface="ink" className="border-y border-[var(--rule)]">
         <Container>
-          <SectionHead
-            eyebrow="Founders"
-            title="Two founders, one method, no house view to defend."
-            lede="We established the firm because the work we wanted to commission did not exist in a form we could readily act on."
-          />
+          <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
+            {pillars.map((p, i) => (
+              <Reveal key={p.code} delay={i * 80}>
+                <div className="grid gap-5 py-12 lg:grid-cols-[auto_1fr_1.6fr] lg:gap-14">
+                  <span className="mono text-sm text-[var(--color-watch)]">
+                    {p.code}
+                  </span>
+                  <h2 className="display text-3xl sm:text-4xl">{p.title}</h2>
+                  <p className="text-lg leading-relaxed text-[var(--text-dim)]">
+                    {p.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </Section>
 
-          <div className="mt-16 grid gap-14 lg:grid-cols-2 lg:gap-20">
+      <Section>
+        <Container>
+          <span className="eyebrow">Founders</span>
+
+          <div className="mt-12 grid gap-14 lg:grid-cols-2 lg:gap-20">
             {founders.map((f, i) => (
               <Reveal key={f.slug} delay={i * 110}>
                 <article className="grid gap-8 sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-start">
                   <Portrait src={resolvePortrait(f.slug)} name={f.name} />
                   <div>
-                    <h3 className="display text-3xl">{f.name}</h3>
+                    <h2 className="display text-3xl">{f.name}</h2>
                     <p className="mono mt-3 text-[0.625rem] leading-relaxed tracking-[0.16em] uppercase text-[var(--color-watch)]">
                       {f.role}
                     </p>
@@ -106,12 +108,6 @@ export default function AboutPage() {
                       <ThresholdRule />
                     </div>
                     <p className="mt-5 text-[var(--text-dim)]">{f.bio}</p>
-                    <dl className="mt-6">
-                      <dt className="eyebrow">Focus</dt>
-                      <dd className="mt-1.5 text-sm text-[var(--text-dim)]">
-                        {f.focus}
-                      </dd>
-                    </dl>
                   </div>
                 </article>
               </Reveal>
@@ -120,88 +116,17 @@ export default function AboutPage() {
         </Container>
       </Section>
 
+      {/* Our Team — held empty until the bench is named. */}
       <Section className="border-t border-[var(--rule)]">
         <Container>
-          <SectionHead
-            eyebrow="Principles"
-            title="Four commitments we are willing to be held to."
-          />
-          <div className="mt-14 grid gap-px sm:grid-cols-2">
-            {principles.map((p, i) => (
-              <Reveal key={p.code} delay={i * 80}>
-                <div className="panel ticked h-full p-8 lg:p-10">
-                  <span className="mono text-xs text-[var(--text-faint)]">
-                    {p.code}
-                  </span>
-                  <h3 className="display mt-5 text-2xl">{p.title}</h3>
-                  <p className="mt-4 text-[var(--text-dim)]">{p.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <Section surface="ink" className="border-t border-[var(--rule)]">
-        <Container>
-          <SectionHead
-            eyebrow="Practice areas"
-            title="Six areas. In contested markets they are never separate problems."
-          />
-          <div className="mt-12 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
-            {practices.map((p) => (
-              <div
-                key={p.code}
-                className="grid gap-4 py-7 lg:grid-cols-[auto_1fr_1.4fr] lg:items-baseline lg:gap-12"
-              >
-                <span className="mono text-xs text-[var(--text-faint)]">
-                  {p.code}
-                </span>
-                <h3 className="display text-2xl">{p.title}</h3>
-                <p className="text-[var(--text-dim)]">{p.body}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <Section id="method" className="border-t border-[var(--rule)]">
-        <Container>
-          <SectionHead
-            eyebrow="Method"
-            title="How a judgement reaches you."
-            lede="We publish our method rather than treating it as proprietary. An assessment a client cannot examine is one they cannot responsibly act on."
-          />
-
-          <div className="mt-16">
-            {methodSteps.map((step, i) => (
-              <Reveal key={step.code} delay={i * 60}>
-                <div className="grid gap-6 border-t border-[var(--rule)] py-9 lg:grid-cols-[auto_1fr_1.1fr] lg:gap-14">
-                  <span className="mono text-sm text-[var(--color-watch)]">{step.code}</span>
-                  <div>
-                    <h3 className="display text-2xl sm:text-3xl">{step.title}</h3>
-                    <p className="mt-3 text-[var(--text-dim)]">{step.body}</p>
-                  </div>
-                  <ul className="space-y-2.5 lg:pt-2">
-                    {step.detail.map((d) => (
-                      <li
-                        key={d}
-                        className="flex gap-3 text-sm leading-relaxed text-[var(--text-dim)]"
-                      >
-                        <span
-                          className="mono mt-0.5 text-[var(--text-faint)]"
-                          aria-hidden
-                        >
-                          &mdash;
-                        </span>
-                        {d}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
-            <div className="border-t border-[var(--rule)]" />
+          <span className="eyebrow">Our Team</span>
+          <div className="mt-8 border border-[var(--rule)] bg-[var(--surface-raised)] px-6 py-16 text-center sm:px-12">
+            <h2 className="display mx-auto max-w-2xl text-3xl sm:text-4xl">
+              Being assembled.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-[var(--text-dim)]">
+              Our analysts will be introduced here as appointments are confirmed.
+            </p>
           </div>
         </Container>
       </Section>
@@ -211,15 +136,10 @@ export default function AboutPage() {
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead
               eyebrow="Next"
-              title="The people behind the work."
-              lede="Our founders, and the advisory board that reviews what we publish."
+              title="The people who test our judgements."
+              lede="An independent board reviews what we publish before it reaches a reader."
             />
-            <div className="flex flex-wrap gap-3">
-              <ButtonLink href="/advisors">Meet our advisors</ButtonLink>
-              <ButtonLink href="/publications" variant="ghost">
-                Read our work
-              </ButtonLink>
-            </div>
+            <ButtonLink href="/advisors">Our board of advisors</ButtonLink>
           </div>
         </Container>
       </Section>
