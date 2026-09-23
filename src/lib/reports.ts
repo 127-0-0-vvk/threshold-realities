@@ -1,5 +1,3 @@
-import type { Level } from "./severity";
-
 /**
  * Publications — policy briefs, white papers and working papers.
  *
@@ -19,7 +17,6 @@ export type ReportItem = {
   author: string;
   date: string;
   readTime: number;
-  level?: Level;
   keyJudgments: string[];
   body: string[];
 };
@@ -36,7 +33,6 @@ export const reports: ReportItem[] = [
     author: "Threshold Realities",
     date: "2026-09-18",
     readTime: 9,
-    level: "high",
     keyJudgments: [
       "Insurance repricing leads freight repricing by roughly two to three weeks in the current cycle, giving planners a usable window.",
       "Rerouting decisions are being made at the charterer level rather than centrally, which means exposure is uneven across a single client's own trade lanes.",
@@ -60,7 +56,6 @@ export const reports: ReportItem[] = [
     author: "Threshold Realities",
     date: "2026-09-12",
     readTime: 11,
-    level: "watch",
     keyJudgments: [
       "Forward-buying by tier-one purchasers is a more reliable leading indicator of control expansion than official consultation notices.",
       "Second-order exposure sits with tier-two and tier-three suppliers who lack the balance sheet to pre-buy and will absorb the shock later.",
@@ -84,7 +79,6 @@ export const reports: ReportItem[] = [
     author: "Threshold Realities",
     date: "2026-09-05",
     readTime: 6,
-    level: "watch",
     keyJudgments: [
       "Ambiguity suppresses committed capital more effectively than an explicit prohibition, because it cannot be priced.",
       "Counterparty due diligence is the practical control, and it degrades quickly where ownership structures are opaque.",
@@ -107,7 +101,6 @@ export const reports: ReportItem[] = [
     author: "Threshold Realities",
     date: "2026-08-28",
     readTime: 8,
-    level: "elevated",
     keyJudgments: [
       "Fiscal-term renegotiation is more likely than outright expropriation in every jurisdiction reviewed.",
       "Transport corridors, not mine sites, are where operational risk is concentrated.",
@@ -152,7 +145,6 @@ export const reports: ReportItem[] = [
     author: "Threshold Realities",
     date: "2026-08-14",
     readTime: 7,
-    level: "watch",
     keyJudgments: [
       "Cargo security and labour disputes are displacing geopolitical distance as the principal operating risk.",
       "Utility and water availability are emerging as binding constraints on new industrial capacity.",

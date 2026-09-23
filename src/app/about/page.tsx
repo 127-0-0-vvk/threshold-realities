@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ChartMap } from "@/components/chart-map";
 import { Portrait } from "@/components/portrait";
 import { Reveal } from "@/components/reveal";
 import { ThresholdRule } from "@/components/threshold-rule";
@@ -52,8 +51,8 @@ export default function AboutPage() {
                   at what point does this become a commercial cost, and how much
                   notice can we reasonably provide?
                 </span>{" "}
-                The analyst bench, the method and the monitoring platform all exist
-                to answer it more quickly.
+                The analyst bench and the method both exist to answer it more
+                quickly.
               </p>
               <p>
                 We are independent by design. We do not sell the products we
@@ -63,13 +62,23 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div>
-              <div data-surface="ink" className="border border-[var(--rule)] p-4">
-                <ChartMap className="w-full opacity-80" />
-                <p className="eyebrow mt-4">
-                  Monitored theatres &middot; illustrative
-                </p>
-              </div>
+            <div data-surface="ink" className="border border-[var(--rule)] p-8 lg:p-10">
+              <h2 className="eyebrow">In short</h2>
+              <dl className="mt-6 divide-y divide-[var(--rule)]">
+                {[
+                  ["Independent", "No products sold, no positions held"],
+                  ["Method", "Published in full, not proprietary"],
+                  ["Coverage", "Eleven research areas, seven regions"],
+                  ["Record", "Forecasts reviewed and kept, including the wrong ones"],
+                ].map(([k, v]) => (
+                  <div key={k} className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
+                    <dt className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
+                      {k}
+                    </dt>
+                    <dd className="text-sm text-[var(--text-dim)]">{v}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
         </Container>
@@ -207,8 +216,8 @@ export default function AboutPage() {
             />
             <div className="flex flex-wrap gap-3">
               <ButtonLink href="/advisors">Meet our advisors</ButtonLink>
-              <ButtonLink href="/analysis" variant="ghost">
-                Read our analysis
+              <ButtonLink href="/publications" variant="ghost">
+                Read our work
               </ButtonLink>
             </div>
           </div>

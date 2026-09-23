@@ -1,14 +1,26 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Level } from "@/lib/severity";
-import { levelMeta } from "@/lib/severity";
 
 /**
- * The signature element. A hairline rule that takes on a severity colour
- * when it enters the viewport — the visual argument of the whole brand:
- * neutral above the line, signal below it.
+ * The signature element: a hairline that takes on the escalation colour when it
+ * enters the viewport — neutral above the line, signal below it.
+ *
+ * Levels map straight onto the CSS ramp (`--color-elevated` … `--color-critical`),
+ * so they resolve correctly on paper and inside ink sections without any
+ * per-instance handling.
  */
+
+export const LEVELS = [
+  "stable",
+  "elevated",
+  "watch",
+  "high",
+  "critical",
+] as const;
+
+export type Level = (typeof LEVELS)[number];
+
 export function ThresholdRule({
   level,
   label,
@@ -39,19 +51,7 @@ export function ThresholdRule({
 
   return (
     <div ref={ref} className={`w-full ${className}`}>
-      {label ? (
-        <div className="mb-3 flex items-baseline justify-between gap-4">
-          <span className="eyebrow">{label}</span>
-          {level && active ? (
-            <span
-              className="mono text-[0.6875rem] tracking-[0.18em] uppercase transition-colors duration-700"
-              style={{ color: `var(--color-${level})` }}
-            >
-              {levelMeta[level].label}
-            </span>
-          ) : null}
-        </div>
-      ) : null}
+      {label ? <span className="eyebrow mb-3 block">{label}</span> : null}
       <div
         className="threshold-rule"
         data-level={active && level ? level : undefined}
@@ -61,8 +61,8 @@ export function ThresholdRule({
 }
 
 /**
- * The persistent progress rule pinned under the header. Colour ramps
- * with scroll depth: the further you read, the closer to the threshold.
+ * Persistent progress rule under the header. Colour ramps with scroll depth, so
+ * the further you read the closer the page gets to the threshold.
  */
 export function ScrollThreshold() {
   const [level, setLevel] = useState<Level>("stable");
@@ -110,8 +110,6 @@ export function ScrollThreshold() {
         style={{
           width: `${progress * 100}%`,
           backgroundColor: `var(--color-${level})`,
-          boxShadow:
-            progress > 0.65 ? `0 0 16px -2px ${`var(--color-${level})`}` : "none",
         }}
       />
     </div>

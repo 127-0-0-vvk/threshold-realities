@@ -1,29 +1,24 @@
-import Link from "next/link";
-import { ArticleCard } from "@/components/article-card";
 import Image from "next/image";
+import Link from "next/link";
 import { LineMask, Reveal } from "@/components/reveal";
-import { SignalStrip } from "@/components/signal-strip";
 import {
   ButtonLink,
   Container,
   Section,
   SectionHead,
-  SeverityTag,
-  StatusBadge,
 } from "@/components/ui";
-import { getArticles } from "@/lib/analysis";
-import { platformModules } from "@/lib/content";
+import { practices } from "@/lib/content";
 import { reports } from "@/lib/reports";
 import { site } from "@/lib/site";
+import { regionalFocus, researchAreas } from "@/lib/taxonomy";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <SignalStrip />
-      <LatestAnalysis />
-      <Platform />
-      <SelectedReports />
+      <Gap />
+      <Coverage />
+      <LatestPublications />
       <ClosingCta />
     </>
   );
@@ -48,8 +43,7 @@ function Hero() {
             <Reveal delay={380}>
               <p className="mt-7 max-w-xl text-[1.0625rem] leading-relaxed text-[var(--text-dim)] sm:text-lg">
                 {site.positioning} Our analysts combine regional depth with a
-                structured analytic method, supported by our own monitoring
-                platform.
+                structured analytic method.
               </p>
             </Reveal>
 
@@ -87,39 +81,52 @@ function Hero() {
 
 /* ------------------------------------------------------------------ */
 
-function LatestAnalysis() {
-  const articles = getArticles().slice(0, 5);
-  const [lead, ...rest] = articles;
+const gap = [
+  {
+    code: "01",
+    title: "Academia holds the rigour",
+    body: "Careful, peer-reviewed work on how states behave and how policy transmits into markets — written for other scholars, and published on a cycle measured in years.",
+  },
+  {
+    code: "02",
+    title: "Industry holds the urgency",
+    body: "Firms in contested markets decide now, with incomplete information. The analysis available to them is fast, but often thin on method and unwilling to say what would prove it wrong.",
+  },
+  {
+    code: "03",
+    title: "We work in the gap",
+    body: "Research that would survive academic scrutiny, written for someone who has to act on it, and delivered while the action is still available.",
+  },
+];
 
-  if (!lead) return null;
-
+function Gap() {
   return (
-    <Section className="border-t border-[var(--rule)]">
+    <Section className="border-b border-[var(--rule)]">
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHead
-            eyebrow="Latest analysis"
-            title="What we are watching."
-            lede="Regular commentary on developments across the markets we cover, written for readers who have to act on it."
+            eyebrow="What we do"
+            title="We work in the gap between academia and industry."
+            lede="One side has the rigour and not the timing. The other has the urgency and not the method."
           />
-          <ButtonLink href="/analysis" variant="ghost">
-            All analysis
+          <ButtonLink href="/what-we-do" variant="ghost">
+            What we do
           </ButtonLink>
         </div>
 
-        <Reveal className="mt-14 block">
-          <ArticleCard article={lead} featured />
-        </Reveal>
-
-        {rest.length ? (
-          <div className="mt-px grid gap-px sm:grid-cols-2 lg:grid-cols-4">
-            {rest.map((article, i) => (
-              <Reveal key={article.slug} delay={i * 70}>
-                <ArticleCard article={article} />
-              </Reveal>
-            ))}
-          </div>
-        ) : null}
+        <div className="mt-14 grid gap-px lg:grid-cols-3">
+          {gap.map((g, i) => (
+            <Reveal key={g.code} delay={i * 90}>
+              <div className="panel ticked h-full p-8 lg:p-10">
+                <span className="mono text-xs text-[var(--color-watch)]">
+                  {g.code}
+                </span>
+                <h3 className="display mt-6 text-2xl">{g.title}</h3>
+                <p className="mt-4 text-[var(--text-dim)]">{g.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </Container>
     </Section>
   );
@@ -127,42 +134,62 @@ function LatestAnalysis() {
 
 /* ------------------------------------------------------------------ */
 
-function Platform() {
+function Coverage() {
   return (
-    <Section surface="ink" className="border-t border-[var(--rule)]">
+    <Section surface="ink" className="border-b border-[var(--rule)]">
       <Container>
-        <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
+        <div className="grid gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
           <div>
-            <div className="mb-7">
-              <StatusBadge tone="watch">Coming soon</StatusBadge>
-            </div>
             <SectionHead
-              eyebrow="The platform"
-              title="A monitoring system built around exposure."
-              lede="Organisations monitoring global risk often run several systems in parallel, each solving part of the problem. We are building one that begins from a client's own footprint and works outward. It is in development — the specification is published in full."
+              eyebrow="Coverage"
+              title="Eleven research areas, seven regions."
+              lede="Each area is read for what it changes about the conditions our clients operate in, rather than studied for its own sake."
             />
             <div className="mt-10 flex flex-wrap gap-3">
-              <ButtonLink href="/platform">See the specification</ButtonLink>
-              <ButtonLink href="/contact" variant="ghost">
-                Join the early-access list
+              <ButtonLink href="/research-areas">Research areas</ButtonLink>
+              <ButtonLink href="/regional-focus" variant="ghost">
+                Regional focus
               </ButtonLink>
             </div>
           </div>
 
-          <div className="grid gap-px sm:grid-cols-2">
-            {platformModules.map((m, i) => (
-              <Reveal key={m.code} delay={i * 60}>
-                <div className="panel h-full p-6">
-                  <span className="mono text-xs text-[var(--text-faint)]">
-                    {m.code}
-                  </span>
-                  <h3 className="mt-4 text-base text-[var(--text)]">{m.title}</h3>
+          <div>
+            <h3 className="eyebrow">Research Areas</h3>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {researchAreas.map((a) => (
+                <Link
+                  key={a.slug}
+                  href={`/research-areas/${a.slug}`}
+                  className="mono border border-[var(--rule)] px-3.5 py-2 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text-dim)] transition-colors hover:border-[var(--color-watch)] hover:text-[var(--color-watch)]"
+                >
+                  {a.title}
+                </Link>
+              ))}
+            </div>
+
+            <h3 className="eyebrow mt-10">Regional Focus</h3>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {regionalFocus.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={`/regional-focus/${r.slug}`}
+                  className="mono border border-[var(--rule)] px-3.5 py-2 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text-dim)] transition-colors hover:border-[var(--color-watch)] hover:text-[var(--color-watch)]"
+                >
+                  {r.title}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-12 grid gap-px sm:grid-cols-2">
+              {practices.slice(0, 2).map((p) => (
+                <div key={p.code} className="panel h-full p-6">
+                  <h4 className="text-base text-[var(--text)]">{p.title}</h4>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--text-dim)]">
-                    {m.body}
+                    {p.body}
                   </p>
                 </div>
-              </Reveal>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </Container>
@@ -172,20 +199,20 @@ function Platform() {
 
 /* ------------------------------------------------------------------ */
 
-function SelectedReports() {
+function LatestPublications() {
   const selected = reports.slice(0, 3);
 
   return (
-    <Section className="border-t border-[var(--rule)]">
+    <Section className="border-b border-[var(--rule)]">
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHead
-            eyebrow="Reports"
-            title="Longer-form research."
-            lede="Where a question warrants more than commentary, we publish it as a report — with key judgments stated separately from reporting."
+            eyebrow="Publications"
+            title="Recent work."
+            lede="Policy briefs, white papers and working papers. Each states its key judgements separately from its reporting."
           />
           <ButtonLink href="/publications" variant="ghost">
-            All reports
+            All publications
           </ButtonLink>
         </div>
 
@@ -196,12 +223,9 @@ function SelectedReports() {
                 href={`/publications/${r.slug}`}
                 className="panel ticked group flex h-full flex-col p-8"
               >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
-                    {r.type}
-                  </span>
-                  {r.level ? <SeverityTag level={r.level} /> : null}
-                </div>
+                <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
+                  {r.type}
+                </span>
                 <h3 className="display mt-6 text-2xl leading-tight transition-colors group-hover:text-[var(--color-watch)]">
                   {r.title}
                 </h3>
@@ -226,7 +250,7 @@ function SelectedReports() {
 
 function ClosingCta() {
   return (
-    <Section className="border-t border-[var(--rule)]">
+    <Section>
       <Container>
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
           <h2 className="display text-4xl sm:text-5xl lg:text-6xl">

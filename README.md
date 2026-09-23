@@ -84,8 +84,7 @@ rule under the header that ramps from stable to critical as you read down a page
 src/
   app/
     page.tsx              Home
-    about/ advisors/ what-we-do/ platform/ tracker/
-    analysis/             Daily articles: index + [slug]
+    about/ advisors/ what-we-do/
     publications/         Policy briefs, white papers, working papers
     research-areas/       Index + [slug] (11 areas)
     regional-focus/       Index + [slug] (7 regions)
@@ -100,12 +99,10 @@ src/
     site-header.tsx  site-footer.tsx  ui.tsx  reveal.tsx  counter.tsx
     signal-strip.tsx  contact-form.tsx
   lib/
-    severity.ts           The scale. Single source of truth.
-    tracker.ts            Tracker entries
-    analysis.ts           Reads content/analysis/*.md
     reports.ts            Publications library
     taxonomy.ts           Research areas, regions, publication types
-    content.ts            Page copy (practices, services, method, team, platform)
+    content.ts            Page copy (practices, services, method, founders)
+    portraits.ts          Resolves founder photos from public/team/
     site.ts               Nav, metadata, contact addresses
 ```
 
@@ -114,8 +111,6 @@ src/
 All copy and data in `src/lib/` is **placeholder for design review**. Pages that
 render it show a visible notice; keep those notices until real content lands.
 
-- [ ] Replace `src/lib/tracker.ts` with analyst-maintained entries, or wire to the
-      monitoring platform. Remove `SAMPLE_NOTICE` once live.
 - [ ] **Research area and regional focus pages are stubs.** Each renders an
       honest "in preparation" state. To fill one in, add `summary` and
       `sections` to its entry in `src/lib/taxonomy.ts` — nothing else changes.
@@ -134,7 +129,6 @@ render it show a visible notice; keep those notices until real content lands.
 - [ ] Wire `src/components/contact-form.tsx` to a real endpoint (Resend, Formspark
       or a Next API route). It currently shows a confirmation and sends nothing,
       and says so on the page.
-- [ ] Wire the newsletter form on `/insights`.
 - [ ] Have `/privacy` and `/terms` reviewed by counsel. Publishing risk
       assessments about sovereign states carries specific liability exposure.
 - [ ] Add OG images (`opengraph-image.tsx`), favicon and `robots.txt` / `sitemap.ts`.
@@ -152,14 +146,9 @@ Built to deploy on Vercel as a static export.
 
 ## Publishing
 
-Daily articles are Markdown files in `content/analysis/`. One file per piece;
-the filename becomes the URL. Add the file, push, and Vercel rebuilds.
-
-Full authoring reference, including frontmatter fields and image sizing:
-**`content/analysis/README.md`**.
-
-Long-form reports still live in `src/lib/reports.ts` and are next in line to
-move to the same file-based setup.
+Publications currently live in `src/lib/reports.ts`. The Markdown-file setup
+that drove the retired analysis section is recoverable from git history if you
+want publications to work the same way — one file per piece, filename as slug.
 
 ## Hero
 
@@ -171,9 +160,8 @@ The source is 735×919, so the image column is capped rather than stretched;
 pushing it wider would only soften it. Supply a larger original and the layout
 will use it.
 
-The previous background video is retired but its encodes are still in
-`public/video/`, and the component that drove them is recoverable from git
-history if you want it back.
+The previous background video is retired. Its encodes and the component that
+drove them are recoverable from git history if you want them back.
 
 ## Accessibility
 

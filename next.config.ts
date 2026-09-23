@@ -6,8 +6,13 @@ const nextConfig: NextConfig = {
       // Research became Reports.
       { source: "/research", destination: "/publications", permanent: true },
       { source: "/research/:slug", destination: "/publications/:slug", permanent: true },
-      // Insights folded into Analysis.
-      { source: "/insights", destination: "/analysis", permanent: true },
+      // Insights and Analysis both retired into Publications.
+      { source: "/insights", destination: "/publications", permanent: true },
+      { source: "/analysis", destination: "/publications", permanent: true },
+      { source: "/analysis/:slug", destination: "/publications", permanent: true },
+      // Platform and Tracker retired.
+      { source: "/platform", destination: "/what-we-do", permanent: true },
+      { source: "/tracker", destination: "/publications", permanent: true },
       // Method retired; its substance now sits inside About.
       { source: "/method", destination: "/about", permanent: true },
       // Reports became Publications, under the new information architecture.

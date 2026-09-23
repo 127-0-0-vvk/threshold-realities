@@ -100,11 +100,11 @@ export const methodSteps = [
   {
     code: "M/01",
     title: "Collect",
-    body: "Wide-aperture collection across open sources, regional-language press, official records and our own monitoring platform. Breadth at this stage is cheap; missing a source is not.",
+    body: "Wide-aperture collection across open sources, regional-language press and official records. Breadth at this stage is cheap; missing a source is not.",
     detail: [
       "Regional-language press read in the original",
       "Official gazettes, filings and procurement records",
-      "Platform monitoring across categories and asset proximity",
+      "Continuous monitoring across our research areas and regions",
     ],
   },
   {
@@ -159,39 +159,6 @@ export const methodSteps = [
   },
 ] as const;
 
-export const platformModules = [
-  {
-    code: "P/01",
-    title: "Live monitoring",
-    body: "Global event collection, deduplicated and clustered, on a map and a list that an analyst has already triaged.",
-  },
-  {
-    code: "P/02",
-    title: "Asset proximity & exposure",
-    body: "Your sites and routes carry your own names. Every event is scored against them, with concentration risk held separately from aggregate.",
-  },
-  {
-    code: "P/03",
-    title: "Country & city risk ratings",
-    body: "Ratings across security, infrastructure, environment, health, political and legal dimensions — each with a forecast direction, not just a level.",
-  },
-  {
-    code: "P/04",
-    title: "Forward events calendar",
-    body: "Scheduled disruption before it happens: elections, strikes, port closures, major events, commemorations.",
-  },
-  {
-    code: "P/05",
-    title: "Analyst-verified alerting",
-    body: "Bundled, deduplicated, scoped to your exposure. Severity means something because a person assigned it.",
-  },
-  {
-    code: "P/06",
-    title: "Escalatory triggers",
-    body: "Live trigger state, not a static report. When a condition flips from not-met to met, you are told.",
-  },
-] as const;
-
 export const principles = [
   {
     code: "01",
@@ -237,50 +204,4 @@ export const founders = [
     bio: "Leads commercial strategy and client engagement — how the firm's analysis reaches the people making operating and investment decisions, and how it is scoped so that it changes them.",
     focus: "Commercial strategy, client engagement, platform direction",
   },
-] as const;
-
-export const team = [
-  {
-    name: "Analyst — Middle East & North Africa",
-    region: "MENA",
-    languages: "Arabic, French, English",
-    focus: "Energy transit, maritime chokepoints, sanctions exposure",
-  },
-  {
-    name: "Analyst — Indo-Pacific",
-    region: "Indo-Pacific",
-    languages: "Mandarin, English",
-    focus: "Export controls, semiconductor supply chains, maritime security",
-  },
-  {
-    name: "Analyst — South Asia",
-    region: "South Asia",
-    languages: "Hindi, Tamil, English",
-    focus: "Industrial operations, civil unrest, climate disruption",
-  },
-  {
-    name: "Analyst — Sub-Saharan Africa",
-    region: "Africa",
-    languages: "French, Portuguese, English",
-    focus: "Extractives, corridor security, resource nationalism",
-  },
-  {
-    name: "Analyst — Europe & Eurasia",
-    region: "Europe",
-    languages: "Russian, German, English",
-    focus: "Sanctions, energy infrastructure, rail and transit corridors",
-  },
-  {
-    name: "Analyst — Americas",
-    region: "Americas",
-    languages: "Spanish, Portuguese, English",
-    focus: "Nearshoring, commodities, licensing and counterparty risk",
-  },
-] as const;
-
-export const stats = [
-  { value: 216, label: "Locations rated", suffix: "" },
-  { value: 106, label: "Event categories", suffix: "" },
-  { value: 24, label: "Analyst coverage", suffix: "/7" },
-  { value: 6, label: "Practice areas", suffix: "" },
 ] as const;

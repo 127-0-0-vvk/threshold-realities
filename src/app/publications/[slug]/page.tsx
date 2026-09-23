@@ -6,7 +6,6 @@ import {
   Container,
   Notice,
   Section,
-  SeverityTag,
 } from "@/components/ui";
 import { ThresholdRule } from "@/components/threshold-rule";
 import { getReport, reports } from "@/lib/reports";
@@ -55,7 +54,6 @@ export default async function ResearchArticle({
             <span className="mono text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
               {item.category}
             </span>
-            {item.level ? <SeverityTag level={item.level} /> : null}
           </div>
 
           <h1 className="display mt-6 max-w-5xl text-4xl sm:text-5xl lg:text-6xl">
@@ -94,7 +92,7 @@ export default async function ResearchArticle({
               </div>
 
               <div className="prose-measure mt-14">
-                <ThresholdRule level={item.level ?? "elevated"} label="Key judgments" />
+                <ThresholdRule level="watch" label="Key judgements" />
                 <ol className="mt-8 space-y-6">
                   {item.keyJudgments.map((kj, i) => (
                     <li key={i} className="flex gap-6">

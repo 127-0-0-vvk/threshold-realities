@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { levelMeta, trendMeta, type Level, type Trend } from "@/lib/severity";
 
 export function Container({
   children,
@@ -30,7 +29,7 @@ export function Section({
     <section
       id={id}
       data-surface={surface}
-      className={`py-20 sm:py-28 ${className}`}
+      className={`py-16 sm:py-24 lg:py-28 ${className}`}
     >
       {children}
     </section>
@@ -51,57 +50,15 @@ export function SectionHead({
   return (
     <div className={className}>
       <span className="eyebrow">{eyebrow}</span>
-      <h2 className="display mt-5 text-4xl sm:text-5xl lg:text-6xl">{title}</h2>
+      <h2 className="display mt-5 text-[clamp(1.875rem,4.5vw,3.5rem)]">
+        {title}
+      </h2>
       {lede ? (
-        <p className="prose-measure mt-6 text-lg text-[var(--text-dim)]">{lede}</p>
+        <p className="prose-measure mt-5 text-lg text-[var(--text-dim)]">
+          {lede}
+        </p>
       ) : null}
     </div>
-  );
-}
-
-export function SeverityDot({ level, size = 8 }: { level: Level; size?: number }) {
-  return (
-    <span
-      className="inline-block shrink-0 rounded-full"
-      style={{
-        width: size,
-        height: size,
-        background: `var(--color-${level})`,
-        boxShadow: `0 0 0 3px color-mix(in srgb, var(--color-${level}) 18%, transparent)`,
-      }}
-      aria-hidden
-    />
-  );
-}
-
-export function SeverityTag({ level }: { level: Level }) {
-  return (
-    <span className="inline-flex items-center gap-2">
-      <SeverityDot level={level} />
-      <span
-        className="mono text-[0.625rem] tracking-[0.16em] uppercase"
-        style={{ color: `var(--color-${level})` }}
-      >
-        {levelMeta[level].label}
-      </span>
-    </span>
-  );
-}
-
-export function TrendTag({ trend }: { trend: Trend }) {
-  const color =
-    trend === "deteriorating"
-      ? "var(--color-high)"
-      : trend === "improving"
-        ? "var(--color-stable)"
-        : "var(--text-faint)";
-  return (
-    <span
-      className="mono text-[0.625rem] tracking-[0.14em] uppercase"
-      style={{ color }}
-    >
-      {trendMeta[trend].glyph} {trendMeta[trend].label}
-    </span>
   );
 }
 
@@ -132,41 +89,6 @@ export function ButtonLink({
   );
 }
 
-export function StatusBadge({
-  children,
-  tone = "elevated",
-}: {
-  children: React.ReactNode;
-  tone?: Level;
-}) {
-  const c = `var(--color-${tone})`;
-  return (
-    <span
-      className="mono inline-flex items-center gap-2.5 border px-3.5 py-2 text-[0.625rem] tracking-[0.18em] uppercase"
-      style={{
-        borderColor: `color-mix(in srgb, ${c} 40%, transparent)`,
-        color: c,
-        background: `color-mix(in srgb, ${c} 8%, transparent)`,
-      }}
-    >
-      <span
-        className="relative flex h-1.5 w-1.5"
-        aria-hidden
-      >
-        <span
-          className="pulse-ring absolute inline-flex h-full w-full rounded-full"
-          style={{ background: c }}
-        />
-        <span
-          className="relative inline-flex h-1.5 w-1.5 rounded-full"
-          style={{ background: c }}
-        />
-      </span>
-      {children}
-    </span>
-  );
-}
-
 export function Notice({ children }: { children: React.ReactNode }) {
   return (
     <p className="mono flex items-start gap-2.5 border border-[var(--rule)] bg-[var(--surface-raised)] px-4 py-3 text-[0.6875rem] leading-relaxed tracking-[0.06em] text-[var(--text-dim)]">
@@ -190,17 +112,17 @@ export function PageHeader({
   badge?: React.ReactNode;
 }) {
   return (
-    <header className="border-b border-[var(--rule)] pt-32 pb-16 sm:pt-40 sm:pb-20">
+    <header className="border-b border-[var(--rule)] pt-28 pb-12 sm:pt-36 sm:pb-16">
       <Container>
         <div className="flex flex-wrap items-center gap-5">
           <span className="eyebrow">{eyebrow}</span>
           {badge}
         </div>
-        <h1 className="display mt-5 max-w-5xl text-5xl sm:text-6xl lg:text-7xl">
+        <h1 className="display mt-5 max-w-5xl text-[clamp(2.25rem,6vw,4.75rem)]">
           {title}
         </h1>
         {lede ? (
-          <p className="prose-measure mt-7 text-lg text-[var(--text-dim)] sm:text-xl">
+          <p className="prose-measure mt-6 text-lg text-[var(--text-dim)] sm:text-xl">
             {lede}
           </p>
         ) : null}

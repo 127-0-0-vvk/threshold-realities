@@ -59,9 +59,8 @@ export const footerNav = [
     heading: "Published",
     links: [
       { href: "/publications", label: "Publications" },
-      { href: "/analysis", label: "Analysis" },
-      { href: "/tracker", label: "Threshold Tracker" },
-      { href: "/platform", label: "Platform" },
+      { href: "/research-areas", label: "Research Areas" },
+      { href: "/regional-focus", label: "Regional Focus" },
     ],
   },
   {

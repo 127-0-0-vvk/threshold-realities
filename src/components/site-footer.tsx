@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { footerNav, site } from "@/lib/site";
-import { LEVELS, levelMeta } from "@/lib/severity";
 
 export function SiteFooter() {
   return (
@@ -46,28 +45,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        {/* The severity scale, published in the footer. Method in the open. */}
-        <div className="mt-16 border-t border-[var(--rule)] pt-8">
-          <h3 className="eyebrow">The scale</h3>
-          <div className="mt-4 grid gap-px overflow-hidden sm:grid-cols-5">
-            {LEVELS.map((l) => (
-              <div key={l} className="bg-[var(--surface-raised)] p-3">
-                <div className="h-0.5 w-full" style={{ background: `var(--color-${l})` }} />
-                <p
-                  className="mono mt-2.5 text-[0.625rem] tracking-[0.16em] uppercase"
-                  style={{ color: `var(--color-${l})` }}
-                >
-                  {levelMeta[l].label}
-                </p>
-                <p className="mt-1.5 text-xs leading-snug text-[var(--text-faint)]">
-                  {levelMeta[l].definition}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-10 flex flex-col gap-3 border-t border-[var(--rule)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-3 border-t border-[var(--rule)] pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="mono text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
             © {new Date().getFullYear()} {site.name}
           </p>

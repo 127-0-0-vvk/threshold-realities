@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { SeverityTag } from "@/components/ui";
 import {
   reports,
   reportRegions,
@@ -85,11 +84,6 @@ export function PublicationsIndex() {
                 <span aria-hidden>&middot;</span>
                 <span>{r.readTime} min</span>
               </div>
-              {r.level ? (
-                <div className="mt-4">
-                  <SeverityTag level={r.level} />
-                </div>
-              ) : null}
             </div>
 
             <div>
