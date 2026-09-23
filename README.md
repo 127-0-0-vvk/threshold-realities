@@ -183,7 +183,11 @@ pasted or dragged into the text, and are uploaded the same way as the cover.
 The post appears as a card on the page you chose, and opens at a URL derived
 from the moment of publication — `/research-areas/security-studies/20260923-175636`.
 The number sorts chronologically and is unique without consulting the table.
-Existing posts can be edited or deleted from the same screen.
+Existing posts are listed beside the form, filterable by section and
+searchable by headline. Each row can be viewed, edited or deleted; delete is a
+two-step inline confirm rather than a browser dialog, because browsers suppress
+repeat dialogs and a suppressed `confirm()` silently returns false — the delete
+would simply never fire.
 
 ### Security
 

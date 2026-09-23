@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { RichEditor } from "@/components/console/rich-editor";
-import { SECTIONS, type Post } from "@/lib/sections";
+import { pathForPost, SECTIONS, type Post } from "@/lib/sections";
 
 type Storage = { backend: string; writable: boolean; detail: string };
 
@@ -39,11 +39,24 @@ export function ConsoleShell({
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [list, setList] = useState<Post[]>(posts);
+  const [filter, setFilter] = useState<string>("all");
+  const [search, setSearch] = useState("");
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
   const section = useMemo(
     () => SECTIONS.find((s) => s.slug === draft.section),
     [draft.section],
   );
+
+  const visible = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return list.filter(
+      (p) =>
+        (filter === "all" || p.section === filter) &&
+        (q === "" || p.title.toLowerCase().includes(q)),
+    );
+  }, [list, filter, search]);
   const needsPage = (section?.pages.length ?? 0) > 0;
 
   function set<K extends keyof Draft>(key: K, value: Draft[K]) {
@@ -94,18 +107,26 @@ export function ConsoleShell({
       return;
     }
     setStatus(`Published at ${data.url}`);
+    setList((l) => [data.post as Post, ...l.filter((p) => p.id !== data.post.id)]);
     setDraft({ ...empty, section: draft.section, page: draft.page });
-    setTimeout(() => window.location.reload(), 900);
   }
 
+  /* Two-step inline confirm rather than window.confirm. Browsers suppress
+     repeat dialogs, and a suppressed confirm silently returns false — the
+     delete would simply never fire, with nothing to show for it. */
   async function remove(id: string) {
-    if (!confirm("Delete this post? This cannot be undone.")) return;
+    setError(null);
     const res = await fetch(`/api/console/posts?id=${id}`, { method: "DELETE" });
-    if (res.ok) window.location.reload();
-    else {
+    if (!res.ok) {
       const d = await res.json().catch(() => ({}));
       setError(d.error ?? "Could not delete.");
+      setPendingDelete(null);
+      return;
     }
+    setList((l) => l.filter((p) => p.id !== id));
+    setPendingDelete(null);
+    setStatus("Post deleted.");
+    if (draft.id === id) setDraft(empty);
   }
 
   function edit(post: Post) {
@@ -324,26 +345,76 @@ export function ConsoleShell({
 
         {/* Existing posts */}
         <div>
-          <h2 className="eyebrow">Published ({posts.length})</h2>
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <h2 className="eyebrow">Published ({list.length})</h2>
+            {visible.length !== list.length ? (
+              <span className="mono text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
+                {visible.length} shown
+              </span>
+            ) : null}
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {[{ slug: "all", label: "All" }, ...SECTIONS].map((s) => {
+              const count =
+                s.slug === "all"
+                  ? list.length
+                  : list.filter((p) => p.section === s.slug).length;
+              return (
+                <button
+                  key={s.slug}
+                  type="button"
+                  onClick={() => setFilter(s.slug)}
+                  aria-pressed={filter === s.slug}
+                  className={`mono border px-3 py-1.5 text-[0.625rem] tracking-[0.12em] uppercase transition-colors ${
+                    filter === s.slug
+                      ? "border-[var(--color-watch)] text-[var(--color-watch)]"
+                      : "border-[var(--rule)] text-[var(--text-dim)] hover:border-[var(--text-faint)] hover:text-[var(--text)]"
+                  }`}
+                >
+                  {s.label} ({count})
+                </button>
+              );
+            })}
+          </div>
+
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search headlines…"
+            aria-label="Search published articles"
+            className="mt-3 w-full border-b border-[var(--rule)] bg-transparent py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-faint)] focus:border-[var(--color-watch)]"
+          />
+
           <div className="mt-5 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
-            {posts.length === 0 ? (
+            {visible.length === 0 ? (
               <p className="py-8 text-sm text-[var(--text-faint)]">
-                Nothing posted yet.
+                {list.length === 0
+                  ? "Nothing posted yet."
+                  : "No articles match this filter."}
               </p>
             ) : (
-              posts.map((p) => (
+              visible.map((p) => (
                 <article key={p.id} className="flex items-start gap-4 py-4">
-                  <span className="mono mt-0.5 text-[0.625rem] text-[var(--text-faint)]">
-                    {p.id}
-                  </span>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm text-[var(--text)]">{p.title}</p>
+                    <p className="truncate text-sm text-[var(--text)]">
+                      {p.title}
+                    </p>
                     <p className="mono mt-1 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text-faint)]">
-                      {p.section}
+                      {p.id} &middot; {p.section}
                       {p.page ? ` / ${p.page}` : ""}
                     </p>
                   </div>
-                  <div className="flex shrink-0 gap-3">
+                  <div className="flex shrink-0 items-center gap-3">
+                    <a
+                      href={pathForPost(p)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-faint)] hover:text-[var(--text)]"
+                    >
+                      View
+                    </a>
                     <button
                       type="button"
                       onClick={() => edit(p)}
@@ -351,14 +422,34 @@ export function ConsoleShell({
                     >
                       Edit
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => remove(p.id)}
-                      className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-faint)] hover:underline"
-                      style={{ color: "var(--color-critical)" }}
-                    >
-                      Delete
-                    </button>
+                    {pendingDelete === p.id ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => void remove(p.id)}
+                          className="mono text-[0.625rem] tracking-[0.16em] uppercase underline"
+                          style={{ color: "var(--color-critical)" }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPendingDelete(null)}
+                          className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-faint)] hover:text-[var(--text)]"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setPendingDelete(p.id)}
+                        className="mono text-[0.625rem] tracking-[0.16em] uppercase hover:underline"
+                        style={{ color: "var(--color-critical)" }}
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </article>
               ))
