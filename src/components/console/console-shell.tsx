@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { RichEditor } from "@/components/console/rich-editor";
 import { SECTIONS, type Post } from "@/lib/sections";
 
 type Storage = { backend: string; writable: boolean; detail: string };
@@ -71,6 +72,14 @@ export function ConsoleShell({
     setBusy(true);
     setStatus(null);
     setError(null);
+
+    const emptyBody =
+      !draft.body || draft.body.replace(/<[^>]*>/g, "").trim() === "";
+    if (emptyBody) {
+      setBusy(false);
+      setError("An article is required.");
+      return;
+    }
 
     const res = await fetch("/api/console/posts", {
       method: "POST",
@@ -208,7 +217,7 @@ export function ConsoleShell({
 
             <div>
               <label htmlFor="image" className="eyebrow block">
-                Image
+                Main article photo
               </label>
               {draft.image ? (
                 <div className="mt-3 flex items-center gap-4">
@@ -241,7 +250,9 @@ export function ConsoleShell({
                 className="mono mt-3 block w-full text-xs text-[var(--text-dim)] file:mr-4 file:border file:border-[var(--rule)] file:bg-transparent file:px-4 file:py-2 file:text-[0.625rem] file:uppercase file:tracking-[0.16em] file:text-[var(--text)]"
               />
               <p className="mono mt-2 text-[0.625rem] text-[var(--text-faint)]">
-                {uploading ? "Uploading…" : "JPG, PNG, WebP or AVIF. Up to 6 MB."}
+                {uploading
+                  ? "Uploading…"
+                  : "Shown on the card and at the top of the article. JPG, PNG, WebP or AVIF, up to 6 MB."}
               </p>
             </div>
 
@@ -261,18 +272,16 @@ export function ConsoleShell({
             />
 
             <div>
-              <label htmlFor="body" className="eyebrow block">
+              <span className="eyebrow block">
                 Article
-              </label>
-              <textarea
-                id="body"
-                rows={16}
-                value={draft.body}
-                onChange={(e) => set("body", e.target.value)}
-                required
-                placeholder={"Markdown is supported.\n\n## A subheading\n\nParagraphs, **bold**, *italic*, lists and links."}
-                className="mono mt-3 w-full border border-[var(--rule)] bg-transparent px-4 py-3 text-sm leading-relaxed text-[var(--text)] outline-none placeholder:text-[var(--text-faint)] focus:border-[var(--color-watch)]"
-              />
+                <span style={{ color: "var(--color-critical)" }}> *</span>
+              </span>
+              <div className="mt-3">
+                <RichEditor
+                  value={draft.body}
+                  onChange={(html) => set("body", html)}
+                />
+              </div>
             </div>
           </fieldset>
 

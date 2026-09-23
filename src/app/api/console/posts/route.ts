@@ -65,7 +65,7 @@ export async function POST(request: Request) {
 
   const title = clean(data.title, 200);
   const tagline = clean(data.tagline, 400);
-  const body = clean(data.body, 120_000);
+  const body = clean(data.body, 400_000);
   if (!title) {
     return NextResponse.json({ error: "A headline is required." }, { status: 400 });
   }

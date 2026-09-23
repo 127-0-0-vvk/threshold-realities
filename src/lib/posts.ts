@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 import { supabase, supabaseConfigured } from "./supabase";
 import type { Post, SectionSlug } from "./sections";
 
@@ -21,8 +21,6 @@ export * from "./sections";
 
 const DIR = path.join(process.cwd(), "content", "posts");
 
-marked.setOptions({ gfm: true });
-
 export type StorageStatus = {
   backend: "supabase" | "filesystem";
   writable: boolean;
@@ -31,8 +29,23 @@ export type StorageStatus = {
 
 /* ---------------------------------------------------------------- shared */
 
-export function renderBody(md: string): string {
-  return marked.parse(md, { async: false }) as string;
+/**
+ * Article bodies are HTML from the console's editor. They are authored behind a
+ * password, but stored HTML is rendered with dangerouslySetInnerHTML, so it is
+ * sanitised on the way out regardless — a compromised console should not become
+ * stored XSS on the public site.
+ */
+export function renderBody(html: string): string {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [
+      "p", "br", "strong", "em", "u", "s", "mark", "code", "pre",
+      "h2", "h3", "h4", "blockquote", "ul", "ol", "li", "hr",
+      "a", "img", "figure", "figcaption",
+    ],
+    ALLOWED_ATTR: ["href", "target", "rel", "src", "alt", "title"],
+    ALLOWED_URI_REGEXP: /^(?:https?:|mailto:|\/)/i,
+    ADD_ATTR: ["target"],
+  });
 }
 
 /* ------------------------------------------------------------ filesystem */
@@ -175,14 +188,26 @@ export async function deletePost(id: string): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
-/** Sequential, human-readable ids — the article number in the URL. */
-export async function nextId(): Promise<string> {
-  const posts = await getPosts();
-  const nums = posts
-    .map((p) => Number.parseInt(p.id, 10))
-    .filter((n) => Number.isFinite(n));
-  const next = (nums.length ? Math.max(...nums) : 0) + 1;
-  return String(next).padStart(4, "0");
+/**
+ * Article number, derived from the moment of publication:
+ * `20260923-114233`. Readable, sorts chronologically, and unique without
+ * needing to read the table first. A second of collision is resolved by
+ * stepping forward until the id is free.
+ */
+export async function nextId(at = new Date()): Promise<string> {
+  const pad = (n: number, w = 2) => String(n).padStart(w, "0");
+  const stamp = (d: Date) =>
+    `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-` +
+    `${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+
+  const taken = new Set((await getPosts()).map((p) => p.id));
+  const d = new Date(at);
+  let id = stamp(d);
+  while (taken.has(id)) {
+    d.setSeconds(d.getSeconds() + 1);
+    id = stamp(d);
+  }
+  return id;
 }
 
 /* ---------------------------------------------------------------- status */

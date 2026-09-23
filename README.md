@@ -172,12 +172,18 @@ Restart the dev server. Without both variables the console renders a
 ### Posting
 
 Choose a section, then a page within it (Publications has no sub-pages, so it
-posts to the index). Upload an image, write a headline, a tagline and the
-article, and publish. Markdown works in the article body.
+posts to the index). Add a main article photo, a headline, a tagline, and write
+the article.
 
-The post appears as a card on the page you chose, and opens at a numbered URL —
-`/research-areas/security-studies/0001`. Existing posts can be edited or
-deleted from the same screen.
+The article editor is a rich-text surface, not a Markdown box: bold, italic,
+underline, strikethrough, highlight, three heading levels, lists, quotes, code,
+dividers and links. Images can be inserted inline from the toolbar, or simply
+pasted or dragged into the text, and are uploaded the same way as the cover.
+
+The post appears as a card on the page you chose, and opens at a URL derived
+from the moment of publication — `/research-areas/security-studies/20260923-175636`.
+The number sorts chronologically and is unique without consulting the table.
+Existing posts can be edited or deleted from the same screen.
 
 ### Security
 
@@ -188,7 +194,11 @@ deleted from the same screen.
   stored extension is decided from the detected type, never taken from the
   filename.
 - Post destinations are validated against the known sections and pages, and
-  image paths must sit under `/uploads/`.
+  image URLs must be a local upload path or an address on our own Supabase host.
+- Article bodies are HTML and are rendered with `dangerouslySetInnerHTML`, so
+  they are sanitised on the way out with DOMPurify against a tight allowlist.
+  Authoring sits behind a password, but a compromised console should not be
+  able to become stored XSS on the public site.
 
 ### Console storage
 
