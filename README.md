@@ -175,10 +175,19 @@ Choose a section, then a page within it (Publications has no sub-pages, so it
 posts to the index). Add a main article photo, a headline, a tagline, and write
 the article.
 
-The article editor is a rich-text surface, not a Markdown box: bold, italic,
-underline, strikethrough, highlight, three heading levels, lists, quotes, code,
-dividers and links. Images can be inserted inline from the toolbar, or simply
-pasted or dragged into the text, and are uploaded the same way as the cover.
+The article editor follows Medium's pattern rather than presenting a wall of
+buttons:
+
+- **Select text** and a dark bubble appears over it — bold, italic, underline,
+  strikethrough, highlight, link, large heading, small heading, quote.
+- **On an empty line** a `+` sits in the left gutter. It opens a labelled menu:
+  image, bulleted list, numbered list, divider.
+- **Images** can also be pasted or dragged straight into the text. They upload
+  the same way as the main photo.
+- A small fixed bar keeps undo and redo, which are awkward to reach by selection.
+
+The editor renders in the published article's own typography, so the draft
+already looks like the piece.
 
 The post appears as a card on the page you chose, and opens at a URL derived
 from the moment of publication — `/research-areas/security-studies/20260923-175636`.

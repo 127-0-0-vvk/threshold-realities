@@ -598,25 +598,83 @@ video {
   outline-offset: 2px;
 }
 
-/* The editor is a working surface, not a finished page: tighter than the
-   published article so more of the draft is visible at once. */
+/* Write in something close to what publishes — the point of a Medium-style
+   editor is that the draft already looks like the article. */
 .ProseMirror.article-body {
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--text);
 }
 
 .ProseMirror.article-body h2 {
-  font-size: 1.5rem;
-  margin-top: 1.4em;
+  font-size: 1.75rem;
+  margin-top: 1.3em;
 }
 
 .ProseMirror.article-body h3 {
-  font-size: 1.125rem;
-  margin-top: 1.2em;
+  font-size: 1.25rem;
+  margin-top: 1.15em;
 }
 
 .ProseMirror.article-body p:first-child {
   color: inherit;
+}
+
+/* Placeholder on every empty block, not just the first — so a new heading or
+   paragraph tells you what it is. */
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--text-faint);
+}
+
+/* ------------------------------------------------------------
+   Floating menus
+   ------------------------------------------------------------ */
+
+.editor-bubble,
+.editor-floating {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  border: 1px solid var(--rule);
+  background: var(--surface-raised);
+  padding: 0.25rem;
+  box-shadow: 0 10px 30px -18px color-mix(in srgb, var(--text) 70%, transparent);
+  z-index: 40;
+}
+
+.editor-bubble {
+  /* Dark chip over the text, the way Medium does it — reads as an overlay
+     rather than part of the page. */
+  background: var(--color-abyssal);
+  border-color: var(--color-meridian);
+}
+
+.editor-bubble button {
+  color: #cfd6db;
+}
+
+.editor-bubble button:hover:not(:disabled) {
+  background: var(--color-ink);
+  color: #fff;
+}
+
+.editor-div {
+  display: inline-block;
+  width: 1px;
+  height: 1.25rem;
+  margin: 0 0.25rem;
+  background: var(--color-meridian);
+}
+
+.editor-floating {
+  border: 0;
+  background: none;
+  box-shadow: none;
+  padding: 0;
 }
 
 /* ------------------------------------------------------------

@@ -6,17 +6,21 @@ import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
+import { BubbleMenu, FloatingMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import { useCallback, useRef, useState } from "react";
 
 /**
- * Article editor.
+ * Article editor, in the Medium mould.
  *
- * Writes HTML rather than Markdown, so what the author sees is what publishes.
- * Images are uploaded through the same endpoint as the cover and inserted
- * inline at the cursor, the way they would be in Notion or Word.
+ * Two floating surfaces rather than one fixed toolbar:
+ *   - a bubble menu that appears over selected text, for formatting;
+ *   - a "+" on every empty line, for inserting images and dividers.
  *
- * Output is sanitised server-side on render — see `renderBody` in lib/posts.
+ * A compact fixed bar stays at the top for the things that are awkward to
+ * reach by selection — undo, redo, and a visible reminder of what exists.
+ *
+ * Output is HTML, sanitised server-side on render. See `renderBody`.
  */
 export function RichEditor({
   value,
@@ -32,7 +36,7 @@ export function RichEditor({
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
-      StarterKit.configure({ heading: { levels: [2, 3, 4] } }),
+      StarterKit.configure({ heading: { levels: [2, 3] } }),
       Underline,
       Highlight.configure({ multicolor: false }),
       Link.configure({
@@ -42,15 +46,18 @@ export function RichEditor({
       }),
       Image.configure({ inline: false, allowBase64: false }),
       Placeholder.configure({
-        placeholder: "Write the article. Use the toolbar, or paste an image.",
+        placeholder: ({ node }) =>
+          node.type.name === "heading"
+            ? "Heading"
+            : "Tell the story\u2026",
+        showOnlyWhenEditable: true,
+        includeChildren: true,
       }),
     ],
     content: value || "",
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
-      attributes: {
-        class: "article-body focus:outline-none min-h-[22rem]",
-      },
+      attributes: { class: "article-body focus:outline-none min-h-[24rem]" },
     },
   });
 
@@ -88,11 +95,7 @@ export function RichEditor({
 
   return (
     <div className="border border-[var(--rule)]">
-      <Toolbar
-        editor={editor}
-        onPickImage={() => fileInput.current?.click()}
-        uploading={uploading}
-      />
+      <MiniBar editor={editor} uploading={uploading} />
 
       <input
         ref={fileInput}
@@ -106,8 +109,103 @@ export function RichEditor({
         }}
       />
 
+      {/* Formatting, on selection */}
+      <BubbleMenu
+        editor={editor}
+        options={{ placement: "top", offset: 10 }}
+        className="editor-bubble"
+      >
+        <Btn
+          on={editor.isActive("bold")}
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          label="Bold"
+        >
+          <b>B</b>
+        </Btn>
+        <Btn
+          on={editor.isActive("italic")}
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          label="Italic"
+        >
+          <i>i</i>
+        </Btn>
+        <Btn
+          on={editor.isActive("underline")}
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          label="Underline"
+        >
+          <u>U</u>
+        </Btn>
+        <Btn
+          on={editor.isActive("strike")}
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          label="Strikethrough"
+        >
+          <s>S</s>
+        </Btn>
+        <Btn
+          on={editor.isActive("highlight")}
+          onClick={() => editor.chain().focus().toggleHighlight().run()}
+          label="Highlight"
+        >
+          <span
+            className="px-1"
+            style={{ background: "var(--color-brand)", color: "#14181c" }}
+          >
+            H
+          </span>
+        </Btn>
+        <Btn
+          on={editor.isActive("link")}
+          onClick={() => setLink(editor)}
+          label="Link"
+        >
+          &#128279;
+        </Btn>
+
+        <span className="editor-div" aria-hidden />
+
+        <Btn
+          on={editor.isActive("heading", { level: 2 })}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          label="Large heading"
+        >
+          <span className="text-base font-semibold">T</span>
+        </Btn>
+        <Btn
+          on={editor.isActive("heading", { level: 3 })}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+          label="Small heading"
+        >
+          <span className="text-[0.6875rem] font-semibold">T</span>
+        </Btn>
+        <Btn
+          on={editor.isActive("blockquote")}
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          label="Quote"
+        >
+          &rdquo;
+        </Btn>
+      </BubbleMenu>
+
+      {/* Insert, on an empty line. A single + in the gutter that opens a
+          labelled menu — a row of icons here would sit on top of the text. */}
+      <FloatingMenu
+        editor={editor}
+        options={{ placement: "left-start", offset: 10 }}
+        className="editor-floating"
+      >
+        <InsertMenu
+          onImage={() => fileInput.current?.click()}
+          onBullets={() => editor.chain().focus().toggleBulletList().run()}
+          onNumbers={() => editor.chain().focus().toggleOrderedList().run()}
+          onDivider={() => editor.chain().focus().setHorizontalRule().run()}
+          uploading={uploading}
+        />
+      </FloatingMenu>
+
       <div
-        className="max-h-[36rem] overflow-y-auto px-5 py-4"
+        className="max-h-[40rem] overflow-y-auto py-6 pl-14 pr-6 sm:pl-16 sm:pr-10"
         onPaste={(e) => {
           const file = Array.from(e.clipboardData.files).find((f) =>
             f.type.startsWith("image/"),
@@ -144,185 +242,116 @@ export function RichEditor({
 
 /* ------------------------------------------------------------------ */
 
-function Toolbar({
-  editor,
-  onPickImage,
+function InsertMenu({
+  onImage,
+  onBullets,
+  onNumbers,
+  onDivider,
   uploading,
 }: {
-  editor: Editor;
-  onPickImage: () => void;
+  onImage: () => void;
+  onBullets: () => void;
+  onNumbers: () => void;
+  onDivider: () => void;
   uploading: boolean;
 }) {
-  const setLink = () => {
-    const previous = editor.getAttributes("link").href as string | undefined;
-    const url = window.prompt("Link URL", previous ?? "https://");
-    if (url === null) return;
-    if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
-      return;
-    }
-    editor
-      .chain()
-      .focus()
-      .extendMarkRange("link")
-      .setLink({ href: url, target: "_blank", rel: "noopener noreferrer" })
-      .run();
-  };
+  const [open, setOpen] = useState(false);
+
+  const items: { label: string; glyph: string; run: () => void }[] = [
+    { label: "Image", glyph: "\u2295", run: onImage },
+    { label: "Bulleted list", glyph: "\u2022", run: onBullets },
+    { label: "Numbered list", glyph: "1.", run: onNumbers },
+    { label: "Divider", glyph: "\u2014", run: onDivider },
+  ];
 
   return (
-    <div className="flex flex-wrap items-center gap-1 border-b border-[var(--rule)] bg-[var(--surface)] p-2">
-      <Group>
-        <Btn
-          on={editor.isActive("bold")}
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          label="Bold"
-        >
-          <span className="font-bold">B</span>
-        </Btn>
-        <Btn
-          on={editor.isActive("italic")}
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          label="Italic"
-        >
-          <span className="italic">I</span>
-        </Btn>
-        <Btn
-          on={editor.isActive("underline")}
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          label="Underline"
-        >
-          <span className="underline">U</span>
-        </Btn>
-        <Btn
-          on={editor.isActive("strike")}
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          label="Strikethrough"
-        >
-          <span className="line-through">S</span>
-        </Btn>
-        <Btn
-          on={editor.isActive("highlight")}
-          onClick={() => editor.chain().focus().toggleHighlight().run()}
-          label="Highlight"
-        >
-          <span
-            className="px-1"
-            style={{ background: "var(--color-brand)", color: "#14181c" }}
-          >
-            H
-          </span>
-        </Btn>
-      </Group>
+    <div className="relative">
+      <button
+        type="button"
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={() => setOpen((v) => !v)}
+        title="Insert"
+        aria-label="Insert"
+        aria-expanded={open}
+        className={`mono flex h-8 w-8 items-center justify-center rounded-full border border-[var(--rule)] bg-[var(--surface-raised)] text-sm transition-transform duration-200 hover:border-[var(--color-watch)] hover:text-[var(--color-watch)] ${
+          open ? "rotate-45" : ""
+        }`}
+      >
+        {uploading ? "\u2026" : "+"}
+      </button>
 
-      <Divider />
-
-      <Group>
-        {([2, 3, 4] as const).map((level) => (
-          <Btn
-            key={level}
-            on={editor.isActive("heading", { level })}
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level }).run()
-            }
-            label={`Heading ${level}`}
-          >
-            H{level - 1}
-          </Btn>
-        ))}
-        <Btn
-          on={editor.isActive("paragraph")}
-          onClick={() => editor.chain().focus().setParagraph().run()}
-          label="Paragraph"
-        >
-          ¶
-        </Btn>
-      </Group>
-
-      <Divider />
-
-      <Group>
-        <Btn
-          on={editor.isActive("bulletList")}
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          label="Bulleted list"
-        >
-          •
-        </Btn>
-        <Btn
-          on={editor.isActive("orderedList")}
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          label="Numbered list"
-        >
-          1.
-        </Btn>
-        <Btn
-          on={editor.isActive("blockquote")}
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          label="Quote"
-        >
-          &rdquo;
-        </Btn>
-        <Btn
-          on={editor.isActive("codeBlock")}
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          label="Code block"
-        >
-          &lt;/&gt;
-        </Btn>
-        <Btn
-          on={false}
-          onClick={() => editor.chain().focus().setHorizontalRule().run()}
-          label="Divider"
-        >
-          —
-        </Btn>
-      </Group>
-
-      <Divider />
-
-      <Group>
-        <Btn on={editor.isActive("link")} onClick={setLink} label="Link">
-          🔗
-        </Btn>
-        <Btn on={false} onClick={onPickImage} label="Insert image">
-          {uploading ? "…" : "🖼"}
-        </Btn>
-      </Group>
-
-      <Divider />
-
-      <Group>
-        <Btn
-          on={false}
-          disabled={!editor.can().undo()}
-          onClick={() => editor.chain().focus().undo().run()}
-          label="Undo"
-        >
-          ↶
-        </Btn>
-        <Btn
-          on={false}
-          disabled={!editor.can().redo()}
-          onClick={() => editor.chain().focus().redo().run()}
-          label="Redo"
-        >
-          ↷
-        </Btn>
-      </Group>
-
-      <span className="mono ml-auto pr-1 text-[0.5625rem] tracking-[0.12em] uppercase text-[var(--text-faint)]">
-        {uploading ? "Uploading image…" : "Paste or drop images"}
-      </span>
+      {open ? (
+        <div className="absolute left-0 top-10 z-50 w-48 border border-[var(--rule)] bg-[var(--surface-raised)] py-1 shadow-[0_14px_34px_-20px_rgba(20,24,28,0.5)]">
+          {items.map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                item.run();
+                setOpen(false);
+              }}
+              className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm text-[var(--text-dim)] transition-colors hover:bg-[var(--surface)] hover:text-[var(--text)]"
+            >
+              <span className="mono w-4 text-center text-xs">{item.glyph}</span>
+              {item.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function Group({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center gap-0.5">{children}</div>;
+function setLink(editor: Editor) {
+  const previous = editor.getAttributes("link").href as string | undefined;
+  const url = window.prompt("Link URL", previous ?? "https://");
+  if (url === null) return;
+  if (url === "") {
+    editor.chain().focus().extendMarkRange("link").unsetLink().run();
+    return;
+  }
+  editor
+    .chain()
+    .focus()
+    .extendMarkRange("link")
+    .setLink({ href: url, target: "_blank", rel: "noopener noreferrer" })
+    .run();
 }
 
-function Divider() {
-  return <span className="mx-1 h-5 w-px bg-[var(--rule)]" aria-hidden />;
+/** Kept deliberately small — the real work happens in the floating menus. */
+function MiniBar({
+  editor,
+  uploading,
+}: {
+  editor: Editor;
+  uploading: boolean;
+}) {
+  return (
+    <div className="flex items-center gap-1 border-b border-[var(--rule)] bg-[var(--surface)] px-3 py-2">
+      <Btn
+        on={false}
+        disabled={!editor.can().undo()}
+        onClick={() => editor.chain().focus().undo().run()}
+        label="Undo"
+      >
+        &#8630;
+      </Btn>
+      <Btn
+        on={false}
+        disabled={!editor.can().redo()}
+        onClick={() => editor.chain().focus().redo().run()}
+        label="Redo"
+      >
+        &#8631;
+      </Btn>
+      <span className="mono ml-auto text-[0.5625rem] leading-relaxed tracking-[0.12em] uppercase text-[var(--text-faint)]">
+        {uploading
+          ? "Uploading image…"
+          : "Select text to format · + on an empty line to insert"}
+      </span>
+    </div>
+  );
 }
 
 function Btn({
@@ -331,22 +360,27 @@ function Btn({
   on,
   label,
   disabled = false,
+  round = false,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   on: boolean;
   label: string;
   disabled?: boolean;
+  round?: boolean;
 }) {
   return (
     <button
       type="button"
+      onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       disabled={disabled}
       title={label}
       aria-label={label}
       aria-pressed={on}
       className={`mono flex h-8 min-w-8 items-center justify-center px-2 text-xs transition-colors disabled:opacity-30 ${
+        round ? "rounded-full" : ""
+      } ${
         on
           ? "bg-[var(--color-brand)] text-[var(--color-on-brand)]"
           : "text-[var(--text-dim)] hover:bg-[var(--surface-raised)] hover:text-[var(--text)]"
