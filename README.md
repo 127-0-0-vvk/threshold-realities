@@ -90,10 +90,8 @@ render it show a visible notice; keep those notices until real content lands.
       monitoring platform. Remove `SAMPLE_NOTICE` once live.
 - [ ] Replace `src/lib/research.ts` with real work. Recommended: move to MDX under
       `content/research/*.mdx` so analysts write in markdown in the repo.
-- [ ] **Founder portraits.** Drop `bhanu.jpg` and `vivek.jpg` into `public/team/`
-      — they are picked up automatically on the next build, no code change.
-      See `public/team/README.md`. Crop 4:5. Until a file exists, a branded
-      "Portrait pending" placeholder renders in the final layout.
+- [x] ~~Founder portraits.~~ In place at `public/team/`. To swap either one,
+      overwrite the file — `src/lib/portraits.ts` resolves by slug, no code change.
 - [ ] Replace `src/lib/content.ts` team entries with named analysts, photographs
       and biographies.
 - [ ] **Logo source files.** `public/brand/*.png` were derived programmatically
@@ -118,6 +116,29 @@ Built to deploy on Vercel as a static export.
 3. Add `thresholdrealities.com` and `www.thresholdrealities.com` under
    Project → Settings → Domains, then point the registrar at Vercel's nameservers
    or add the `A` / `CNAME` records Vercel shows.
+
+## Hero footage
+
+`public/video/` holds the landing-page background clip, encoded from a 4K source
+(55 MB) down to something a landing page can actually carry:
+
+| File | Use | Size |
+| --- | --- | --- |
+| `hero-1600.mp4` | ≥768px viewports | 3.3 MB |
+| `hero-960.mp4` | <768px viewports | 0.95 MB |
+| `hero-poster.jpg` | First paint, and the whole treatment under reduced motion | 76 KB |
+
+`src/components/hero-video.tsx` picks the encode by viewport width after mount,
+so a phone never pulls the desktop file; pauses playback once the hero scrolls
+out of view; and skips the video entirely when `prefers-reduced-motion` is set.
+
+To re-encode from a new source:
+
+```bash
+ffmpeg -i source.mp4 -an -vf "scale=1600:-2,fps=25" -c:v libx264 \
+  -preset slow -crf 32 -pix_fmt yuv420p -movflags +faststart -g 50 \
+  public/video/hero-1600.mp4
+```
 
 ## Accessibility
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ChartMap } from "@/components/chart-map";
 import { Counter } from "@/components/counter";
+import { HeroVideo } from "@/components/hero-video";
 import { LineMask, Reveal } from "@/components/reveal";
 import { SignalStrip } from "@/components/signal-strip";
 import { ThresholdRule } from "@/components/threshold-rule";
@@ -36,18 +36,8 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section className="relative flex min-h-[92vh] flex-col justify-end overflow-hidden pt-28 pb-14">
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <ChartMap className="w-full max-w-[1500px]" />
-      </div>
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(to bottom, var(--color-abyssal) 0%, transparent 22%, transparent 55%, color-mix(in srgb, var(--color-abyssal) 92%, transparent) 78%, var(--color-abyssal) 100%)",
-        }}
-        aria-hidden
-      />
+    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pt-28 pb-16">
+      <HeroVideo />
 
       <Container className="relative">
         <span className="eyebrow">Geopolitical risk intelligence</span>

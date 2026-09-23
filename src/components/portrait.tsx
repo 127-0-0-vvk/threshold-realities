@@ -23,7 +23,9 @@ export function Portrait({
           alt={name}
           fill
           sizes="(min-width: 1024px) 28rem, 100vw"
-          className="object-cover"
+          /* Square source into a 4:5 frame crops top and bottom, so bias the
+             window upward to keep heads clear of the edge. */
+          className="object-cover object-[50%_22%]"
         />
       ) : (
         <div
