@@ -66,8 +66,8 @@ export function SeverityDot({ level, size = 8 }: { level: Level; size?: number }
       style={{
         width: size,
         height: size,
-        background: levelMeta[level].hex,
-        boxShadow: `0 0 0 3px ${levelMeta[level].hex}22`,
+        background: `var(--color-${level})`,
+        boxShadow: `0 0 0 3px color-mix(in srgb, var(--color-${level}) 18%, transparent)`,
       }}
       aria-hidden
     />
@@ -80,7 +80,7 @@ export function SeverityTag({ level }: { level: Level }) {
       <SeverityDot level={level} />
       <span
         className="mono text-[0.625rem] tracking-[0.16em] uppercase"
-        style={{ color: levelMeta[level].hex }}
+        style={{ color: `var(--color-${level})` }}
       >
         {levelMeta[level].label}
       </span>
@@ -120,7 +120,7 @@ export function ButtonLink({
     "mono inline-flex items-center gap-2.5 px-6 py-3.5 text-[0.6875rem] tracking-[0.16em] uppercase transition-all duration-200";
   const styles =
     variant === "primary"
-      ? "bg-signal text-abyssal hover:bg-[#f0c57d]"
+      ? "bg-signal text-abyssal hover:bg-[#ffdd9c]"
       : "border border-[var(--rule)] text-[var(--text)] hover:border-signal hover:text-signal";
   return (
     <Link href={href} className={`${base} ${styles} ${className}`}>
@@ -137,14 +137,14 @@ export function StatusBadge({
   children: React.ReactNode;
   tone?: Level;
 }) {
-  const hex = levelMeta[tone].hex;
+  const c = `var(--color-${tone})`;
   return (
     <span
       className="mono inline-flex items-center gap-2.5 border px-3.5 py-2 text-[0.625rem] tracking-[0.18em] uppercase"
       style={{
-        borderColor: `${hex}66`,
-        color: hex,
-        background: `${hex}12`,
+        borderColor: `color-mix(in srgb, ${c} 40%, transparent)`,
+        color: c,
+        background: `color-mix(in srgb, ${c} 8%, transparent)`,
       }}
     >
       <span
@@ -153,11 +153,11 @@ export function StatusBadge({
       >
         <span
           className="pulse-ring absolute inline-flex h-full w-full rounded-full"
-          style={{ background: hex }}
+          style={{ background: c }}
         />
         <span
           className="relative inline-flex h-1.5 w-1.5 rounded-full"
-          style={{ background: hex }}
+          style={{ background: c }}
         />
       </span>
       {children}

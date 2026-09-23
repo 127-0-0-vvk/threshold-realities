@@ -30,10 +30,21 @@ The palette is drawn from nautical and aeronautical chart stock, not from SaaS b
 **Base (the chart)** — `abyssal #080d12` · `ink #111a22` · `meridian #22323d` ·
 `graticule #3d525f` · `parchment #e9e2d4` · `bone #f6f2ea`
 
-**Signal (the escalation ramp)** — `stable #3f7d5c` · `elevated #c7a02c` ·
-`watch #dc7a2f` · `high #c42e27` · `critical #7e1613`
+**Signal (the escalation ramp)** — `stable #3f7d5c` · `elevated #FFDD9C` ·
+`watch #F9B637` · `high #FB6C00` · `critical #E73F1E`
 
-**Accent** — `signal #e4b363` (brass) · `contested #5b6e8c`
+**Accent** — `signal #F9B637` · `contested #d98a5a`
+
+The ramp is tuned for the near-black base. On parchment its light end would be
+illegible, so `[data-surface="parchment"]` redeclares every level darker
+(`elevated #97650a`, `watch #a8640b`, `high #b84e05`, `critical #b52d10`). Same
+meaning and order, legible on paper. Components read these through
+`var(--color-<level>)` rather than the hex in `severity.ts`, which is why the
+override works — `severity.ts` hexes are for canvas/SVG and documentation only.
+
+**Note:** the accent `#F9B637` is also the Watch level. Severity is carried by
+dots, rules and labels; the accent by solid fills and underlines. If the overlap
+ever reads ambiguously, move the accent to `#FFDD9C` — one line in `@theme`.
 
 ### The one rule
 

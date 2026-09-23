@@ -17,14 +17,14 @@
 
   /* signal — the escalation ramp */
   --color-stable: #3f7d5c;
-  --color-elevated: #c7a02c;
-  --color-watch: #dc7a2f;
-  --color-high: #c42e27;
-  --color-critical: #7e1613;
+  --color-elevated: #ffdd9c;
+  --color-watch: #f9b637;
+  --color-high: #fb6c00;
+  --color-critical: #e73f1e;
 
   /* accent */
-  --color-signal: #e4b363;
-  --color-contested: #5b6e8c;
+  --color-signal: #f9b637;
+  --color-contested: #d98a5a;
 
   --ease-threshold: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -62,6 +62,16 @@
      computed value, so redeclaring the variable here is not enough. Re-declare
      `color` at the surface boundary or unstyled headings stay light. */
   color: var(--text);
+
+  /* The ramp is tuned for near-black. On parchment its light end all but
+     disappears, so each level darkens to hold contrast. Same meaning, same
+     order, legible on paper. */
+  --color-stable: #2f6248;
+  --color-elevated: #97650a;
+  --color-watch: #a8640b;
+  --color-high: #b84e05;
+  --color-critical: #b52d10;
+  --color-signal: #97650a;
 }
 
 html {

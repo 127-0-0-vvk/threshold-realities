@@ -225,14 +225,14 @@ export const principles = [
 export const founders = [
   {
     slug: "bhanu",
-    name: "Bhanu",
+    name: "Bhanu Vishwas",
     role: "Co-founder & Head of Research",
     bio: "Leads the research function and owns the analytic method — sourcing standards, confidence bands, escalatory triggers, and the discipline of scoring our own forecasts after the fact.",
     focus: "Analytic method, research standards, regional coverage",
   },
   {
     slug: "vivek",
-    name: "Vivek",
+    name: "Vivek Reddy",
     role: "Co-founder & Head of Business Strategy",
     bio: "Leads commercial strategy and client engagement — how the firm's analysis reaches the people making operating and investment decisions, and how it is scoped so that it changes them.",
     focus: "Commercial strategy, client engagement, platform direction",

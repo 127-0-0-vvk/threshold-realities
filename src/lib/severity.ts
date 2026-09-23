@@ -15,28 +15,28 @@ export const levelMeta: Record<
   },
   elevated: {
     label: "Elevated",
-    hex: "#c7a02c",
+    hex: "#ffdd9c",
     rank: 2,
     definition:
       "Indicators are moving. Worth monitoring; no commercial impact yet established.",
   },
   watch: {
     label: "Watch",
-    hex: "#dc7a2f",
+    hex: "#f9b637",
     rank: 3,
     definition:
       "A credible pathway to disruption exists. Contingency planning should begin.",
   },
   high: {
     label: "High",
-    hex: "#c42e27",
+    hex: "#fb6c00",
     rank: 4,
     definition:
       "The threshold. Geopolitical risk has become measurable commercial cost. Act now.",
   },
   critical: {
     label: "Critical",
-    hex: "#7e1613",
+    hex: "#e73f1e",
     rank: 5,
     definition:
       "Severe, active disruption to people, assets or trade. Crisis response applies.",

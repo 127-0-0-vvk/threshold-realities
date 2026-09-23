@@ -79,7 +79,7 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="mono inline-flex items-center gap-2.5 bg-signal px-7 py-4 text-[0.6875rem] tracking-[0.16em] uppercase text-abyssal transition-colors hover:bg-[#f0c57d]"
+        className="mono inline-flex items-center gap-2.5 bg-signal px-7 py-4 text-[0.6875rem] tracking-[0.16em] uppercase text-abyssal transition-colors hover:bg-[#ffdd9c]"
       >
         Send enquiry
         <span aria-hidden>&rarr;</span>
