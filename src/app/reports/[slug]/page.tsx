@@ -9,10 +9,10 @@ import {
   SeverityTag,
 } from "@/components/ui";
 import { ThresholdRule } from "@/components/threshold-rule";
-import { getResearch, research } from "@/lib/research";
+import { getReport, reports } from "@/lib/reports";
 
 export function generateStaticParams() {
-  return research.map((r) => ({ slug: r.slug }));
+  return reports.map((r) => ({ slug: r.slug }));
 }
 
 export async function generateMetadata({
@@ -21,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const item = getResearch(slug);
+  const item = getReport(slug);
   if (!item) return { title: "Not found" };
   return { title: item.title, description: item.standfirst };
 }
@@ -32,20 +32,20 @@ export default async function ResearchArticle({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = getResearch(slug);
+  const item = getReport(slug);
   if (!item) notFound();
 
-  const related = research.filter((r) => r.slug !== item.slug).slice(0, 2);
+  const related = reports.filter((r) => r.slug !== item.slug).slice(0, 2);
 
   return (
     <article data-surface="parchment" className="bg-parchment">
       <header className="border-b border-[var(--rule)] pt-32 pb-14 sm:pt-40">
         <Container>
           <Link
-            href="/research"
+            href="/reports"
             className="mono link-underline text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-dim)]"
           >
-            &larr; All research
+            &larr; All reports
           </Link>
 
           <div className="mt-8 flex flex-wrap items-center gap-5">
@@ -115,7 +115,7 @@ export default async function ResearchArticle({
                 <h2 className="eyebrow">Work with us on this</h2>
                 <p className="mt-4 text-sm leading-relaxed text-[var(--text-dim)]">
                   We scope this kind of question to a specific footprint under
-                  commissioned research or a standing engagement.
+                  commissioned reports or a standing engagement.
                 </p>
                 <div className="mt-6">
                   <ButtonLink href="/contact" variant="ghost" className="w-full justify-center">
@@ -129,7 +129,7 @@ export default async function ResearchArticle({
                 <ul className="mt-4 space-y-5">
                   {related.map((r) => (
                     <li key={r.slug}>
-                      <Link href={`/research/${r.slug}`} className="group block">
+                      <Link href={`/reports/${r.slug}`} className="group block">
                         <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-faint)]">
                           {r.type}
                         </span>

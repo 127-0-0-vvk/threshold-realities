@@ -15,11 +15,11 @@ export const site = {
 
 export const nav = [
   { href: "/about", label: "About" },
-  { href: "/method", label: "Method" },
+  { href: "/analysis", label: "Analysis" },
+  { href: "/reports", label: "Reports" },
+  { href: "/tracker", label: "Tracker" },
   { href: "/services", label: "Services" },
   { href: "/platform", label: "Platform" },
-  { href: "/tracker", label: "Tracker" },
-  { href: "/research", label: "Research" },
   { href: "/team", label: "Team" },
 ] as const;
 
@@ -28,9 +28,9 @@ export const footerNav = [
     heading: "Firm",
     links: [
       { href: "/about", label: "About" },
-      { href: "/method", label: "Method" },
       { href: "/team", label: "Team" },
       { href: "/careers", label: "Careers" },
+      { href: "/contact", label: "Contact" },
     ],
   },
   {
@@ -44,9 +44,8 @@ export const footerNav = [
   {
     heading: "Published",
     links: [
-      { href: "/research", label: "Research" },
-      { href: "/insights", label: "Insights" },
-      { href: "/contact", label: "Contact" },
+      { href: "/analysis", label: "Analysis" },
+      { href: "/reports", label: "Reports" },
     ],
   },
 ] as const;

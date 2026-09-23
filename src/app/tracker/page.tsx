@@ -61,7 +61,7 @@ export default function TrackerPage() {
               </p>
               <div className="flex flex-wrap gap-3 pt-3">
                 <ButtonLink href="/contact">Get this scoped to your footprint</ButtonLink>
-                <ButtonLink href="/method" variant="ghost">
+                <ButtonLink href="/about#method" variant="ghost">
                   How we score
                 </ButtonLink>
               </div>

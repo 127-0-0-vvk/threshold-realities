@@ -61,9 +61,10 @@ rule under the header that ramps from stable to critical as you read down a page
 src/
   app/
     page.tsx              Home
-    about/ method/ services/ platform/ tracker/
-    research/             Index + [slug] articles
-    insights/ team/ contact/ careers/ privacy/ terms/
+    about/ services/ platform/ tracker/
+    analysis/             Daily articles: index + [slug]
+    reports/              Long-form research: index + [slug]
+    team/ contact/ careers/ privacy/ terms/
     not-found.tsx         "Position unresolved"
     globals.css           Design tokens + primitives
   components/
@@ -76,7 +77,8 @@ src/
   lib/
     severity.ts           The scale. Single source of truth.
     tracker.ts            Tracker entries
-    research.ts           Research library
+    analysis.ts           Reads content/analysis/*.md
+    reports.ts            Long-form report library
     content.ts            Page copy (practices, services, method, team, platform)
     site.ts               Nav, metadata, contact addresses
 ```
@@ -88,8 +90,8 @@ render it show a visible notice; keep those notices until real content lands.
 
 - [ ] Replace `src/lib/tracker.ts` with analyst-maintained entries, or wire to the
       monitoring platform. Remove `SAMPLE_NOTICE` once live.
-- [ ] Replace `src/lib/research.ts` with real work. Recommended: move to MDX under
-      `content/research/*.mdx` so analysts write in markdown in the repo.
+- [ ] Replace `src/lib/reports.ts` with real long-form work. Daily articles are
+      already file-based — see `content/analysis/README.md`.
 - [x] ~~Founder portraits.~~ In place at `public/team/`. To swap either one,
       overwrite the file — `src/lib/portraits.ts` resolves by slug, no code change.
 - [ ] Replace `src/lib/content.ts` team entries with named analysts, photographs
@@ -116,6 +118,17 @@ Built to deploy on Vercel as a static export.
 3. Add `thresholdrealities.com` and `www.thresholdrealities.com` under
    Project → Settings → Domains, then point the registrar at Vercel's nameservers
    or add the `A` / `CNAME` records Vercel shows.
+
+## Publishing
+
+Daily articles are Markdown files in `content/analysis/`. One file per piece;
+the filename becomes the URL. Add the file, push, and Vercel rebuilds.
+
+Full authoring reference, including frontmatter fields and image sizing:
+**`content/analysis/README.md`**.
+
+Long-form reports still live in `src/lib/reports.ts` and are next in line to
+move to the same file-based setup.
 
 ## Hero footage
 

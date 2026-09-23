@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ResearchIndex } from "@/components/research-index";
+import { ReportsIndex } from "@/components/reports-index";
 import { Container, Notice, PageHeader, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -13,8 +13,8 @@ export default function ResearchPage() {
     <>
       <PageHeader
         eyebrow="Research"
-        title="Written to be argued with."
-        lede="Briefs, assessments, forecasts and watchlists. Each one states its key judgments separately from its reporting, and says what would change our view."
+        title="Longer-form research."
+        lede="Briefs, assessments, forecasts and watchlists. Each states its key judgements separately from its reporting, and sets out what would lead us to revise them."
       />
 
       <Container className="pt-10">
@@ -26,7 +26,7 @@ export default function ResearchPage() {
 
       <Section className="pt-10">
         <Container>
-          <ResearchIndex />
+          <ReportsIndex />
         </Container>
       </Section>
     </>

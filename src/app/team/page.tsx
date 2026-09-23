@@ -23,8 +23,8 @@ export default function TeamPage() {
     <>
       <PageHeader
         eyebrow="Team"
-        title="Coverage maps are easy to draw. They are hard to staff."
-        lede="Every region we claim has an analyst who reads the language and has worked the ground. Where we do not have that, we say we do not cover it."
+        title="Coverage is straightforward to claim and harder to staff."
+        lede="Every region we list has an analyst who reads the language and has spent time on the ground. Where that is not the case, we say the region is outside our coverage."
       />
 
       <Section className="pt-16">
@@ -101,8 +101,8 @@ export default function TeamPage() {
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead
               eyebrow="Join us"
-              title="We hire for regional depth, not for polish."
-              lede="If you read a region in its own language and can write a judgment you are willing to be scored on, we want to hear from you."
+              title="We hire for regional depth."
+              lede="If you read a region in its own language and can write a judgement you are willing to have assessed against the outcome, we would be glad to hear from you."
             />
             <ButtonLink href="/careers">See open roles</ButtonLink>
           </div>

@@ -4,19 +4,19 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { SeverityTag } from "@/components/ui";
 import {
-  research,
-  researchRegions,
-  researchTypes,
-  type ResearchType,
-} from "@/lib/research";
+  reports,
+  reportRegions,
+  reportTypes,
+  type ReportType,
+} from "@/lib/reports";
 
-export function ResearchIndex() {
-  const [type, setType] = useState<ResearchType | "All">("All");
+export function ReportsIndex() {
+  const [type, setType] = useState<ReportType | "All">("All");
   const [region, setRegion] = useState<string>("All");
 
   const filtered = useMemo(
     () =>
-      research
+      reports
         .filter(
           (r) =>
             (type === "All" || r.type === type) &&
@@ -30,7 +30,7 @@ export function ResearchIndex() {
     <div>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-3 border-y border-[var(--rule)] py-5">
         <span className="eyebrow mr-2">Type</span>
-        {(["All", ...researchTypes] as const).map((t) => (
+        {(["All", ...reportTypes] as const).map((t) => (
           <button
             key={t}
             type="button"
@@ -53,7 +53,7 @@ export function ResearchIndex() {
             onChange={(e) => setRegion(e.target.value)}
             className="mono border border-[var(--rule)] bg-transparent px-3 py-1.5 text-[0.625rem] tracking-[0.12em] uppercase text-[var(--text)] outline-none hover:border-signal"
           >
-            {["All", ...researchRegions].map((r) => (
+            {["All", ...reportRegions].map((r) => (
               <option key={r} value={r} className="bg-abyssal">
                 {r}
               </option>
@@ -66,7 +66,7 @@ export function ResearchIndex() {
         {filtered.map((r) => (
           <Link
             key={r.slug}
-            href={`/research/${r.slug}`}
+            href={`/reports/${r.slug}`}
             className="group grid gap-5 py-10 transition-colors hover:bg-ink/25 lg:grid-cols-[1fr_1.6fr] lg:gap-14"
           >
             <div>

@@ -10,7 +10,7 @@ import {
   Section,
   SectionHead,
 } from "@/components/ui";
-import { founders, practices, principles } from "@/lib/content";
+import { founders, methodSteps, practices, principles } from "@/lib/content";
 import { resolvePortrait } from "@/lib/portraits";
 import { site } from "@/lib/site";
 
@@ -25,8 +25,8 @@ export default function AboutPage() {
     <>
       <PageHeader
         eyebrow="About"
-        title="Between the consultancies and the data vendors, there was nothing useful."
-        lede="The strategy houses write beautifully and arrive late. The data vendors arrive instantly and leave you to work out what it means. We built the firm we kept wishing existed."
+        title="An independent firm, positioned between advisory and data."
+        lede="Advisory houses produce considered analysis, though often on a timeline that sits behind the decision. Data providers deliver at speed, and leave the interpretation to the client. We set out to occupy the ground between the two."
       />
 
       <Section>
@@ -35,31 +35,31 @@ export default function AboutPage() {
             <div className="prose-measure space-y-6 text-lg leading-relaxed text-[var(--text-dim)]">
               <p>
                 {site.name} is an independent research and risk intelligence firm.
-                We work for companies and investors operating across contested
-                markets — places where the state is weak, partisan or disputed, and
-                where the standard models for pricing political risk quietly stop
-                working.
+                We work with companies and investors operating across contested
+                markets — environments where authority is fragmented or disputed,
+                and where conventional models for pricing political risk tend to
+                hold less well than they do elsewhere.
               </p>
               <p>
-                Our clients are not short of information. They are short of
-                judgement they can act on, delivered early enough for the action to
-                still be available. A market report that arrives after premiums have
-                repriced is a historical document.
+                Most of our clients are not short of information. What they more
+                often need is judgement they can act on, arriving early enough for
+                the action to remain available. Analysis delivered after the market
+                has adjusted is a useful record, but it is no longer a decision aid.
               </p>
               <p>
-                So we organised the firm around a single question:{" "}
+                We have therefore organised the firm around a single question:{" "}
                 <span className="text-[var(--text)]">
-                  where is the point at which this becomes a cost, and how much
-                  warning can we give?
+                  at what point does this become a commercial cost, and how much
+                  notice can we reasonably provide?
                 </span>{" "}
-                Everything else — the analyst bench, the method, the monitoring
-                platform — exists to answer it faster.
+                The analyst bench, the method and the monitoring platform all exist
+                to answer it more quickly.
               </p>
               <p>
-                We are independent by design. We do not sell the products we assess,
-                we do not take positions in the markets we cover, and we publish our
-                method so clients can audit the reasoning rather than trust the
-                brand.
+                We are independent by design. We do not sell the products we
+                assess, we hold no positions in the markets we cover, and we publish
+                our method so that clients can examine the reasoning rather than
+                rely on the name attached to it.
               </p>
             </div>
 
@@ -79,8 +79,8 @@ export default function AboutPage() {
         <Container>
           <SectionHead
             eyebrow="Founders"
-            title="Two people, one method, no house view to defend."
-            lede="We started the firm because the work we wanted to buy did not exist in a form we could act on."
+            title="Two founders, one method, no house view to defend."
+            lede="We established the firm because the work we wanted to commission did not exist in a form we could readily act on."
           />
 
           <div className="mt-16 grid gap-14 lg:grid-cols-2 lg:gap-20">
@@ -156,18 +156,59 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section className="border-t border-[var(--rule)]">
+      <Section id="method" className="border-t border-[var(--rule)]">
+        <Container>
+          <SectionHead
+            eyebrow="Method"
+            title="How a judgement reaches you."
+            lede="We publish our method rather than treating it as proprietary. An assessment a client cannot examine is one they cannot responsibly act on."
+          />
+
+          <div className="mt-16">
+            {methodSteps.map((step, i) => (
+              <Reveal key={step.code} delay={i * 60}>
+                <div className="grid gap-6 border-t border-[var(--rule)] py-9 lg:grid-cols-[auto_1fr_1.1fr] lg:gap-14">
+                  <span className="mono text-sm text-signal">{step.code}</span>
+                  <div>
+                    <h3 className="display text-2xl sm:text-3xl">{step.title}</h3>
+                    <p className="mt-3 text-[var(--text-dim)]">{step.body}</p>
+                  </div>
+                  <ul className="space-y-2.5 lg:pt-2">
+                    {step.detail.map((d) => (
+                      <li
+                        key={d}
+                        className="flex gap-3 text-sm leading-relaxed text-[var(--text-dim)]"
+                      >
+                        <span
+                          className="mono mt-0.5 text-[var(--text-faint)]"
+                          aria-hidden
+                        >
+                          &mdash;
+                        </span>
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+            <div className="border-t border-[var(--rule)]" />
+          </div>
+        </Container>
+      </Section>
+
+      <Section surface="parchment" className="border-t border-[var(--rule)]">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead
               eyebrow="Next"
-              title="The method is the argument."
-              lede="If you read one page on this site, read that one."
+              title="The analysts behind the work."
+              lede="Every region we claim has an analyst who reads the language and has spent time on the ground."
             />
             <div className="flex flex-wrap gap-3">
-              <ButtonLink href="/method">Read the method</ButtonLink>
-              <ButtonLink href="/team" variant="ghost">
-                Meet the bench
+              <ButtonLink href="/team">Meet the bench</ButtonLink>
+              <ButtonLink href="/analysis" variant="ghost">
+                Read our analysis
               </ButtonLink>
             </div>
           </div>

@@ -57,6 +57,11 @@
   --text: #16202a;
   --text-dim: #4a5a66;
   --text-faint: #7d8b95;
+
+  /* `color` on <body> resolves var(--text) once; descendants inherit that
+     computed value, so redeclaring the variable here is not enough. Re-declare
+     `color` at the surface boundary or unstyled headings stay light. */
+  color: var(--text);
 }
 
 html {
@@ -288,6 +293,134 @@ body {
   opacity: 0.04;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------
+   Article body — rendered from Markdown, so styled by element
+   ------------------------------------------------------------ */
+
+.article-body {
+  font-size: 1.1875rem;
+  line-height: 1.75;
+  color: var(--text-dim);
+}
+
+.article-body > * + * {
+  margin-top: 1.5em;
+}
+
+.article-body p:first-child {
+  color: var(--text);
+}
+
+.article-body h2 {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 2rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-top: 2.4em;
+}
+
+.article-body h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 2em;
+}
+
+.article-body strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.article-body a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--color-signal) 70%, transparent);
+  text-decoration-thickness: 1px;
+}
+
+.article-body a:hover {
+  text-decoration-color: var(--color-signal);
+}
+
+.article-body blockquote {
+  border-left: 2px solid var(--color-high);
+  padding-left: 1.4em;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 1.3em;
+}
+
+.article-body ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.article-body ul > li {
+  position: relative;
+  padding-left: 1.5em;
+}
+
+.article-body ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.6em;
+  height: 1px;
+  background: var(--color-signal);
+}
+
+.article-body ol {
+  list-style: decimal;
+}
+
+.article-body li + li {
+  margin-top: 0.6em;
+}
+
+.article-body img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  margin-top: 2.2em;
+}
+
+.article-body hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 2.6em;
+}
+
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.article-body th,
+.article-body td {
+  border: 1px solid var(--rule);
+  padding: 0.6em 0.8em;
+  text-align: left;
+}
+
+.article-body th {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 400;
 }
 
 /* ------------------------------------------------------------

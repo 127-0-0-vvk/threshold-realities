@@ -130,7 +130,7 @@ export const methodSteps = [
   {
     code: "M/04",
     title: "Set triggers",
-    body: "Every forward-looking judgment carries escalatory triggers: specific, observable conditions marked met or not met. A forecast without triggers is an opinion.",
+    body: "Every forward-looking judgement carries escalatory triggers: specific, observable conditions marked met or not met. Without them, a forecast is difficult to act on or to assess.",
     detail: [
       "Triggers written to be observable by the client, not only by us",
       "Status tracked live and pushed when it changes",
@@ -150,7 +150,7 @@ export const methodSteps = [
   {
     code: "M/06",
     title: "Score",
-    body: "Forecasts are reviewed after the fact and the record is kept. Where we were wrong, we say so and record why. That record is the only durable evidence of method.",
+    body: "Forecasts are reviewed after the fact and the record is kept. Where a judgement did not hold, we record why. Over time that record is the most durable evidence of method.",
     detail: [
       "Trigger hit rate recorded per forecast",
       "Lead time measured against mainstream reporting",
@@ -196,22 +196,22 @@ export const principles = [
   {
     code: "01",
     title: "Judgement over volume",
-    body: "More alerts is not more intelligence. We are measured on what we filter out as much as what we send.",
+    body: "A greater volume of alerts is not the same as better intelligence. We expect to be judged on what we set aside as much as on what we send.",
   },
   {
     code: "02",
     title: "Method in the open",
-    body: "Our sourcing standards, confidence scale and trigger logic are published. A client should be able to audit how we reached a view.",
+    body: "Our sourcing standards, confidence scale and trigger logic are published. A client should be able to examine how we arrived at a view.",
   },
   {
     code: "03",
     title: "Regional depth, not desk coverage",
-    body: "Analysts who read the language and have worked the region. Coverage maps are easy to draw and hard to staff.",
+    body: "Analysts who read the language and have worked in the region. Coverage is straightforward to claim and considerably harder to staff.",
   },
   {
     code: "04",
     title: "Scored, not asserted",
-    body: "We keep the record of our forecasts, including the wrong ones. Confidence without a track record is marketing.",
+    body: "We keep the record of our forecasts, including those that did not hold. Confidence is more credible when there is a record behind it.",
   },
 ] as const;
 

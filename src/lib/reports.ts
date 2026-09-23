@@ -5,11 +5,11 @@ import type { Level } from "./severity";
  * Replace with MDX-backed entries before launch. See README.
  */
 
-export type ResearchType = "Brief" | "Assessment" | "Forecast" | "Watchlist";
+export type ReportType = "Brief" | "Assessment" | "Forecast" | "Watchlist";
 
-export type ResearchItem = {
+export type ReportItem = {
   slug: string;
-  type: ResearchType;
+  type: ReportType;
   category: string;
   region: string;
   title: string;
@@ -22,7 +22,7 @@ export type ResearchItem = {
   body: string[];
 };
 
-export const research: ResearchItem[] = [
+export const reports: ReportItem[] = [
   {
     slug: "chokepoint-premium",
     type: "Assessment",
@@ -131,7 +131,7 @@ export const research: ResearchItem[] = [
     keyJudgments: [
       "Scenario-conditional exposure modelling outperforms point prediction for every commercial use case we have tested.",
       "Confidence bands are only credible where the method for assigning them is published.",
-      "Scoring forecasts after the fact is the single cheapest way for a research firm to build institutional trust.",
+      "Scoring forecasts after the fact is the single cheapest way for a reports firm to build institutional trust.",
     ],
     body: [
       "There is a durable market for confident political prediction, and it is mostly a market for reassurance. Clients rarely need to know who will win. They need to know what changes for them under each plausible outcome, and how much warning they will get.",
@@ -164,15 +164,15 @@ export const research: ResearchItem[] = [
   },
 ];
 
-export const researchTypes: ResearchType[] = [
+export const reportTypes: ReportType[] = [
   "Brief",
   "Assessment",
   "Forecast",
   "Watchlist",
 ];
 
-export const researchRegions = [...new Set(research.map((r) => r.region))].sort();
+export const reportRegions = [...new Set(reports.map((r) => r.region))].sort();
 
-export function getResearch(slug: string) {
-  return research.find((r) => r.slug === slug);
+export function getReport(slug: string) {
+  return reports.find((r) => r.slug === slug);
 }

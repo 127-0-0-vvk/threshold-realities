@@ -87,8 +87,8 @@ export default function PlatformPage() {
       <PageHeader
         eyebrow="The platform"
         badge={<StatusBadge tone="watch">Coming soon</StatusBadge>}
-        title="We are building the system our analysts will run on."
-        lede="Most control rooms stitch together four separate products and still miss the thing that mattered, because nothing was ranking by exposure. We are building the one that does. It is not live yet — here is exactly what it will do."
+        title="A monitoring system built around exposure."
+        lede="Organisations monitoring global risk commonly run several systems in parallel, each addressing part of the problem. We are building one that begins from a client's own footprint and works outward. It is not yet live, and the specification below is published in full."
       />
 
       {/* Coming soon */}
@@ -136,8 +136,8 @@ export default function PlatformPage() {
         <Container>
           <SectionHead
             eyebrow="What it will do"
-            title="Six capabilities, specified before a line of it was written."
-            lede="These are not aspirations. Each one exists because we watched a control room fail without it."
+            title="Six capabilities, specified before development began."
+            lede="Each capability is drawn from a gap we have observed in practice rather than from a feature list."
           />
 
           <div className="mt-16">
@@ -175,8 +175,8 @@ export default function PlatformPage() {
         <Container>
           <SectionHead
             eyebrow="Build status"
-            title="Where it actually is."
-            lede="We would rather tell you what is unfinished than show you a demo that is."
+            title="Where the build currently stands."
+            lede="We would rather set out what remains unfinished than present a demonstration that implies otherwise."
           />
           <div className="mt-14 grid gap-px sm:grid-cols-2">
             {build.map((b, i) => (
@@ -206,7 +206,7 @@ export default function PlatformPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <SectionHead
               eyebrow="In the meantime"
-              title="The analysis does not wait for the software."
+              title="The analysis does not depend on the software."
             />
             <div className="space-y-5 text-lg leading-relaxed text-[var(--text-dim)]">
               <p>
@@ -215,12 +215,12 @@ export default function PlatformPage() {
                 alerting, escalatory triggers tracked and pushed when they flip.
               </p>
               <p>
-                The platform makes it faster and lets you see it yourself. It does
-                not change the method, and it was never the reason to work with us.
+                The platform makes it faster and lets you see it yourself. It does not
+                change the method, and it is not the principal reason to work with us.
               </p>
               <div className="flex flex-wrap gap-3 pt-3">
                 <ButtonLink href="/services">See our services</ButtonLink>
-                <ButtonLink href="/method" variant="ghost">
+                <ButtonLink href="/about#method" variant="ghost">
                   Read the method
                 </ButtonLink>
               </div>

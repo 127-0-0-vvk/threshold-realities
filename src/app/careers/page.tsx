@@ -52,8 +52,8 @@ export default function CareersPage() {
     <>
       <PageHeader
         eyebrow="Careers"
-        title="We hire for depth, and we score our own work."
-        lede="This is a firm where analysts are asked to commit to a judgment and then live with the record of it. That suits some people very well and others not at all."
+        title="We hire for depth, and we keep the record of our own work."
+        lede="Analysts here are asked to commit to a judgement and then to review it against what followed. It is a particular way of working, and it suits some people considerably better than others."
       />
 
       <Container className="pt-10">
@@ -93,8 +93,8 @@ export default function CareersPage() {
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHead
               eyebrow="How to apply"
-              title="Send us a judgment, not a cover letter."
-              lede="One page on something happening in your region right now: what you think, why, and what would change your mind. That tells us more than a CV."
+              title="We would rather read a judgement than a cover letter."
+              lede="One page on something developing in your region: what you assess, on what basis, and what would change your view. It tells us more than a CV does."
             />
             <ButtonLink href={`mailto:${site.careers}`}>Write to us</ButtonLink>
           </div>
