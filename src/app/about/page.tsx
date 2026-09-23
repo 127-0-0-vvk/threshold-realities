@@ -60,12 +60,6 @@ export default function AboutPage() {
               defence, geopolitics, economics and technology, and delivered
               while there is still a decision to be made.
             </p>
-            <p>
-              We are independent by design. We do not sell the products we
-              assess, we hold no positions in the markets we cover, and we
-              publish our method so readers can examine the reasoning rather
-              than rely on the name attached to it.
-            </p>
           </div>
         </Container>
       </Section>
