@@ -124,9 +124,7 @@ export function TaxonomyIndex({
                     </h2>
                     <span className="mono mt-4 inline-flex items-center gap-2 text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
                       View
-                      <span className="transition-transform duration-300 group-hover:translate-x-1">
-                        &rarr;
-                      </span>
+                      <span className="arrow">&rarr;</span>
                     </span>
                   </div>
                 </Link>

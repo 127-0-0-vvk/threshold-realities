@@ -9,7 +9,7 @@ intelligence for companies and investors operating across contested markets.
 
 - **Next.js 16** (App Router, Turbopack) + TypeScript
 - **Tailwind CSS v4** — design tokens live in `src/app/globals.css`
-- **next/font** — Instrument Serif (display), Inter Tight (body), JetBrains Mono (data)
+- **next/font** — Bricolage Grotesque (display), Plus Jakarta Sans (body), JetBrains Mono (data)
 - No runtime dependencies beyond React. All 22 routes prerender as static HTML.
 
 ## Running it
@@ -161,28 +161,19 @@ Full authoring reference, including frontmatter fields and image sizing:
 Long-form reports still live in `src/lib/reports.ts` and are next in line to
 move to the same file-based setup.
 
-## Hero footage
+## Hero
 
-`public/video/` holds the landing-page background clip, encoded from a 4K source
-(55 MB) down to something a landing page can actually carry:
+`public/hero/collage.jpg`. The hero stacks on phones — headline, then the
+collage at its natural aspect so nothing is cropped — and splits into two
+columns from `lg` up, copy left and image right.
 
-| File | Use | Size |
-| --- | --- | --- |
-| `hero-1600.mp4` | ≥768px viewports | 3.3 MB |
-| `hero-960.mp4` | <768px viewports | 0.95 MB |
-| `hero-poster.jpg` | First paint, and the whole treatment under reduced motion | 76 KB |
+The source is 735×919, so the image column is capped rather than stretched;
+pushing it wider would only soften it. Supply a larger original and the layout
+will use it.
 
-`src/components/hero-video.tsx` picks the encode by viewport width after mount,
-so a phone never pulls the desktop file; pauses playback once the hero scrolls
-out of view; and skips the video entirely when `prefers-reduced-motion` is set.
-
-To re-encode from a new source:
-
-```bash
-ffmpeg -i source.mp4 -an -vf "scale=1600:-2,fps=25" -c:v libx264 \
-  -preset slow -crf 32 -pix_fmt yuv420p -movflags +faststart -g 50 \
-  public/video/hero-1600.mp4
-```
+The previous background video is retired but its encodes are still in
+`public/video/`, and the component that drove them is recoverable from git
+history if you want it back.
 
 ## Accessibility
 

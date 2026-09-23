@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
-import { HeroVideo } from "@/components/hero-video";
+import Image from "next/image";
 import { LineMask, Reveal } from "@/components/reveal";
 import { SignalStrip } from "@/components/signal-strip";
 import {
@@ -33,35 +33,51 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section
-      data-surface="ink"
-      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pt-28 pb-16"
-    >
-      <HeroVideo />
+    <section className="relative overflow-hidden border-b border-[var(--rule)] pt-24 sm:pt-28">
+      <Container>
+        {/* Stacked on phones so the collage is never cropped; side by side from
+            lg up, where the copy has room of its own. */}
+        <div className="grid items-center gap-10 pb-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pb-20">
+          <div>
+            <span className="eyebrow">Geopolitical risk intelligence</span>
 
-      <Container className="relative">
-        <span className="eyebrow text-[var(--text-dim)]">
-          Geopolitical risk intelligence
-        </span>
+            <h1 className="display mt-6 text-[clamp(2.5rem,7.5vw,5.5rem)]">
+              <LineMask lines={["Uncertain times,", "certain intelligence."]} />
+            </h1>
 
-        <h1 className="display mt-7 text-[clamp(2.75rem,9vw,8.5rem)]">
-          <LineMask lines={["Uncertain times,", "certain intelligence."]} />
-        </h1>
+            <Reveal delay={380}>
+              <p className="mt-7 max-w-xl text-[1.0625rem] leading-relaxed text-[var(--text-dim)] sm:text-lg">
+                {site.positioning} Our analysts combine regional depth with a
+                structured analytic method, supported by our own monitoring
+                platform.
+              </p>
+            </Reveal>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <Reveal delay={420}>
-            <p className="max-w-xl text-lg leading-relaxed text-[var(--text-dim)] sm:text-xl">
-              {site.positioning} Our analysts combine regional depth with a
-              structured analytic method, supported by our own monitoring
-              platform.
-            </p>
-          </Reveal>
+            <Reveal delay={480} className="mt-9 flex flex-wrap gap-3">
+              <ButtonLink href="/contact">Request a briefing</ButtonLink>
+              <ButtonLink href="/publications" variant="ghost">
+                Read our work
+              </ButtonLink>
+            </Reveal>
+          </div>
 
-          <Reveal delay={540} className="flex flex-wrap gap-3">
-            <ButtonLink href="/contact">Request a briefing</ButtonLink>
-            <ButtonLink href="/analysis" variant="ghost">
-              Read our analysis
-            </ButtonLink>
+          <Reveal delay={180}>
+            <figure className="relative mx-auto w-full max-w-[36rem] lg:max-w-none">
+              <div className="relative overflow-hidden border border-[var(--rule)] bg-[var(--surface-raised)]">
+                <Image
+                  src="/hero/collage.jpg"
+                  alt="Collage of world leaders, protest crowds and newsprint"
+                  width={735}
+                  height={919}
+                  priority
+                  sizes="(min-width: 1024px) 46vw, 92vw"
+                  className="h-auto w-full"
+                />
+              </div>
+              <figcaption className="mono mt-3 text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
+                The world is watching
+              </figcaption>
+            </figure>
           </Reveal>
         </div>
       </Container>

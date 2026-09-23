@@ -1,19 +1,25 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  JetBrains_Mono,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/lib/site";
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
+/* Display: a variable editorial grotesque — tight, contemporary, and it holds
+   up at poster sizes without the fussiness of a high-contrast serif. */
+const display = Bricolage_Grotesque({
+  variable: "--font-display-family",
   subsets: ["latin"],
-  weight: "400",
   display: "swap",
+  axes: ["opsz"],
 });
 
-const interTight = Inter_Tight({
-  variable: "--font-inter-tight",
+const body = Plus_Jakarta_Sans({
+  variable: "--font-body-family",
   subsets: ["latin"],
   display: "swap",
 });
@@ -51,11 +57,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${instrumentSerif.variable} ${interTight.variable} ${jetbrainsMono.variable} grain antialiased`}
+        className={`${display.variable} ${body.variable} ${jetbrainsMono.variable} grain antialiased`}
       >
         <a
           href="#main"
-          className="mono sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-[var(--color-watch)] focus:px-4 focus:py-2 focus:text-[0.6875rem] focus:uppercase focus:tracking-[0.16em] focus:text-[#14181c]"
+          className="mono sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-[var(--color-brand)] focus:px-4 focus:py-2 focus:text-[0.6875rem] focus:uppercase focus:tracking-[0.16em] focus:text-[var(--color-on-brand)]"
         >
           Skip to content
         </a>

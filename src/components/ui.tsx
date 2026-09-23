@@ -117,15 +117,17 @@ export function ButtonLink({
   className?: string;
 }) {
   const base =
-    "mono inline-flex items-center gap-2.5 px-6 py-3.5 text-[0.6875rem] tracking-[0.16em] uppercase transition-all duration-200";
+    "group mono inline-flex items-center gap-2.5 px-6 py-3.5 text-[0.6875rem] tracking-[0.16em] uppercase transition-all duration-300 hover:-translate-y-0.5";
   const styles =
     variant === "primary"
-      ? "bg-[var(--color-watch)] text-[#14181c] hover:bg-[var(--color-high)] hover:text-white"
+      ? "bg-[var(--color-brand)] text-[var(--color-on-brand)] hover:bg-[var(--color-brand-strong)]"
       : "border border-[var(--rule)] text-[var(--text)] hover:border-[var(--color-watch)] hover:text-[var(--color-watch)]";
   return (
     <Link href={href} className={`${base} ${styles} ${className}`}>
       {children}
-      <span aria-hidden>&rarr;</span>
+      <span className="arrow" aria-hidden>
+        &rarr;
+      </span>
     </Link>
   );
 }

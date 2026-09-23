@@ -10,7 +10,7 @@ export const site = {
     "Research, threat analysis and risk intelligence for companies and investors operating across contested markets — international relations, trade policy, supply chain exposure.",
   positioning:
     "We help clients see the point where geopolitical risk becomes commercial cost, early enough to act on it.",
-  email: "intelligence@thresholdrealities.com",
+  email: "info@thresholdrealities.com",
   press: "press@thresholdrealities.com",
   careers: "careers@thresholdrealities.com",
 } as const;

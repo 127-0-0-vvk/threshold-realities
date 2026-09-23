@@ -29,14 +29,21 @@
   --color-signal: #f9b637;
   --color-contested: #d98a5a;
 
+  /* Brand amber at full strength, for solid fills only. The severity ramp
+     darkens on paper because it is read as *text*; a button background is not,
+     and darkening it just makes the primary CTA look muddy. */
+  --color-brand: #f9b637;
+  --color-brand-strong: #fb6c00;
+  --color-on-brand: #14181c;
+
   --ease-threshold: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Fonts must be inlined: the next/font variables are declared on <body>,
    not on :root, so a non-inline @theme entry would resolve to nothing. */
 @theme inline {
-  --font-display: var(--font-instrument-serif), Georgia, serif;
-  --font-sans: var(--font-inter-tight), system-ui, sans-serif;
+  --font-display: var(--font-display-family), "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-body-family), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
@@ -99,9 +106,23 @@ html {
 body {
   background: var(--surface);
   color: var(--text);
-  font-family: var(--font-inter-tight), system-ui, sans-serif;
-  font-size: 1.0625rem;
+  font-family: var(--font-body-family), system-ui, sans-serif;
+  font-size: 1rem;
   line-height: 1.65;
+  overflow-x: hidden;
+}
+
+@media (min-width: 640px) {
+  body {
+    font-size: 1.0625rem;
+  }
+}
+
+/* Nothing should be able to push the page sideways on a phone. */
+img,
+svg,
+video {
+  max-width: 100%;
 }
 
 ::selection {
@@ -114,10 +135,10 @@ body {
    ------------------------------------------------------------ */
 
 .display {
-  font-family: var(--font-instrument-serif), Georgia, serif;
-  font-weight: 400;
-  line-height: 0.94;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display-family), "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
@@ -136,6 +157,20 @@ body {
 
 .prose-measure {
   max-width: 68ch;
+}
+
+/* Comfortable tap targets on touch devices. */
+@media (pointer: coarse) {
+  a,
+  button,
+  select,
+  [role="button"] {
+    min-height: 44px;
+  }
+  a.link-underline,
+  .article-body a {
+    min-height: 0;
+  }
 }
 
 /* ------------------------------------------------------------
@@ -175,10 +210,10 @@ body {
 
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(18px);
   transition:
-    opacity 700ms var(--ease-threshold),
-    transform 700ms var(--ease-threshold);
+    opacity 760ms var(--ease-threshold),
+    transform 760ms var(--ease-threshold);
 }
 
 .reveal[data-shown="true"] {
@@ -206,16 +241,42 @@ body {
    ------------------------------------------------------------ */
 
 .panel {
+  position: relative;
   background: var(--surface-raised);
   border: 1px solid var(--rule);
   transition:
-    border-color 200ms var(--ease-threshold),
-    background 200ms var(--ease-threshold);
+    border-color 260ms var(--ease-threshold),
+    transform 320ms var(--ease-threshold),
+    box-shadow 320ms var(--ease-threshold);
 }
 
-.panel:hover {
-  border-color: color-mix(in srgb, var(--color-signal) 55%, transparent);
-  background: color-mix(in srgb, var(--surface-raised) 90%, transparent);
+/* An accent edge that draws in from the left on hover. Cheap, and it gives a
+   flat card a direction. */
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: auto auto 0 0;
+  height: 2px;
+  width: 100%;
+  background: var(--color-watch);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 420ms var(--ease-threshold);
+}
+
+@media (hover: hover) {
+  .panel:hover {
+    border-color: color-mix(in srgb, var(--color-watch) 45%, var(--rule));
+    transform: translateY(-3px);
+    box-shadow: 0 18px 34px -26px color-mix(in srgb, var(--text) 60%, transparent);
+  }
+  .panel:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.panel:focus-within {
+  border-color: color-mix(in srgb, var(--color-watch) 45%, var(--rule));
 }
 
 /* Corner ticks — chart registration marks */
@@ -252,6 +313,15 @@ body {
 /* ------------------------------------------------------------
    Links
    ------------------------------------------------------------ */
+
+/* Any arrow inside a hovered group slides. Saves repeating the class. */
+.group:hover .arrow {
+  transform: translateX(4px);
+}
+.arrow {
+  display: inline-block;
+  transition: transform 320ms var(--ease-threshold);
+}
 
 .link-underline {
   background-image: linear-gradient(currentColor, currentColor);
@@ -340,7 +410,9 @@ body {
 }
 
 .article-body h2 {
-  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-family: var(--font-display-family), "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   font-size: 2rem;
   line-height: 1.15;
   letter-spacing: -0.015em;
@@ -375,7 +447,9 @@ body {
 .article-body blockquote {
   border-left: 2px solid var(--color-watch);
   padding-left: 1.4em;
-  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-family: var(--font-display-family), "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   font-size: 1.5rem;
   line-height: 1.35;
   color: var(--text);

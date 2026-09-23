@@ -79,10 +79,10 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="mono inline-flex items-center gap-2.5 bg-[var(--color-watch)] px-7 py-4 text-[0.6875rem] tracking-[0.16em] uppercase text-[#14181c] transition-colors hover:bg-[var(--color-high)] hover:text-white"
+        className="group mono inline-flex items-center gap-2.5 bg-[var(--color-brand)] px-7 py-4 text-[0.6875rem] tracking-[0.16em] uppercase text-[var(--color-on-brand)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-strong)]"
       >
         Send enquiry
-        <span aria-hidden>&rarr;</span>
+        <span className="arrow" aria-hidden>&rarr;</span>
       </button>
 
       <p className="mono text-[0.625rem] leading-relaxed tracking-[0.06em] text-[var(--text-faint)]">
