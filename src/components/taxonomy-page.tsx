@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ButtonLink, Container, PageHeader, Section, SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
+import { PostCard } from "@/components/post-card";
+import type { Post } from "@/lib/sections";
 import type { TaxonomyEntry } from "@/lib/taxonomy";
 
 /**
@@ -16,14 +18,17 @@ export function TaxonomyPage({
   siblings,
   basePath,
   siblingsLabel,
+  posts = [],
 }: {
   eyebrow: string;
   entry: TaxonomyEntry;
   siblings: TaxonomyEntry[];
   basePath: string;
   siblingsLabel: string;
+  posts?: Post[];
 }) {
   const hasBody = Boolean(entry.sections?.length);
+  const hasPosts = posts.length > 0;
 
   return (
     <>
@@ -42,7 +47,7 @@ export function TaxonomyPage({
                 </section>
               ))}
             </div>
-          ) : (
+          ) : hasPosts ? null : (
             <Reveal>
               <div className="border border-[var(--rule)] bg-[var(--surface-raised)] px-6 py-16 text-center sm:px-12 sm:py-20">
                 <span className="eyebrow">In preparation</span>
@@ -64,6 +69,25 @@ export function TaxonomyPage({
               </div>
             </Reveal>
           )}
+
+          {hasPosts ? (
+            <div className={hasBody ? "mt-16" : ""}>
+              {hasBody ? (
+                <SectionHead eyebrow="Published" title="Articles." />
+              ) : null}
+              <div
+                className={`grid gap-px sm:grid-cols-2 lg:grid-cols-3 ${
+                  hasBody ? "mt-10" : ""
+                }`}
+              >
+                {posts.map((post, i) => (
+                  <Reveal key={post.id} delay={i * 60}>
+                    <PostCard post={post} />
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </Container>
       </Section>
 

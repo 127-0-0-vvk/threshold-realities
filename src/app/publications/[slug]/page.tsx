@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  ButtonLink,
-  Container,
-  Notice,
-  Section,
-} from "@/components/ui";
+import { PostArticle } from "@/components/post-article";
+import { ButtonLink, Container, Notice, Section } from "@/components/ui";
 import { ThresholdRule } from "@/components/threshold-rule";
+import { getPost, getPostsFor } from "@/lib/posts";
 import { getReport, reports } from "@/lib/reports";
 
-export function generateStaticParams() {
-  return reports.map((r) => ({ slug: r.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -20,17 +15,35 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const post = getPost(slug);
+  if (post) return { title: post.title, description: post.tagline };
   const item = getReport(slug);
   if (!item) return { title: "Not found" };
   return { title: item.title, description: item.standfirst };
 }
 
-export default async function ResearchArticle({
+export default async function PublicationPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  // Console posts use a numeric id; seeded publications use a text slug.
+  const post = getPost(slug);
+  if (post && post.section === "publications") {
+    return (
+      <PostArticle
+        post={post}
+        backHref="/publications"
+        backLabel="Publications"
+        related={getPostsFor("publications")
+          .filter((p) => p.id !== post.id)
+          .slice(0, 3)}
+      />
+    );
+  }
+
   const item = getReport(slug);
   if (!item) notFound();
 
@@ -38,17 +51,17 @@ export default async function ResearchArticle({
 
   return (
     <article>
-      <header className="border-b border-[var(--rule)] pt-32 pb-14 sm:pt-40">
+      <header className="border-b border-[var(--rule)] pt-28 pb-12 sm:pt-36">
         <Container>
           <Link
             href="/publications"
             className="mono link-underline text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-dim)]"
           >
-            &larr; All reports
+            &larr; All publications
           </Link>
 
           <div className="mt-8 flex flex-wrap items-center gap-5">
-            <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text)]">
+            <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
               {item.type}
             </span>
             <span className="mono text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
@@ -56,14 +69,14 @@ export default async function ResearchArticle({
             </span>
           </div>
 
-          <h1 className="display mt-6 max-w-5xl text-4xl sm:text-5xl lg:text-6xl">
+          <h1 className="display mt-5 max-w-4xl text-[clamp(2.25rem,6vw,4.5rem)]">
             {item.title}
           </h1>
-          <p className="prose-measure mt-7 text-xl leading-relaxed text-[var(--text-dim)]">
+          <p className="prose-measure mt-6 text-xl leading-relaxed text-[var(--text-dim)]">
             {item.standfirst}
           </p>
 
-          <div className="mono mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
+          <div className="mono mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
             <span>{item.author}</span>
             <span aria-hidden>&middot;</span>
             <span>{item.date}</span>
@@ -75,7 +88,7 @@ export default async function ResearchArticle({
         </Container>
       </header>
 
-      <Section className="py-16">
+      <Section className="py-14">
         <Container>
           <div className="grid gap-14 lg:grid-cols-[1fr_20rem] lg:gap-20">
             <div>
@@ -113,10 +126,14 @@ export default async function ResearchArticle({
                 <h2 className="eyebrow">Work with us on this</h2>
                 <p className="mt-4 text-sm leading-relaxed text-[var(--text-dim)]">
                   We scope this kind of question to a specific footprint under
-                  commissioned reports or a standing engagement.
+                  commissioned research or a standing engagement.
                 </p>
                 <div className="mt-6">
-                  <ButtonLink href="/contact" variant="ghost" className="w-full justify-center">
+                  <ButtonLink
+                    href="/contact"
+                    variant="ghost"
+                    className="w-full justify-center"
+                  >
                     Request a briefing
                   </ButtonLink>
                 </div>
@@ -131,7 +148,7 @@ export default async function ResearchArticle({
                         <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-faint)]">
                           {r.type}
                         </span>
-                        <p className="mt-1.5 leading-snug text-[var(--text)] transition-colors group-hover:text-[var(--text-dim)]">
+                        <p className="mt-1.5 leading-snug text-[var(--text)] transition-colors group-hover:text-[var(--color-watch)]">
                           {r.title}
                         </p>
                       </Link>

@@ -150,6 +150,61 @@ Publications currently live in `src/lib/reports.ts`. The Markdown-file setup
 that drove the retired analysis section is recoverable from git history if you
 want publications to work the same way — one file per piece, filename as slug.
 
+## Console
+
+An admin panel for posting articles into Publications, Research Areas and
+Regional Focus.
+
+**Address:** `/console-9f4b2a` — deliberately unguessable, `noindex`, and not
+linked from anywhere on the site. When you are ready to move it to
+`admin.thresholdrealities.com`, add that subdomain in Vercel and either point it
+at this path with a rewrite or rename the folder; nothing else changes.
+
+### Setup
+
+```bash
+cp .env.example .env.local
+# set ADMIN_PASSWORD to whatever you like
+# set ADMIN_SECRET to a long random string:
+openssl rand -hex 32
+```
+
+Restart the dev server. Without both variables the console renders a
+"not configured" notice rather than an open door.
+
+### Posting
+
+Choose a section, then a page within it (Publications has no sub-pages, so it
+posts to the index). Upload an image, write a headline, a tagline and the
+article, and publish. Markdown works in the article body.
+
+The post appears as a card on the page you chose, and opens at a numbered URL —
+`/research-areas/security-studies/0001`. Existing posts can be edited or
+deleted from the same screen.
+
+### Security
+
+- Password checked with a constant-time compare; the cookie holds an HMAC of
+  the issue time signed with `ADMIN_SECRET`, never the password, and expires
+  after 12 hours.
+- Uploads are capped at 6 MB and restricted to JPG, PNG, WebP and AVIF. The
+  stored extension is decided from the detected type, never taken from the
+  filename.
+- Post destinations are validated against the known sections and pages, and
+  image paths must sit under `/uploads/`.
+
+### Console storage
+
+Posts are JSON files in `content/posts/`; images land in `public/uploads/`.
+This works in local development and on any host with a writable disk.
+
+**It does not work on Vercel**, whose serverless filesystem is read-only. The
+console detects this and says so rather than failing silently. To run it in
+production, swap the four functions in `src/lib/posts.ts` (`getPosts`,
+`savePost`, `deletePost`, plus the upload route) for a database and a blob
+store — Supabase or Vercel Postgres + Blob are both a short change. Nothing
+outside those functions needs to move.
+
 ## Hero
 
 `public/hero/collage.jpg`. The hero stacks on phones — headline, then the

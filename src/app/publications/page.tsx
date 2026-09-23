@@ -8,6 +8,8 @@ import {
   Section,
   SectionHead,
 } from "@/components/ui";
+import { PostCard } from "@/components/post-card";
+import { getPostsFor } from "@/lib/posts";
 import { publicationTypes } from "@/lib/taxonomy";
 
 export const metadata: Metadata = {
@@ -16,7 +18,10 @@ export const metadata: Metadata = {
     "Policy briefs, white papers and working papers on international affairs, defence, trade, energy security and the other areas we cover.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function PublicationsPage() {
+  const posts = getPostsFor("publications");
   return (
     <>
       <PageHeader
@@ -44,6 +49,21 @@ export default function PublicationsPage() {
           </div>
         </Container>
       </Section>
+
+      {posts.length ? (
+        <Section className="pb-0">
+          <Container>
+            <SectionHead eyebrow="Latest" title="Recently published." />
+            <div className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post, i) => (
+                <Reveal key={post.id} delay={i * 60}>
+                  <PostCard post={post} />
+                </Reveal>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      ) : null}
 
       <Section>
         <Container>

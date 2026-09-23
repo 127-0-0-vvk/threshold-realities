@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TaxonomyPage } from "@/components/taxonomy-page";
+import { getPostsFor } from "@/lib/posts";
 import { getResearchArea, researchAreas } from "@/lib/taxonomy";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return researchAreas.map((a) => ({ slug: a.slug }));
@@ -37,6 +40,7 @@ export default async function ResearchAreaPage({
       entry={area}
       siblings={researchAreas}
       basePath="/research-areas"
+      posts={getPostsFor("research-areas", slug)}
       siblingsLabel="Research Areas"
     />
   );

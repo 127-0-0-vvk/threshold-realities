@@ -47,12 +47,6 @@ function Hero() {
               </p>
             </Reveal>
 
-            <Reveal delay={480} className="mt-9 flex flex-wrap gap-3">
-              <ButtonLink href="/contact">Request a briefing</ButtonLink>
-              <ButtonLink href="/publications" variant="ghost">
-                Read our work
-              </ButtonLink>
-            </Reveal>
           </div>
 
           <Reveal delay={180}>

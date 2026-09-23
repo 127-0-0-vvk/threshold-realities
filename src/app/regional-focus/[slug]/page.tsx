@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TaxonomyPage } from "@/components/taxonomy-page";
+import { getPostsFor } from "@/lib/posts";
 import { getRegion, regionalFocus } from "@/lib/taxonomy";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return regionalFocus.map((r) => ({ slug: r.slug }));
@@ -36,6 +39,7 @@ export default async function RegionPage({
       entry={region}
       siblings={regionalFocus}
       basePath="/regional-focus"
+      posts={getPostsFor("regional-focus", slug)}
       siblingsLabel="Regional Focus"
     />
   );
