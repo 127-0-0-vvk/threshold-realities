@@ -3,7 +3,6 @@ import { Reveal } from "@/components/reveal";
 import {
   ButtonLink,
   Container,
-  Notice,
   PageHeader,
   Section,
   SectionHead,
@@ -19,31 +18,10 @@ export const metadata: Metadata = {
 const roles = [
   {
     code: "R/01",
-    title: "Regional Analyst — MENA",
-    type: "Full time",
-    location: "Remote / hybrid",
-    body: "Arabic reading fluency and time on the ground. Energy transit, maritime chokepoints and sanctions exposure.",
-  },
-  {
-    code: "R/02",
-    title: "Regional Analyst — Indo-Pacific",
-    type: "Full time",
-    location: "Remote / hybrid",
-    body: "Mandarin reading fluency. Export controls, semiconductor supply chains, maritime security.",
-  },
-  {
-    code: "R/03",
-    title: "Senior Engineer — Intelligence Platform",
-    type: "Full time",
-    location: "Remote",
-    body: "Python and TypeScript. Event collection, clustering and exposure scoring at scale. You will work next to the analysts who use it.",
-  },
-  {
-    code: "R/04",
     title: "Open application",
     type: "Any",
     location: "Anywhere",
-    body: "If you read a region in its own language and can write a judgment you are willing to be scored on, write to us regardless of what is listed.",
+    body: "We are not advertising specific roles at the moment. If you read a region in its own language and can write a judgement you are willing to have assessed against the outcome, write to us anyway.",
   },
 ];
 
@@ -55,10 +33,6 @@ export default function CareersPage() {
         title="We hire for depth, and we keep the record of our own work."
         lede="Analysts here are asked to commit to a judgement and then to review it against what followed. It is a particular way of working, and it suits some people considerably better than others."
       />
-
-      <Container className="pt-10">
-        <Notice>Placeholder roles for design review.</Notice>
-      </Container>
 
       <Section className="pt-10">
         <Container>

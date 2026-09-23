@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
-import { PublicationsIndex } from "@/components/publications-index";
-import { Reveal } from "@/components/reveal";
-import {
-  Container,
-  Notice,
-  PageHeader,
-  Section,
-  SectionHead,
-} from "@/components/ui";
 import { PostCard } from "@/components/post-card";
+import { Reveal } from "@/components/reveal";
+import { ButtonLink, Container, PageHeader, Section } from "@/components/ui";
 import { getPostsFor } from "@/lib/posts";
 import { publicationTypes } from "@/lib/taxonomy";
 
@@ -22,6 +15,7 @@ export const dynamic = "force-dynamic";
 
 export default async function PublicationsPage() {
   const posts = await getPostsFor("publications");
+
   return (
     <>
       <PageHeader
@@ -30,53 +24,48 @@ export default async function PublicationsPage() {
         lede="Three formats, each with a different purpose. All of them state their key judgements separately from their reporting, and set out what would lead us to revise them."
       />
 
+      {/* The three formats, as prose rather than cards — they describe the
+          library, they are not entries in it. */}
       <Section className="pb-0">
         <Container>
-          <div className="grid gap-px sm:grid-cols-3">
-            {publicationTypes.map((t, i) => (
-              <Reveal key={t.slug} delay={i * 70}>
-                <div className="panel ticked h-full p-8">
-                  <span className="mono text-xs text-[var(--color-watch)]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h2 className="display mt-5 text-2xl">{t.title}</h2>
-                  <p className="mt-4 text-sm leading-relaxed text-[var(--text-dim)]">
-                    {t.body}
-                  </p>
-                </div>
-              </Reveal>
+          <div className="prose-measure space-y-10">
+            {publicationTypes.map((t) => (
+              <section key={t.slug}>
+                <h2 className="display text-2xl sm:text-3xl">{t.title}</h2>
+                <p className="mt-3 text-lg leading-relaxed text-[var(--text-dim)]">
+                  {t.body}
+                </p>
+              </section>
             ))}
           </div>
         </Container>
       </Section>
 
-      {posts.length ? (
-        <Section className="pb-0">
-          <Container>
-            <SectionHead eyebrow="Latest" title="Recently published." />
-            <div className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-3">
+      <Section>
+        <Container>
+          {posts.length ? (
+            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((post, i) => (
                 <Reveal key={post.id} delay={i * 60}>
                   <PostCard post={post} />
                 </Reveal>
               ))}
             </div>
-          </Container>
-        </Section>
-      ) : null}
-
-      <Section>
-        <Container>
-          <SectionHead eyebrow="Library" title="Everything we have published." />
-          <div className="mt-8">
-            <Notice>
-              Placeholder library for design review. Replace with published work
-              before launch.
-            </Notice>
-          </div>
-          <div className="mt-8">
-            <PublicationsIndex />
-          </div>
+          ) : (
+            <div className="border border-[var(--rule)] bg-[var(--surface-raised)] px-6 py-16 text-center sm:px-12 sm:py-20">
+              <span className="eyebrow">Nothing published yet</span>
+              <h2 className="display mx-auto mt-5 max-w-2xl text-3xl sm:text-4xl">
+                The first papers are in preparation.
+              </h2>
+              <p className="mx-auto mt-5 max-w-xl text-[var(--text-dim)]">
+                Our analysts are available to discuss the questions we are
+                working on in the meantime.
+              </p>
+              <div className="mt-9 flex justify-center">
+                <ButtonLink href="/contact">Speak to an analyst</ButtonLink>
+              </div>
+            </div>
+          )}
         </Container>
       </Section>
     </>

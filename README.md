@@ -99,7 +99,6 @@ src/
     site-header.tsx  site-footer.tsx  ui.tsx  reveal.tsx  counter.tsx
     signal-strip.tsx  contact-form.tsx
   lib/
-    reports.ts            Publications library
     taxonomy.ts           Research areas, regions, publication types
     content.ts            Page copy (practices, services, method, founders)
     portraits.ts          Resolves founder photos from public/team/
@@ -116,8 +115,6 @@ render it show a visible notice; keep those notices until real content lands.
       `sections` to its entry in `src/lib/taxonomy.ts` — nothing else changes.
 - [ ] **Advisory board names.** `/advisors` shows four "to be announced" cards
       pending appointments.
-- [ ] Replace `src/lib/reports.ts` with real publications. Daily articles are
-      already file-based — see `content/analysis/README.md`.
 - [x] ~~Founder portraits.~~ In place at `public/team/`. To swap either one,
       overwrite the file — `src/lib/portraits.ts` resolves by slug, no code change.
 - [ ] Replace `src/lib/content.ts` team entries with named analysts, photographs
@@ -146,9 +143,9 @@ Built to deploy on Vercel as a static export.
 
 ## Publishing
 
-Publications currently live in `src/lib/reports.ts`. The Markdown-file setup
-that drove the retired analysis section is recoverable from git history if you
-want publications to work the same way — one file per piece, filename as slug.
+Everything published on the site is written through the console — see below.
+There is no seeded or sample content: a page that has had nothing posted to it
+shows an honest empty state rather than filler.
 
 ## Console
 

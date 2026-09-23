@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PostCard } from "@/components/post-card";
 import { LineMask, Reveal } from "@/components/reveal";
 import {
   ButtonLink,
@@ -8,17 +9,17 @@ import {
   SectionHead,
 } from "@/components/ui";
 import { practices } from "@/lib/content";
-import { reports } from "@/lib/reports";
+import { getPostsFor } from "@/lib/posts";
 import { site } from "@/lib/site";
 import { regionalFocus, researchAreas } from "@/lib/taxonomy";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Hero />
       <Gap />
       <Coverage />
-      <LatestPublications />
+      {await LatestPublications()}
       <ClosingCta />
     </>
   );
@@ -193,8 +194,9 @@ function Coverage() {
 
 /* ------------------------------------------------------------------ */
 
-function LatestPublications() {
-  const selected = reports.slice(0, 3);
+async function LatestPublications() {
+  const posts = (await getPostsFor("publications")).slice(0, 3);
+  if (posts.length === 0) return null;
 
   return (
     <Section className="border-b border-[var(--rule)]">
@@ -210,28 +212,10 @@ function LatestPublications() {
           </ButtonLink>
         </div>
 
-        <div className="mt-14 grid gap-px lg:grid-cols-3">
-          {selected.map((r, i) => (
-            <Reveal key={r.slug} delay={i * 90}>
-              <Link
-                href={`/publications/${r.slug}`}
-                className="panel ticked group flex h-full flex-col p-8"
-              >
-                <span className="mono text-[0.625rem] tracking-[0.16em] uppercase text-[var(--color-watch)]">
-                  {r.type}
-                </span>
-                <h3 className="display mt-6 text-2xl leading-tight transition-colors group-hover:text-[var(--color-watch)]">
-                  {r.title}
-                </h3>
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-[var(--text-dim)]">
-                  {r.standfirst}
-                </p>
-                <div className="mono mt-8 flex items-center gap-3 text-[0.625rem] tracking-[0.14em] uppercase text-[var(--text-faint)]">
-                  <span>{r.region}</span>
-                  <span aria-hidden>&middot;</span>
-                  <span>{r.readTime} min</span>
-                </div>
-              </Link>
+        <div className="mt-14 grid gap-px sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post, i) => (
+            <Reveal key={post.id} delay={i * 90}>
+              <PostCard post={post} />
             </Reveal>
           ))}
         </div>

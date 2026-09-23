@@ -78,18 +78,6 @@ export default function AdvisorsPage() {
             </Notice>
           </div>
 
-          <div className="mt-14 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
-            {[0, 1, 2, 3].map((n) => (
-              <Reveal key={n} delay={n * 60}>
-                <div className="panel flex h-full flex-col p-8">
-                  <Portrait name="?" />
-                  <p className="mono mt-6 text-[0.625rem] tracking-[0.16em] uppercase text-[var(--text-faint)]">
-                    To be announced
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </Container>
       </Section>
 
