@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { nav, site, type NavItem } from "@/lib/site";
+import { ThemeToggle } from "./theme-toggle";
 import { ScrollThreshold } from "./threshold-rule";
 
 export function SiteHeader() {
@@ -67,13 +68,23 @@ export function SiteHeader() {
             className="group flex shrink-0 items-center gap-3.5"
             aria-label={site.name}
           >
+            {/* Both marks ship; CSS shows the one that suits the ground. The
+                ink mark is dark artwork and disappears on an abyssal header. */}
             <Image
               src="/brand/tr-monogram-ink.png"
               alt=""
               width={760}
               height={519}
               priority
-              className="h-9 w-auto transition-opacity duration-200 group-hover:opacity-80"
+              className="on-paper-only h-9 w-auto transition-opacity duration-200 group-hover:opacity-80"
+            />
+            <Image
+              src="/brand/tr-monogram-light.png"
+              alt=""
+              width={760}
+              height={519}
+              priority
+              className="on-ink-only h-9 w-auto transition-opacity duration-200 group-hover:opacity-80"
             />
             <span className="hidden sm:block">
               <span className="mono block text-[0.6875rem] leading-none tracking-[0.22em] uppercase text-[var(--text)]">
@@ -150,6 +161,7 @@ export function SiteHeader() {
             >
               Request a briefing
             </Link>
+            <ThemeToggle />
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}

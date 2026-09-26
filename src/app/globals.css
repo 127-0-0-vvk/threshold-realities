@@ -74,7 +74,8 @@
   --color-signal: #8f5f08;
 }
 
-[data-surface="ink"] {
+[data-surface="ink"],
+:root[data-theme="dark"] {
   --surface: #080d12;
   --surface-raised: #111a22;
   --rule: #22323d;
@@ -95,6 +96,33 @@
      `color` at the surface boundary or unstyled headings keep the wrong tone. */
   color: var(--text);
   background: var(--surface);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------
+   Dark mode and the ink bands have to stay distinguishable.
+   Ink is an *opt-in per-section* surface — the hero, the footer,
+   feature strips — and its whole job is to be darker than the page
+   around it. In dark mode the page ground is already abyssal, so an
+   ink band set to the same value would vanish and the banding
+   rhythm the layout is built on would collapse. Lift ink one step
+   instead, and the rhythm survives in both directions.
+   ------------------------------------------------------------ */
+:root[data-theme="dark"] [data-surface="ink"] {
+  --surface: #111a22;
+  --surface-raised: #17222c;
+  --rule: #2b3d4a;
+}
+
+/* Logo artwork is drawn for one ground or the other, so both files ship and
+   CSS picks. Doing this with a swapped `src` would need the theme in React,
+   which means it would be wrong for one paint after hydration. */
+:root[data-theme="dark"] .on-paper-only,
+:root:not([data-theme="dark"]) .on-ink-only {
+  display: none;
 }
 
 html {
@@ -389,6 +417,13 @@ video {
   opacity: 0.025;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* `multiply` darkens, which is invisible against an abyssal ground. Screen
+   lifts instead, so the sensor-noise texture survives the inversion. */
+:root[data-theme="dark"] .grain::after {
+  mix-blend-mode: screen;
+  opacity: 0.032;
 }
 
 /* ------------------------------------------------------------

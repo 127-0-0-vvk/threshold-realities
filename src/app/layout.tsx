@@ -7,6 +7,7 @@ import {
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { themeScript } from "@/components/theme-toggle";
 import { site } from "@/lib/site";
 
 /* Display: a variable editorial grotesque — tight, contemporary, and it holds
@@ -55,7 +56,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    /* The theme lands on <html> from a blocking script, so the server-rendered
+       markup and the first client render disagree about `data-theme` by design.
+       suppressHydrationWarning scopes that to this element only. */
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${display.variable} ${body.variable} ${jetbrainsMono.variable} grain antialiased`}
       >
